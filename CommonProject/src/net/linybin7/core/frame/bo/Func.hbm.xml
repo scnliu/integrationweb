@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.linybin7.core.frame.bo.Func" table="SA_FUNCTION">
+		<id name="funcCode" type="java.lang.String" length="40"
+			column="FUNCCODE" unsaved-value="null">
+			<generator class="assigned">
+				<!--
+					To add non XDoclet generator parameters, create a file named
+					hibernate-generator-params-Role.xml
+					containing the additional parameters and place it in your merge dir.
+				-->
+			</generator>
+		</id>
+		<property name="parentCode" type="java.lang.String" length="40"
+			column="PARENTCODE" not-null="false" />
+					
+		<property name="funcName" type="java.lang.String" length="80"
+			column="FUNCNAME" not-null="true" />
+		
+		<property name="funcProp" type="java.lang.Integer" length="1"
+			column="FUNCPROP" not-null="true" />
+		
+		<property name="level" type="java.lang.Integer" length="2"
+			column="LEVELNO" not-null="true" />
+			
+		<property name="order" type="java.lang.Integer" length="2"
+			column="ORDERNO" not-null="true" />
+
+		<property name="isStop" type="java.lang.Integer" length="1"
+			column="ISSTOP" not-null="true" />
+		
+		<property name="link" type="java.lang.String" length="2000"
+			column="LINKPAGE" />
+			
+		<property name="title" type="java.lang.String" length="100"
+			column="TITLE" />
+			
+		<property name="icon" type="java.lang.String" length="100"
+			column="ICON" />
+			
+		<property name="descript" type="java.lang.String" length="200" 
+			column="DESCRIPT" />
+
+		<property name="sys" type="java.lang.String" length="20"
+			column="SYSID" not-null="true" />
+			
+		<set name="children" cascade="delete" lazy="false" inverse="false">  
+            <key column="PARENTCODE"/>  
+            <one-to-many class="net.linybin7.core.frame.bo.Func"/>  
+        </set> 
+	</class>
+
+</hibernate-mapping>

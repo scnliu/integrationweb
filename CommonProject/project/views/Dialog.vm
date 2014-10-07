@@ -1,0 +1,67 @@
+#******************************************
+ *                                        *
+ *            对话框定义              *
+ *     
+*		 #Say("添加成功")    <script>say('ok');</script>
+*		
+*		#Ask("是否删除")    <script>askFunc("yes or no",function);</script>
+*		#Error("发生错误")  <script>error("test");</script>
+*		#Notify("")         <script>notify('alert'); </script>
+*		#ProgressDlg()  
+        #Dialog($id,$title,$attr)
+        #Ask2("test",{"title":"testTitle","checkLabel":"testCheck","checkLabel":"testCancel"})
+ 
+                                     *
+ *******************************************#
+ #macro(Say)
+ #end
+ #macro(Ask)
+ #end
+ #macro(Error)
+ #end
+ #macro(Notify)
+ #end
+ #macro(ProgressDlg)
+ #end
+ #macro(Ask2)
+ #end
+ #macro(Dialog $id,$title,$attr)
+  	#set($dlg=$dialog.create())
+	$dlg.setTagName("$id")
+	#if($attr.getAttr("width"))
+	#set($w=$attr.getAttr("width"))
+	$dlg.setWidth_("$w")
+	#end
+	#if($attr.getAttr("width"))
+	#set($h=$attr.getAttr("width"))
+	$dlg.setHeight_("$h")
+	#end
+	$dlg.setTitle_("$title")
+  <div id="$dlg.getTagId()" title="$!title">
+ #end
+ #macro(DialogEnd)
+  </div>
+   <script>
+	var $dlg.getTagId();
+	$(document).ready(function(){
+		$dlg.getTagId()=new Dialog("$dlg.getTagId()",{width:#if($w)$w #else 540#end,height:#if($h)$h #else 400#end});
+	});
+</script>
+ #end
+#macro(IfameDlg $id,$name,$url,$attr)
+
+    <div id="$id" style="margin:0;">
+          <iframe src="$url" id="_${id}_iframe"  frameborder="no" width='100%' noresize marginwidth="0"
+			marginheight="0" framespacing="0" style="margin:0px;border:"></iframe>
+    </div>
+    <script>
+
+		var _$id=$("#$id");
+	</script>
+#end
+
+#macro(IfameDlgEnd)
+
+#end
+
+

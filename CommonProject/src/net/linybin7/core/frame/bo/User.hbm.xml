@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.linybin7.core.frame.bo.User" table="SA_USER">
+
+
+		<id name="userCode" type="java.lang.String" length="20"
+			column="USERCODE" unsaved-value="null">
+			<generator class="assigned">
+				<!--
+					To add non XDoclet generator parameters, create a file named
+					hibernate-generator-params-Role.xml
+					containing the additional parameters and place it in your merge dir.
+				-->
+			</generator>
+		</id>
+
+		<property name="orgId" type="java.lang.String" length="20"
+			column="ORGID" not-null="false" />
+			
+		<property name="userName" type="java.lang.String" length="20"
+			column="USERNAME" not-null="true" />
+
+		<property name="password" type="java.lang.String" length="100"
+			column="PASSWD" not-null="true" />
+
+		<property name="tel" type="java.lang.String" length="40"
+			column="TEL" />
+		
+		<property name="mobile" type="java.lang.String" length="11"
+			column="MOBILE" />
+			
+		<property name="email" type="java.lang.String" length="40"
+			column="EMAIL" />
+			
+		<property name="isStop" type="java.lang.Integer" length="1"
+			column="ISSTOP" not-null="true" />
+
+		<property name="userProp" type="java.lang.Integer" length="1"
+			column="USERPROP" not-null="true" />
+
+		<property name="descript" type="java.lang.String" length="200"
+			column="DESCRIPT" />
+
+		<property name="limitType" type="java.lang.Integer" length="1" column="LIMITTYPE" not-null="false" />
+		<property name="permitNum" type="java.lang.Integer" length="1" column="PERMITNUM" not-null="false" />
+		<property name="loginNum" type="java.lang.Integer" length="1" column="LOGINNUM" not-null="false" />					
+		<property name="effectTime" type="java.util.Date" column="EFFECTTIME" not-null="false" />	
+		<property name="days" type="java.lang.Integer" length="1" column="DAYS" not-null="false" />					
+		<property name="nums" type="java.lang.Integer" column="NUMS" length="1" not-null="false" />
+		<property name="onTime" type="java.lang.Long" column="ONTIME" length="1" not-null="false" />
+		<property name="isPassWd" type="java.lang.Integer" column="ISPASSWD" length="1" not-null="false" />		
+		<property name="photoType" type="java.lang.String" column="PHOTOTYPE"  not-null="false" />							
+		<property name="trustId" type="java.lang.String" length="50"
+			column="TRUSTID" />	
+		
+	</class>
+
+</hibernate-mapping>

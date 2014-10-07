@@ -1,0 +1,21 @@
+html,body {
+	background: url('../images/desktop3/main/bj-3-2.jpg');
+}
+.maxDiv{
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 680px;
+	background: url('../images/desktop3/main/bj3-round.jpg') repeat-x 0px 0px;
+}
+#middle_content {
+	position: absolute;
+	top: -30px;
+	left: 50%;
+	margin-left: -640px;
+	width: 1280px;
+	height: 680px;
+	font-family: "ËÎÌו", Arial, sans-serif;
+	font-size: 12px;
+	background: url('../images/desktop3/main/bj-3.jpg') no-repeat center 0px;
+}

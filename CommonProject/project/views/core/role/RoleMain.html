@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>角色管理</title> 
+		#Head()
+		<style type="text/css">
+		.qbi {
+			cursor: pointer;
+			display: inline-block;
+			height: 13px;
+			padding-top: 4px;
+			text-align: center;
+			width: 17px;
+			background: url('#springUrl('')/images/icons/search.png') no-repeat center;
+			position: absolute; 
+			right: 10px;
+			top: 5px;
+		    z-index: 100;
+	  }
+	  .searchField{
+	  		background-color:#F5F5F5;
+	  		border:0px;
+	  }
+		</style>
+		<script type="text/javascript" src="#springUrl('/js/core/role/role.js')"></script>
+	    <script type="text/javascript">
+		function checking(){
+			var returnvalue="$!MSG";
+			if(returnvalue=="")
+			{}
+			else
+			{
+				notify("$MSG");
+			}
+		}
+		</script>
+	</head>
+	<body scroll="no" style="margin:0px" onload="checking()">
+        #Form("mainForm","#springUrl('')/role/roleManager.do?action=queryRole",{"method":"post"})
+	   <fieldset class="searchField">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td>
+						<table cellpadding="0"
+							cellspacing="0" border="0">
+							<tr>
+								<td>
+									&nbsp;角色编号
+								</td>
+								<td>
+								    <div style="position: relative; zoom: 1">
+									<input name="role.roleCode" value="$!cmd.role.roleCode" class="lst" id="mainForm_role_roleCode" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+						      		<script>
+										$("#mainForm_role_roleCode").jqInputText()
+							 		</script>
+								</td>
+								<td>
+									&nbsp;角色名称
+								</td>
+								<td>
+								     <div style="position: relative; zoom: 1">
+									<input name="role.roleName" value="$!cmd.role.roleName" class="lst" id="mainForm_role_roleName" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+						      		<script>
+										$("#mainForm_role_roleName").jqInputText()
+							 		</script>
+								</td>
+								<td>
+									&nbsp;角色类型
+								</td>
+								<td style="width:160px">
+								    #Select("role.roleProp",${cmd.role.roleProp},${cmd.typeOption},"value","label",{})
+								</td>
+								<td >
+									#ButtonSearch({"onClick":"mainQuery()"})
+								</td>
+								<td>&nbsp;
+									#ButtonClear({})
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			</fieldset>
+			<fieldset class="table">
+					#table($cmd.tableModel $buttons)
+			</fieldset>
+		#FormEnd()
+	</body>
+</html>

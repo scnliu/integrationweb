@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<title>用户管理</title> #Head()
+		<script type="text/javascript" src="#springUrl('/js/core/user/user.js')"></script>
+	</head>
+	<body class="claro">
+		<form action="/user/userManager.do?action=queryUser" method="POST">
+		<br />
+		<div class="yk_NodeTxt">
+	       <span style="color:#1c3d8a;margin-top:-3px;">查看用户信息</span>
+	    </div>		
+		<div align="center">
+		<table align="center" class="yk_table">
+			<tbody>
+				<tr>
+					<td align="center" class="yk_td_title">
+						用户编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.userCode
+					</td>
+					<td align="center" class="yk_td_title">
+						用户名称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.userName
+					</td>
+					<td align="center" class="yk_td_title">
+						用户类型
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.type
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						部  门
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.orgName
+					</td>
+					<td align="center" class="yk_td_title">
+						是否停用
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.stop
+					</td>
+					<td align="center" class="yk_td_title">
+						固定  电话
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.tel
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						手  机
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.mobile
+					</td>
+					<td align="center" class="yk_td_title">
+						Email
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.email
+					</td>
+					<td align="center" class="yk_td_title">
+						描  述
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!user.descript
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						角色信息
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px" colspan="5">
+						#foreach( $role in $roles)
+							$!role.roleName &nbsp;&nbsp;
+						#end
+					</table>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+		</div>
+		<br/>
+		<div class="yk_NodeTxt">
+	       <span style="color:#1c3d8a;margin-top:-3px;">权限信息</span>
+	    </div>	
+		<div>
+			<table align="center" width="98%" class="formtable" cellpadding="0" cellspacing="0" border="0">
+				<tbody>
+					<tr>
+						<td width="100%" align="left" class="tree-td">
+							#foreach($treeModel in $tms) #tree(${treeModel})
+							<br />
+							#end
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<BR/>	
+		</form>
+	</body>
+</html>
+

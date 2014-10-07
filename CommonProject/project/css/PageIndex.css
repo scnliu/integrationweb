@@ -1,0 +1,319 @@
+
+html,body {
+    /*overflow: hidden;*/
+    /*text-align: left*/;
+    background: #93d6ff;
+    font: 12px "宋体";
+    overflow: hidden;
+    margin-top:-1px;
+}
+
+#Window-Body {
+	position: absolute;
+	left: 50%;
+	margin-left: -640px;
+	top: 50%;
+	margin-top: -340px;
+	width: 1280px;
+	height: 680px;
+	background: #64b0e4 url("../images/PageIndex/bj-2.jpg") no-repeat;
+	z-index:2;
+}
+
+#Window-Content
+{
+	margin-top:150px;
+  	margin-left:140px;
+	width: 1060px;
+	height: 420px;
+}
+/***************信息区域***************/
+#Window-Info-Container
+{
+	width: 810px;
+	height: 261px;
+	overflow: hidden;
+}
+
+#Window-Body .Window-Info-Item
+{
+	width: 252px;
+	height: 241px;
+	background: url("../images/PageIndex/kpi.png") no-repeat left;
+	margin:0 16px 0 0;
+	float: left;
+	text-align: left;
+}
+
+#Window-Body .Window-Info-Item ul {
+  margin-top:15px;
+  list-style-type: none;
+  letter-spacing:0.3px; 
+  color: #352525;
+  float: left;
+  width:220px;
+  position:absolute;
+  padding-left:0px;
+  margin-left:15px;
+  font: 12px "宋体";
+  border-TOP: dashed 1px #757575;
+  cursor:pointer;
+}
+
+#Window-Body .Window-Info-Item ul li
+{
+  	list-style: none; 
+  	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	border-bottom: dashed 1px #757575;
+}
+
+#Window-Body .Window-Info-Item ul li:hover{
+   color: Blue;
+}
+
+
+/***************按钮区域***************/
+#Window-Body #Window-Button-Container
+{
+	width: 990px;
+	height: 50px;
+	overflow: hidden;
+	text-align: right;
+}
+#Window-Body .desk_Button{
+   width: 112px;
+   height: 41px;
+   margin:0 16px 0 0;
+   /*position: absolute*/;
+   float: right;
+   cursor:pointer;
+}
+
+#Window-Body .deskButtonImage1{
+   background: url("../images/PageIndex/b-1.png");
+}
+
+#Window-Body .deskButtonImage1:hover{
+   background: url("../images/PageIndex/b-1f.png");
+}
+
+#Window-Body .deskButtonImage2{
+   background: url("../images/PageIndex/b-2.png");
+}
+
+#Window-Body .deskButtonImage2:hover{
+   background: url("../images/PageIndex/b-2f.png");
+}
+#Window-Body .deskButtonImage2f{
+   background: url("../images/PageIndex/b-2f.png");
+}
+#Window-Body .deskButtonImage3{
+	  width: 112px;
+   background: url("../images/PageIndex/b-3.png");
+}
+
+#Window-Body .deskButtonImage3:hover{
+	 width: 112px;
+   background: url("../images/PageIndex/b-3f.png");
+}
+#Window-Body .deskButtonImage3f{
+	 width: 112px;
+   background: url("../images/PageIndex/b-3f.png");
+}
+#Window-Body .deskButtonImage4{
+   background: url("../images/PageIndex/b-4.png");
+}
+
+#Window-Body .deskButtonImage4:hover{
+   background: url("../images/PageIndex/b-4f.png");
+}
+#Window-Body .deskButtonImage4f{
+   background: url("../images/PageIndex/b-4f.png");
+}
+#Window-Body .deskButtonImage5{
+   background: url("../images/PageIndex/b-5.png");
+}
+
+#Window-Body .deskButtonImage5:hover{
+   background: url("../images/PageIndex/b-5f.png");
+}
+#Window-Body .deskButtonImage5f{
+   background: url("../images/PageIndex/b-5f.png");
+}
+/***************图标区域***************/
+
+#Window-Icon-Container
+{
+	width: 800px;
+	height: 511px;
+	
+}
+#Window-Body .Window-Icon-Item
+{
+	width: 100%;
+	height: 420px;
+	margin:0 20px 0 0;
+	float: left;
+}
+#Window-Body .Window-Icon-Item .item-content .xw{
+   width: 90px;
+   height: 17px;
+   cursor:pointer;
+   text-align:center;
+   background: url("../images/PageIndex/xw.png");
+   position:absolute;
+   padding-top:3px;
+   margin-top:68px;
+   margin-left:4px;
+}
+*+html #Window-Body .Window-Icon-Item .item-content .xw{
+   margin-top:68px;
+   margin-left:-90px;
+}
+#Window-Body .Window-Icon-Item .item-content{
+   width: 99px;
+   height: 94px;
+   margin:18px 16px;
+   cursor:pointer;
+   float:left;
+}
+#Window-Body .Window-Icon-Item .item-content:hover{
+   width: 99px;
+   height: 94px;
+  margin:18px 16px;
+   cursor:pointer;
+   float:left;
+   background: url("../images/PageIndex/tm.png");
+}
+#Window-Body .Window-Icon-Item .desk_icon{
+   width: 71px;
+   height: 63px;
+   	float:left;
+   margin:1px 12px 1px 14px;
+   /*position: absolute*/;
+   cursor:pointer;
+}
+#Window-Body .deskIconImage1{
+   background: url("../images/PageIndex/tb-1.png");
+}
+#Window-Body .deskIconImage1:hover{
+   background: url("../images/PageIndex/tb-1f.png");
+}
+#Window-Body .deskIconImage2{
+   background: url("../images/PageIndex/tb-2.png");
+}
+#Window-Body .deskIconImage2:hover{
+   background: url("../images/PageIndex/tb-2f.png");
+}
+#Window-Body .deskIconImage3{
+   background: url("../images/PageIndex/tb-3.png");
+}
+#Window-Body .deskIconImage3:hover{
+   background: url("../images/PageIndex/tb-3f.png");
+}
+
+#Window-Body .deskIconImage4{
+   background: url("../images/PageIndex/tb-4.png");
+}
+
+#Window-Body .deskIconImage4:hover{
+   background: url("../images/PageIndex/tb-4f.png");
+}
+
+#Window-Body .deskIconImage5{
+   background: url("../images/PageIndex/tb-5.png");
+}
+
+#Window-Body .deskIconImage5:hover{
+   background: url("../images/PageIndex/tb-5f.png");
+}
+
+#Window-Body .deskIconImage6{
+   background: url("../images/PageIndex/tb-6.png");
+}
+
+#Window-Body .deskIconImage6:hover{
+   background: url("../images/PageIndex/tb-6f.png");
+}
+
+#Window-Body .deskIconImage7{
+   background: url("../images/PageIndex/tb-7.png");
+}
+
+#Window-Body .deskIconImage7:hover{
+   background: url("../images/PageIndex/tb-7f.png");
+}
+
+#Window-Body .deskIconImage8{
+   background: url("../images/PageIndex/tb-8.png");
+}
+
+#Window-Body .deskIconImage8:hover{
+   background: url("../images/PageIndex/tb-8f.png");
+}
+
+#Window-Body .deskIconImage9{
+   background: url("../images/PageIndex/tb-9.png");
+}
+
+#Window-Body .deskIconImage9:hover{
+   background: url("../images/PageIndex/tb-9f.png");
+}
+
+#Window-Body .deskIconImage10{
+   background: url("../images/PageIndex/tb-10.png");
+}
+
+#Window-Body .deskIconImage10:hover{
+   background: url("../images/PageIndex/tb-10f.png");
+}
+
+#Window-Body .deskIconImage11{
+   background: url("../images/PageIndex/tb-11.png");
+}
+
+#Window-Body .deskIconImage11:hover{
+   background: url("../images/PageIndex/tb-11f.png");
+}
+
+#Window-Body .deskIconImage12{
+   background: url("../images/PageIndex/tb-12.png");
+}
+
+#Window-Body .deskIconImage12:hover{
+   background: url("../images/PageIndex/tb-12f.png");
+}
+
+#Window-Body .deskIconImage13{
+   background: url("../images/PageIndex/tb-13.png");
+}
+
+#Window-Body .deskIconImage13:hover{
+   background: url("../images/PageIndex/tb-13f.png");
+}
+
+#Window-Body .deskIconImage14{
+   background: url("../images/PageIndex/tb-14.png");
+}
+
+#Window-Body .deskIconImage14:hover{
+   background: url("../images/PageIndex/tb-14f.png");
+}
+
+#Window-Body .deskIconImage15{
+   background: url("../images/PageIndex/tb-15.png");
+}
+
+#Window-Body .deskIconImage15:hover{
+   background: url("../images/PageIndex/tb-15f.png");
+}
+
+#Window-Body .deskIconImage16{
+   background: url("../images/PageIndex/tb-16.png");
+}
+
+#Window-Body .deskIconImage16:hover{
+   background: url("../images/PageIndex/tb-16f.png");
+}

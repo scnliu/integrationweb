@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<title>功能管理</title> #Head()
+		
+		<script type="text/javascript" src="#springUrl('/js/core/func/func.js')"></script>
+	</head>
+	<body>
+	<br />
+		<form action="/func/funcManager.do?action=queryFunc" method="POST">
+		<div class="yk_NodeTxt">
+	       <span style="color:#1c3d8a;margin-top:-3px;">查看功能管理</span>
+	    </div>
+		<div align="center">
+		<table align="center" class="yk_table">
+			<tbody>
+				<tr>
+					<td align="center" class="yk_td_title">
+						功能编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.funcCode
+					</td>
+					<td align="center" class="yk_td_title">
+						父节点编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.parentCode
+					</td>
+					<td align="center" class="yk_td_title">
+						功能名称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.funcName
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						类型
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.type
+					</td>
+					<td align="center" class="yk_td_title">
+						层次
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.level
+					</td>
+					<td align="center" class="yk_td_title">
+						顺序
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.order
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						链接
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.link
+					</td>
+					<td align="center" class="yk_td_title">
+						提示信息
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.title
+					</td>
+					<td align="center" class="yk_td_title">
+						系统Id
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.func.sys
+					</td>			
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						描述
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px" colspan="5">
+						$!cmd.func.descript
+					</td>
+				</tr>
+                #if($isRoot == true)
+				<tr>
+					<td align="center" class="yk_td_title">
+						系统上下文
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px" colspan="5">
+						$!cmd.func.context
+					</td>
+				</tr>
+				#end
+			</tbody>
+		</table>
+		</div>
+		</form>
+	</body>
+</html>
+

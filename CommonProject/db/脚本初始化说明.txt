@@ -1,0 +1,36 @@
+一、必选脚本：
+  CreateDB.sql
+  
+  E\CreateDB-E.sql
+  E\CreateDB-E60.sql
+  E15\CreateDB-E15.sql
+  
+  E\InitDB-E-STS_EXPRTYPE.sql
+  E\InitDB-E60-STS_EXPR_KIND.sql
+  E\InitDB-E60-STS_EXPR.sql
+  E\InitDB-E60-STS_TMPL.sql
+  E\InitDB-E60-STS_TMPLEXPR.sql
+  
+  H\CreateDB-H.sql
+  H\CreateDB-H60.sql
+  H15\CreateDB-H15.sql
+  
+  D\CreateDB-D.sql
+  D\CreateDB-D60.sql
+  D15\CreateDB-D15.sql
+  
+ 二、可选脚本
+      除了上面的脚本，其它为可选，可根据各个地方情况选择执行。
+      
+ 三、脚本命名说明
+  D：华为TD 60分钟的脚本；
+  D15：华为TD 15分钟的脚本；
+  
+  H：华为GSM 60分钟的脚本；
+  H15：华为GSM 15分钟的脚本；
+  
+  E：爱立信 60分钟的脚本；
+  E15：爱立信 15分钟的脚本；
+  
+  CreateDB*.sql：建表脚本；
+  InitDB*.sql：初始化脚本；

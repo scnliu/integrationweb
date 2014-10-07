@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GBK" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- gis模块 -->
+	<bean name="/gis/layerCtrl.do" class="com.eshine.gis.ctrl.LayerCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="layerService" ref="layerService" />
+		<property name="viewPage" value="pub/gis/view"/>
+		<property name="layerName" value="cell"/>
+	</bean>
+	<bean name="/gis/cellCtrl.do" class="com.eshine.gis.ctrl.LayerCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+	</bean>
+	<bean name="/dnpi/gis/layerCtrl.do" class="com.eshine.gis.ctrl.LayerCtrl">
+	   <property name="methodNameResolver" ref="paramResolver" />
+		<property name="layerService" ref="layerService" />
+		<property name="viewPage" value="dnpi/gis/view"/> 
+	</bean>
+	
+	<!-- 属性设置 -->
+	<bean name="/gis/colorSet.do" class="com.eshine.gis.ctrl.ColorSetCtrl">
+	   	<property name="methodNameResolver" ref="paramResolver" />
+	   	<property name="colorService" ref="colorService" />
+	</bean>
+	
+	<!-- 干扰颜色设置 -->
+	<bean name="/gis/disColorSet.do" class="com.eshine.gis.ctrl.DisColorSetCtrl">
+	   <property name="methodNameResolver" ref="paramResolver" />
+	   <property name="disColorService" ref="disColorService" />
+	</bean>
+    <!-- 图层控制	-->
+	<bean name="/gis/index.do" class="com.eshine.gis.ctrl.EshineGisCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="tc" ref="seeder" />
+	</bean>
+	<bean name="/gis/selectCell.do" class="com.eshine.gis.ctrl.CellSelectorCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="selectService" ref="selectCell"></property>
+	</bean>
+	<bean name="/gis/updateLayer.do" class="com.eshine.gis.ctrl.UploadLayerCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="layerService" ref="updateLayerOptSvc" />
+	</bean>
+</beans>

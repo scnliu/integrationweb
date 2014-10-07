@@ -1,0 +1,278 @@
+#******************************************
+ *                                        *
+ *             输入框定义              *
+ *     
+ * 1普通输入框：#Text("autid","$autid",{})，
+ * 2验证:#ValidationText("atu.name","$!atu.name",{"required":"true","maxLength":"10"})，
+ * 3数字：#NumberText("atu.num","$!atu.num",{"required":"true"})，
+ * 4EMAIL：#EmailText("atu.email","$!atu.email",{"required":"true"})，
+ * 5电话：#PhoneText("atu.phone","$!atu.phone",{"required":"true"})，                                  *
+ * 6日期：#DateText("atu.phone","$!atu.phone",{"required":"true"})，                                  *
+ * 日期：#Date("atu.date",$!atu.date,{"required":"true"})，                                  *
+ * 7密碼：#Password("atu.phone","$!atu.phone",{"required":"true"})，                                  *
+ * 8NumberSpinner：#Spinner("atu.phone","$!atu.phone",{
+ *     smallDelta:'1', largeDelta:'100',constraints:{min:1,places:0,round:false}})，                                  *
+ * 9日期时间:#DateTime("testd",$date,{})#DateTime("testd",$date,{})
+ ******************************************#
+#macro(Text $name,$value,$attr)
+  #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	 	$txt.setAttr("style","width:94%;")
+	
+	$txt.setAttr("name","$name")
+$txt.setAttr("value","$value")
+	<input name="$name" value="$value"  #if($attr.get("readOnly"))readOnly=true #end #if($attr.get("size"))size="$attr.get('size')" #end #if($attr.get("onkeyup")) onkeyup="$attr.get('onkeyup')" #end #if($attr.get("onkeydown")) onkeydown="$attr.get('onkeydown')" #end #if($attr.get("onfocus")) onfocus="$attr.get('onfocus')" #end #if($attr.get("onchange")) onchange="$attr.get('onchange')" #end #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end #if(!$attr.get("style"))#else style='$attr.get("style")'#end validator="#if($attr.get("required"))required#end" id="$id" type="text"/>
+	<script>
+		$("#$id").jqInputText()
+	</script>
+#end
+#macro(ValidationText $name,$value,$attr)
+ 	#set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value" #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end #if($attr.get("size"))size="$attr.get('size')" #end #if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" validator="#if($attr.get("required"))required#end"  #if(!$attr.get("style"))#else style='$attr.get("style")'#end type=#if($attr.get("type"))'$attr.get("type")'#else"text"#end/>
+	<script>
+		$("#$id").jqInputText()
+	</script>
+			 
+#end
+#macro(RangeText $name,$value,$attr)
+ #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	  $txt.setTagName("$name")
+	#foreach($key in $attr.keySet())
+	   $txt.setAttr("$key","$attr.get($key)")
+	#end
+	#set($class="medium")
+	#if($attr.get("class"))
+	 	#set($class=$attr.get("class"))
+	#end
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+$txt.setAttr("value","$value")
+<input type="text" name="$name" class="$!class" dojoType="dijit.form.ValidationTextBox" #if($attr.get("required"))required="true" #end
+			id="$id" value="$value"  #if(!$attr.get("style"))#else style='$attr.get("style")'#end />
+			 <script>
+			 var $id=new dijit.form.RangeBoundTextBox($txt.toString(),"$id");
+			
+			 </script>
+			 
+#end
+
+#macro(NumberText $name,$value,$attr)
+ 	#set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value"#if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end#if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" validator="#if($attr.get("required"))required,#end number"  #if(!$attr.get("style"))#else style='$attr.get("style")'#end type="text"/>
+	<script>
+		$("#$id").jqInputText()
+	</script>
+#end
+
+#macro(EmailText $name,$value,$attr)
+  	#set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value" #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end#if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" validator="#if($attr.get("required"))required,#end email"  #if(!$attr.get("style"))#else style='$attr.get("style")'#end type="text"/>
+	<script>
+		$("#$id").jqInputText()
+	</script>
+#end
+
+#macro(PhoneText $name,$value,$attr)
+   #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value" #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end#if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" validator="#if($attr.get("required"))required,#end phoneValidator" #if(!$attr.get("style"))#else style='$attr.get("style")'#end  type="text"/>
+	<script>
+		$("#$id").jqInputText()
+	</script>
+#end
+#macro(DateText $name,$value,$attr)
+   #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value" id="$id" validator="#if($attr.get("required"))required#end" #if(!$attr.get("style"))#else style='$attr.get("style")'#end  type="text"/>
+	<script>
+	$("#$id").jqInputText();
+		$("#$id").datepicker({});
+	</script>
+#end
+
+
+#macro(Date $name,$dateVal,$attr)
+   #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value='$!dateVal' id="$id" validator="#if($attr.get("required"))required#end" #if(!$attr.get("style"))#else style='$attr.get("style")'#end  type="text"/>
+	<script>
+		jQuery(document).ready(function(){
+			$("#$id").jqInputText();
+			$("#$id").datepicker({#if($attr.get("format"))dateFormat:'$attr.get("format")'#end #if($attr.get("stime")) , showTime:$attr.get("stime") #end #if($attr.get("isHour")) , isHour:$attr.get("isHour") #end#if($attr.get("isMonth")) , isMonth:$attr.get("isMonth") #end#if($attr.get("isMinute")) , isMinute:$attr.get("isMinute") #end});
+			
+		});		
+	</script>
+		
+#end		
+
+
+#macro(RemoteValidate $name,$value,$href,$btnId,$attr)
+   #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$value" #if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" href="$!href" validator="#if($attr.get("required"))required,#end checkCode" type="text" #if(!$attr.get("style"))#else style='$attr.get("style")'#end />
+	<script>
+		$("#$id").jqInputText();
+		$("#$id").bValidator();
+	</script>
+#end
+
+#macro(Password $name,$value,$attr)
+#set($txt=$tag)
+    #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" value="$!value" #if($attr.get("size"))size="$attr.get('size')" #end #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end#if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end id="$id" validator="#if($attr.get("required"))required#end" type="password"/>
+	<script>
+		$("#$id").jqInputText();
+	</script>
+#end
+#macro(Spinner $name,$value,$attr)
+#set($txt=$tag)
+     $txt.setFormName("$!formName")
+	  $txt.setTagName("$name")
+	#foreach($key in $attr.keySet())
+	   $txt.setAttr("$key","$attr.get($key)")
+	#end
+	#if($attr.get("class"))
+	 	#set($class=$attr.get("class"))
+	 	$txt.setAttr("class","$class")
+	#end
+	#set($id=$txt.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+	#if(!$attr.get("style"))
+	 	$txt.setAttr("style","width:94%;")
+	#end
+	#if(!$attr.get("smallDelta"))
+	 	$txt.setAttr("smallDelta","1")
+	#end
+	#if(!$attr.get("largeDelta"))
+	 	$txt.setAttr("largeDelta","10")
+	#end
+	#if(!$attr.get("constraints"))
+	 	$txt.setAttr("constraints","{min:0.0,places:1,round:false}")
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input type="text" name="$name" id="$id"/>
+		 <script> 
+		$("#$id").jqInputText();
+		</script>
+#end
+
+#macro(DateTime $name,$dateVal,$attr)
+    #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	 $txt.setTagName("$name")
+	 #if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 	#set($id=$txt.getTagId())
+	#end
+	$txt.setAttr("name","$name")
+	$txt.setAttr("value","$value")
+	<input name="$name" #if($attr.get("checkMsg"))validator-msg='$attr.get("checkMsg")'#end value='$!date.format("yyyy-MM-dd hh:mm:ss",$!dateVal)' id="$id" validator="#if($attr.get("required"))required#end" #if(!$attr.get("style"))#else style='$attr.get("style")'#end  type="text"/>
+	<script>
+	$("#$id").jqInputText();
+		$("#$id").datepicker({showTime:true,#if($attr.get("format"))format:'$attr.get("format")'#else yy-mm-dd HH:MM:SS#end});
+	</script>
+#end	

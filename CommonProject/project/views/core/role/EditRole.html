@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>角色管理</title>
+		#set($topHeight=120) 
+		#Head()
+		<script type="text/javascript" src="#springUrl('/js/core/role/role.js')"></script>
+		<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/zTreeStyle/zTreeStyle.css" type="text/css">
+        <script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.ztree-2.6.min.js"></script>	
+		<script type="text/javascript">
+		function checking(){
+			var returnvalue="$!MSG";
+			if(returnvalue=="")
+			{}
+			else
+			{
+				notify("$MSG");
+			}
+		}
+		</script>	
+		<script type="text/javascript" >
+		/////////////////////////////////////////////////////////////////
+        var _appContext = "#springUrl('')";
+		var zTree;
+		
+		var setting = {
+				isSimpleData: true,
+				treeNodeKey: "id",
+				treeNodeParentKey: "pId",
+				fontCss: setFont,
+				showLine: false,
+				root:{ 
+					isRoot:true,
+					nodes:[]
+				},
+				callback: {
+					click: zTreeOnClick
+				}
+			};
+		function showMenu() {
+			
+			jQuery.ajax({
+				url:"#springUrl('')/org/orgManager.do?action=selectOrgToTree",//请求的action路径
+				type: 'POST',
+				data: {},
+				error: function () {//请求失败处理函数
+					alert('请求失败');
+				},
+				success:function(data,status){ //请求成功后处理函数。  
+					zNodes = eval(data);   //把后台封装好的简单Json格式赋给treeNodes
+				}
+			});
+			zTree = jQuery('#ztree').zTree(setting, zNodes);
+			jQuery("body").bind("mousedown", 
+					function(event){
+						if (!(event.target.id == "menuBtn" || event.target.id == "DropdownMenuBackground" 
+								|| $(event.target).parents("#DropdownMenuBackground").length>0)) {
+							hideMenu();
+						}
+			});
+			var cityObj = $("#orgName");
+			var cityOffset = $("#orgName").offset();
+			jQuery("#DropdownMenuBackground").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			
+		}
+		function setFont(treeId, treeNode) {
+			if (treeNode && treeNode.isParent) {
+				return {color: "blue"};
+			} else {
+				return null;
+			}
+		}
+		function hideMenu() {
+			jQuery("#DropdownMenuBackground").fadeOut("fast");
+		}	
+		
+		function zTreeOnClick(event, treeId, treeNode) {
+			if (treeNode) {
+				if(treeNode.name=="工作区"){
+					return ;
+				}
+				else{
+					var cityObj = jQuery("#orgName");
+					cityObj.attr("value", treeNode.name);
+					
+					var idObj=jQuery("#orgId");
+					idObj.attr("value", treeNode.id);
+					hideMenu();						
+				}
+			}
+		}
+		var zNodes;
+		jQuery(document).ready(function(){
+			hideMenu();
+			jQuery.ajax({
+				url:"#springUrl('')/org/orgManager.do?action=selectOrgToTree",//请求的action路径
+				type: 'POST',
+				data: {},
+				error: function () {//请求失败处理函数
+					alert('请求失败');
+				},
+				success:function(data,status){ //请求成功后处理函数。  
+					zNodes = eval(data);   //把后台封装好的简单Json格式赋给treeNodes
+				}
+			});
+		});
+		</script>
+	</head>
+	<body onload="checking()">
+	#Form("editForm","#springUrl('')/role/roleManager.do?action=updateRole",{"method":"post"})
+	<br />    
+	<div class="yk_NodeTxt">
+	   <span style="color:#1c3d8a;margin-top:-3px;">修改角色</span>
+	</div>
+		<div>
+			<table  align="center" class="yk_table">
+					<tbody>
+						<tr>
+							<td align="center" class="yk_td_title">
+								<font color="red">*</font>角色编号
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;"> 
+							    #Text("role.roleCode","$!cmd.role.roleCode",{"readOnly":true})
+							</td>
+							<td align="center" class="yk_td_title">
+								角色类型
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    			#if(${cmd.role.roleProp}==3)
+								    <input type="hidden" id="role.roleProp" name="role.roleProp" value="$!{cmd.role.roleProp}" />
+								    #Text("role.rolePropName","超级管理角色",{})
+								    #else
+								    #Select("role.roleProp",${cmd.role.roleProp},${cmd.typeOrgListOption},"value","label",{})
+								    #end
+							</td>
+							<td align="center" class="yk_td_title">
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;"> 
+							</td>
+							<!-- <td align="center" class="yk_td_title">
+								工作区
+							</td>
+							<td  style="width:23%;">							  
+								  <table class="yk_table_1">
+								    <tr>
+								      <td width="90%">
+								          #Text("role.orgName","$!cmd.role.orgName",{"id":"orgName"})
+								      </td>
+								      <td>
+								        <a id="menuBtn" href="#" onclick="showMenu(); return false;">
+								        <img id="testii" src="${img}org.gif" style="border:0;" />
+								        </a>	
+										<input type="hidden" id="orgId" name="role.orgId"
+											class="text2" value="$!cmd.role.orgId" />							     							        
+								      </td>
+								    </tr>						  
+								  </table>			
+							</td> -->
+						</tr>
+						<tr>
+							<td align="center" class="yk_td_title">
+								角色名称
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+							    #ValidationText("role.roleName","$!cmd.role.roleName",{"required":"true"})
+							</td>
+							<td align="center" class="yk_td_title">
+								是否停用
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+							    #Select("role.isStop","$!{cmd.role.isStop}",${cmd.stopOption},"value","label",{"emptyOption":true})
+							</td>
+							<td align="center" class="yk_td_title">
+								描述
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+							    #Text("role.descript","$!cmd.role.descript",{})
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br />
+			<div class="yk_NodeTxt">
+			   <span style="color:#1c3d8a;margin-top:-3px;">分配角色</span>
+			</div>
+			<div style="text-align:left;PADDING-LEFT: 15px;">	
+			   	#foreach($treeModel in $tms) #tree(${treeModel})
+				#end
+			</div>	
+			<br />
+			<div align="center"> 
+			     #ButtonSave({"id":"saveBtn","form":"editForm"})
+			     #ButtonClear({})
+			     #ButtonReturn({"url":"#springUrl('')/role/roleManager.do?action=queryRole"})
+            </div>
+		#FormEnd()
+<div id="DropdownMenuBackground" style="display:none; position:absolute; height:200px; min-width:150px; background-color:white;border:1px solid; margin-left:-7px;margin-top:-3px;overflow-y:auto;overflow-x:auto;">
+	<ul id="ztree" class="ztree"></ul>
+</div>
+	</body>
+</html>
+

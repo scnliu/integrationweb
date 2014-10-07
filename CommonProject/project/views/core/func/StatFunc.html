@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>工作区管理</title> 
+		#set($topHeight=120)
+		#Head()
+		<style type="text/css">
+		.qbi {
+			cursor: pointer;
+			display: inline-block;
+			height: 13px;
+			padding-top: 4px;
+			text-align: center;
+			width: 17px;
+			background: url('#springUrl('')/images/icons/search.png') no-repeat center;
+			position: absolute; 
+			right: 10px;
+			top: 5px;
+		    z-index: 100;
+	  }
+	  .searchField{
+	  		background-color:#F5F5F5;
+	  		border:0px;
+	  }
+	  .spanTblTitle{
+	  		font-size: 14px;
+	  }
+		</style>
+		<script type="text/javascript">
+			function checking(){
+				var returnvalue="$!MSG";
+				if(returnvalue=="")
+				{}
+				else
+				{
+					notify("$MSG");
+				}
+			}
+	
+</script>
+	</head>
+	<body onload="checking();" style="margin:10px">
+		<table style="width: 100%;" cellpadding="5" cellspacing="5">
+			<tr valign="top">
+				<td style="width: 45%;">
+					<span class="spanTblTitle">模块使用排名</span>
+					<table class="datatable" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;width: 100%;">
+		<thead>
+			<tr>
+				<td width="5px" align="center">排名</td>
+				<td width="20px" align="right">模块名称</td>
+				<td width="20px" align="center">访问总次数</td>
+			</tr>
+		</thead>
+		<tbody id="_table_list_id_1">
+			#set($num = 0)
+			#foreach($pfs in $parentList)
+				#if( $velocityCount % 2 == 0)
+				<tr id='tr_$pfs.funcCode' class = "alternateRow" onMouseOver="this.className='selected'" onMouseOut="this.className='alternateRow'">
+				#else
+				<tr id='tr_$pfs.funcCode'  class = "noselected" onMouseOver="this.className='selected'" onMouseOut="this.className='noselected'">
+				#end
+					<td width="5px" align="center">#set($num = $num + 1) $num</td>
+					<td align="right" width="20px" style="word-wrap:  break-word;" ><font color="#FFDAC8;">$pfs.func.funcName</font></td>
+					<td align="center" width="20px" style="word-wrap:  break-word" >$pfs.nums</td>
+				</tr>
+			#end
+		</tbody>
+		</table>
+				</td>
+				<td style="width:50%;">
+					<span class="spanTblTitle">功能使用排名</span>
+					<table class="datatable" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;width: 100%;">
+		<thead>
+			<tr>
+				<td width="5px" align="center">排名</td>
+				<td width="30px" align="center">功能名称</td>
+				<td width="20px" align="center">访问总次数</td>
+			</tr>
+		</thead>
+		<tbody id="_table_list_id_2">
+			#set($num = 0)
+			#foreach($pfs in $childList)
+				#if( $velocityCount % 2 == 0)
+				<tr id='tr_$pfs.funcCode' class = "alternateRow" onMouseOver="this.className='selected'" onMouseOut="this.className='alternateRow'">
+				#else
+				<tr id='tr_$pfs.funcCode'  class = "noselected" onMouseOver="this.className='selected'" onMouseOut="this.className='noselected'">
+				#end
+					<td width="5px" align="center">#set($num = $num + 1) $num</td>
+					<td align="center" width="30px" style="word-wrap:  break-word"><font color="#FFDAC8;">${pfs.func.funcName}</font>(${pfs.parentName})</td>
+					<td align="center" width="20px" style="word-wrap:  break-word" >$pfs.nums</td>
+				</tr>
+			#end
+		</tbody>
+		</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

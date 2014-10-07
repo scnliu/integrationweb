@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>数据表生成</title>
+<link rel="shortcut icon" href="#springUrl('')/images/gd/favicon.ico">
+#Head() 
+<script>
+
+  function turnBack(){
+	  window.location.href= _appContext + '/init/dbInit.do?action=dbInitMain&sysName=$!sysName';
+	}
+</script>
+<style type="text/css">
+.showInfo {
+	font-size: 16px;
+	margin-top: 3px;
+	border-top: 1px solid #abd6ff;
+}
+.yk_td_title{
+  text-align:right;
+}
+.cell td{
+	border:0px;
+}
+</style>
+</head>
+<body class="claro"> 
+<div align="center" style="margin-top:10px;"><font color="#FF6600">数据库初始化成功</font></div>
+<br>
+<table width="100%" border=0 align="center" cellspacing=0
+	class="yk_table">
+	<tr>
+		<td class="yk_td_title" width="10%">已存在表$!{haveCount}个</td>
+		<td class="yk_td_content"><table style="width:100%;border:0px" class="cell"><tr>$!{haveMsg}</table></td>
+	</tr>
+	<tr>
+		<td class="yk_td_title" width="10%">已生成表$!{addCount}个</td>
+		<td class="yk_td_content"><table style="width:100%;border:0px;" class="cell"><tr>$!{addMsg}</table></td>
+	</tr>
+</table>
+<table width="100%" border=0 align="center" cellspacing=0>
+	<tr>
+		<td align="center">
+		 #Button("ReturnBtn","返回上页","icon-back",{"onClick":"turnBack()"})
+		</td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

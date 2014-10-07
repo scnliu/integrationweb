@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+#Head()
+<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+	<link rel="stylesheet" type="text/css" href="#springUrl('')/js/jquery/themes/base/jquery.ui.all.css"/>
+	<link rel="stylesheet" type="text/css" href="#springUrl('')/js/jquery/themes/base/jquery.ui.theme.css"/>
+	<link rel="stylesheet" type="text/css" href="#springUrl('')/js/jquery/themes/base/jquery.ui.progressbar.css" />
+	<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.progressbar.js"></script>
+	
+	<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.fixer.js"></script>
+
+<script>
+  	var running=true;
+  	var haveCount = "";
+  	var haveMsg = "";
+  	var addCount = "";
+  	var addMsg = "";
+  	var setMax = false;
+  	var forward = false;
+  	var msg = '$!MSG'; 
+
+  	$(function() {
+		$( "#progressBar" ).progressbar({
+			value: 0
+		}); 
+		//initPage();
+		
+		setShowTable();
+		$("[name='buttonN']").button({label:"更新"});
+		if(msg != null && msg != ""){
+		  	  notify(msg);
+		  	}
+	});
+
+	function initPage(){
+		 //设置选项卡
+		var width = $(window).width()*0.98;
+     	$('#tt').tabs({
+			//tools:[]
+     	}).width(width); 
+	}
+  	
+    function delDB(){
+    	var ckbArr = document.getElementsByName('ckbCode');
+    	var flag = true;
+    	for(var i = 0 ; i < ckbArr.length ; i++){
+    		if(ckbArr[i].checked == true){
+    			flag = false;
+    		}
+    	}
+    	if(flag){
+    		notify('请选择要删除的记录');
+    		return;
+    	}
+    	askFunc('是否删除所选数据表？',function(){
+    		document.forms[0].action= _appContext + '/init/dbInit.do?action=delDB';
+    		document.forms[0].submit();
+    	});
+	}
+	
+    function initDB(){ 
+    	askFunc('是否初始化数据表？',doinitDB);
+  	}
+     
+    function doinitDB(){
+    	$('#btnDiv').css({display: "none"}); 
+    	$('#progressTr').css({display: ""});  
+
+    	var sysName = '$!sysName';
+		
+		start();
+		jQuery.ajax( 
+				{	
+					url: "#springUrl('')/init/dbInit.do?action=doInitDB",
+					data: {'sysName':sysName},
+					dataType: "json", 
+					timeout: 30000,
+					cache: false, 
+					type: "GET",							
+					
+					success: function (data, textStatus) { 
+					},
+					error: function (XMLHttpRequest, textStatus, errorThrown) { //function(error){
+						//alert(error.message);
+						//alert("链接超时，请重新刷新页面。")
+					},
+					handle: function(){
+						
+					}
+				}
+			 );  
+    }
+    
+	function start(){
+		$("#progressBar").progressbar("value" , 0);
+		   setTimeout(readProgress,200);
+  	}
+	
+  	function readProgress(){
+  		if(running){  
+
+  			jQuery.ajax({ 
+				type: "POST",      //提交方式
+				url: "#springUrl('')/init/dbInit.do?action=readProgress",  //
+				dateType: "json",  
+				success: function(data){
+					
+  				if(data.cmd.contentLength>0){
+  		  			if(!setMax){ 
+  		  			   $( "#progressBar" ).progressbar("option" , "max" , data.cmd.contentLength)
+	  		  			  setMax=true;
+	  		  			}
+  		  		  $("#progressBar").progressbar("value" ,data.cmd.uploadLength); 
+  			 	  $('#optimized').html(data.cmd.returnInfo);
+  		  		}
+  		  		if(data.cmd.uploadLength == data.cmd.contentLength){
+  		  			running=false;
+  		  		    $("#progressBar").progressbar("value" ,data.cmd.contentLength);  
+  		 	        haveCount = data.haveCount;
+  		 	        haveMsg = data.haveMsg;
+  		 	       	addCount = data.addCount;
+  		 	       	addMsg = data.addMsg;
+  		 	       	forward = true;
+  		  		}
+				},
+  			    error: function(request, error, status){  
+			          alert(error);
+				}
+				
+			}); 
+  			setTimeout(readProgress,200);
+  		}
+  		if(forward){
+  			document.forms[0].action = _appContext +'/init/dbInit.do?action=forward' +'&haveCount='+haveCount
+  							+'&haveMsg='+haveMsg+'&addCount='+addCount+'&addMsg='+addMsg+'&sysName=$!sysName';
+	    	document.forms[0].submit();
+  		}
+  	}
+   
+  	
+  	function ckbAllFun(ckb){
+  		var ckbArr = document.getElementsByName('ckbCode');
+  		if(ckb.checked){
+  	    	for(var i = 0 ; i < ckbArr.length ; i++){
+  	    		ckbArr[i].checked = true;
+  	    	}
+  		}else{
+  			for(var i = 0 ; i < ckbArr.length ; i++){
+  	    		ckbArr[i].checked = false;
+  	    	}
+  		}
+  	}
+  	
+  	function clkView(div){
+  		var msg = div.innerHTML;
+  		var parten = /[0-9]|<img/;
+  		if(!parten.exec(msg)){
+  			div.innerHTML = "<img src='"+_appContext+"/images/pager/busy.gif' style='height:14px;'/>"; 
+  			jQuery.post("#springUrl('')/init/dbInit.do?action=getCount&tabCode="+div.id.substring(3,div.id.length),{}, function(data, status)
+					{
+  				 		div.innerHTML = data.count;
+					},"json");	   
+  		}
+  	}
+
+  	 function setShowTable(){
+  		 //设置显示高度
+		  var  _height=parent.document.documentElement.clientHeight*0.842;
+		 
+	    //设置显示宽度
+	    var _width=$(window).width()*0.98;
+	    //判断是否有滚动条
+	    if((document.documentElement.offsetWidth-4)<document.documentElement.clientWidth){
+		   _width=_width-0;
+		 }
+		 
+		var divwidth=_width;
+		//设置表格的左边距
+		var mLeft=12;
+       
+     $('#id1').fixer({fixedrows:1,fixedcols:0,height:_height,width:_width,divwidth:divwidth,divMarginLeft:mLeft});
+	}
+
+  	function outRow(r){
+		$(r).removeClass("rowOver");
+	}
+	function overRow(r){
+		$(r).addClass("rowOver");
+	}
+	function updateTable(tools,tableName){
+		askFunc('该操作将删除原表数据，是否继续？',function(){
+			var url = '$!url';
+			jQuery.post("#springUrl('')/init/dbInit.do?action=updateTable",{'tools':tools,'tableName':tableName}, function(data, status)
+					{
+						
+						var div = '#user_'+tableName;
+						var div2 = '#time_'+tableName;
+						$('#user_'+tableName).html(data.user);
+						$('#time_'+tableName).html(data.time);
+						$('#div'+tableName).html('查看');
+						notify(data.msg);
+						
+					},"json");
+    	});
+	}
+	function updateCheck(tools,tableName){
+			alert(tools);
+	}
+</script>
+<style type="text/css">
+	.datatable{
+		width:98%;
+		border-collapse: collapse;
+		border-spacing: 0;
+		border:0px;
+	}
+	.row{
+		height:28px;
+	}
+	.head{
+		background: url('#springUrl('')/images/pager/new_bg.gif');
+		border:0px;
+	}
+	
+	.ui-widget-header {
+		background:url(images/progress.jpg)repeat-x 50% 50%;
+	}
+	
+	.rowOver {
+		background: #fff8e2;
+	}
+</style>
+
+</head>
+<body class="claro" style="margin:0px;" scroll="no">
+	
+       #Form("mainForm","#springUrl('')/init/dbInit.do?action=initDB",{"method":"post"})
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="center" >
+				
+				<div id="btnDiv" style="display:block;margin-top:10px;">
+					<table>
+						<tr>
+							<!--<td>
+								<input name="selectType" type="checkbox" id="initType"
+								 /><span >共用数据库</span>
+							</td>
+							<td>
+								<input name="selectType" type="checkbox" checked="checked" id="initType2"
+								 /><span >$!SYSNAME 工具库</span>
+							</td>
+							--><td>
+								#Button("importBtn","$!sysName 数据库初始化","icon-start",{"onClick":"initDB()"})
+							</td>
+						</tr>
+					</table>
+					
+				</div>
+				<div style="display: none" id="progressTr">
+				<table width="100%" align="center" class="yk_table middleCls">
+					<tr align="center">
+						<td class="yk_td_content" align="center">
+						
+						<div id="progressBar" align="center"
+					style="width: 98%; height: 20px;margin-left: 8px;" class="probar"></div>
+						 
+							
+							<div style="font-size:16px;padding-left:10px;" id="showTitle">
+							<!--<span>正在对$!sysName 数据库初始化，请稍候......</span>
+							--><span id="optimized" style="display:block;font-size:14px;"></span>
+							</div>
+						</td>
+					</tr>
+				</table>
+					
+				</div>
+				</td>
+			</tr>
+		</table>
+		
+		
+		<div style="">
+			#if($!size>0)
+			<br>
+			<table  class="datatable"  id="id1">
+			<thead>
+				<tr class="head" height="30px">
+					<th>序号</th>
+					<th>表名</th>
+					<th>创建人</th>
+					<th>创建时间</th>
+					<th>数据量</th>
+					<th>更新</th>
+				</tr>
+			</thead>
+			<tbody>
+				#set($order = 1)
+				#foreach( $table in $tableList)
+				<tr class="row #if($order%2==0) rowColor #end"
+						onMouseOver="overRow(this)" onMouseOut="outRow(this)">
+					<td align="center" valign="middle" class="yk_td_content" style="width:3%">$!order</td>
+					<td align="center" class="yk_td_content" style="width:43%">
+					#if($!table.tabName)$!table.tabName 
+					#else $!table.tabCode #end
+					</td>
+					<td align="center" class="yk_td_content" style="width:6%">
+						<span id='user_$!table.tabCode'>$!table.userName</span></td>
+					<td align="center" class="yk_td_content" style="width:13%">
+						<span id='time_$!table.tabCode'>$!table.createTime</span></td>
+					<td align="center" class="yk_td_content" style="width:6%">
+					<div id='div$!table.tabCode' style="color:#ec8c02" onmouseover="clkView(this)">
+					<font color="">查看</font></div></td>
+					<td align="center" class="yk_td_content" style="width:8%">
+					<input type="button" name="buttonN" value="更新" id="updateBtn$!order"  iconCls="icon-reload"
+					onclick="updateTable('$!table.tools','$!table.tabCode')"/></td>
+				</tr>
+				#set($order = ${order} + 1)
+				#end
+				
+				#if($order<15)
+				#foreach($i in[$order..14])
+					<tr class="row">
+						<td>
+						</td>
+						<td> 
+						</td>
+						<td>
+						</td>
+						<td>
+						</td>
+						<td>
+						</td>
+						<td>
+						</td>
+					</tr>
+				#end 
+			#end
+			</tbody>
+			</table>
+			#else
+			<div align="center">
+				<img src="#springUrl('')/images/pager/page-initdb1.jpg" />
+			</div>
+		#end
+		</div>
+		
+	#FormEnd()
+
+	</body> 
+</html>

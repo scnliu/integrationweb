@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.linybin7.core.frame.bo.Sys" table="SA_SYS">
+
+
+		<id name="id" type="java.lang.String" length="20"
+			column="ID" unsaved-value="null">
+			<generator class="assigned">
+				<!--
+					To add non XDoclet generator parameters, create a file named
+					hibernate-generator-params-Role.xml
+					containing the additional parameters and place it in your merge dir.
+				-->
+			</generator>
+		</id>
+		
+		<property name="name" type="java.lang.String" length="80"
+			column="SYSNAME" not-null="true" />
+			
+		<property name="context" type="java.lang.String" length="20"
+			column="CONTEXT" not-null="true" />
+					
+		<property name="order" type="java.lang.Integer" length="2"
+			column="ORDERNO" not-null="true" />
+
+	</class>
+
+</hibernate-mapping>

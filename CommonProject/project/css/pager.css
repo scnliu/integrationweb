@@ -1,0 +1,206 @@
+.toolbar .note{
+		 color:#FF6600;
+		 font-family: "ËÎÌו", Arial, sans-serif;
+	}
+.paging .toolbar a.page-first,
+.paging .toolbar  a.page-first-disabled,
+ .paging .toolbar a.page-last,
+.paging .toolbar a.page-last-disabled,
+ .paging .toolbar a.page-next,
+.paging .toolbar a.page-next-disabled,
+ .paging .toolbar a.page-prev,
+.paging .toolbar a.page-prev-disabled
+{
+	width:18px;
+	height:16px;
+	display:inline-block;
+	inline-height:16px;
+	background-position:center top;
+	background-repeat: no-repeat; 
+	margin:0px;
+	margin-top:4px;
+	float:left;
+	background: url(../images/pager/page-bg.gif) no-repeat;
+}
+*+ html .paging .toolbar a.page-first,
+*+ html .paging .toolbar  a.page-first-disabled,
+*+ html  .paging .toolbar a.page-last,
+*+ html .paging .toolbar a.page-last-disabled,
+*+ html  .paging .toolbar a.page-next,
+*+ html .paging .toolbar a.page-next-disabled,
+*+ html  .paging .toolbar a.page-prev,
+*+ html .paging .toolbar a.page-prev-disabled
+{
+	margin-top:6px;
+}
+.paging .toolbar a.page-first{
+	background-position:left -36px;
+	}
+.paging .toolbar a.page-first:hover{
+	background-position:left -18px;
+	}
+.paging .toolbar  a.page-first-disabled{
+	background-position:left top;
+	}
+ .paging .toolbar a.page-last{
+	background-position:right -36px;
+	}
+ .paging .toolbar a.page-last:hover{
+	background-position:right -18px;
+	}
+.paging .toolbar a.page-last-disabled{
+	background-position:right top;
+	}
+ .paging .toolbar a.page-next{
+	background-position:-41px -36px;
+	}
+ .paging .toolbar a.page-next:hover{
+	background-position:-41px -18px;
+	}
+.paging .toolbar a.page-next-disabled{
+	background-position:-41px top;
+	}
+ .paging .toolbar a.page-prev{
+	background-position:-21px -36px;
+	}
+ .paging .toolbar a.page-prev:hover{
+	background-position:-21px -18px;
+	}
+.paging .toolbar a.page-prev-disabled{
+	background-position:-21px top;
+	}
+td.pager_head {
+	font:normal 14px arial,tahoma, sans-serif;
+	}
+td.pager_head .note{
+		 font:normal 14px arial,tahoma, sans-serif;
+	}
+td.pager_head a{
+	width:44px;
+	height:17px;
+	inline-height:16px;
+	display:inline-block;
+	background-position:center center;
+}
+.page-first,
+.page-refresh,
+.page-last,
+.page-next,
+.page-prev,
+.page-first-disabled,
+.page-last-disabled,
+.page-next-disabled,
+.page-prev-disabled {
+	background-repeat: no-repeat; 
+	width: 14px;
+	height:14px;
+	text-align: center;
+	padding-right:2px; 
+	padding-top:0px;
+	margin:0px;
+}
+
+
+a.go{
+	width:20px;
+	background-image: url(../images/pager/go1.png) !important;
+    cursor:pointer;
+}
+a.go1{
+	width:20px;
+	background-image: url(../images/pager/go2.png) !important;
+    cursor:pointer;
+}
+
+.x-toolbar-split{
+	border-color:#a9bfd3;
+    background-color:#d0def0;
+    background-image:url(../images/pager/btn-over-bg.gif);
+}
+.x-paging-info {
+    color:#444;
+}
+
+.x-toolbar-more-icon {
+    background-image: url(../images/default/toolbar/more.gif) !important;
+}
+.privateBtn{
+	background-image: url(../images/gd/purple/cus.gif) !important;
+	}
+.reLoginBtn{
+	background-image: url(../images/gd/purple/reload.gif) !important;
+	}
+.changeLanguageBtn{
+	background-image: url(../images/gd/purple/cus.gif) !important;
+	}
+.changeInfoBtn{
+	background-image: url(../images/gd/purple/cpass.gif) !important;
+	}
+.logoutBtn{
+	background-image: url(../images/gd/purple/quit.gif) !important;
+	}
+.showTime{
+	background-image: url(../images/gd/purple/time.gif) !important;
+	padding-left:24px;
+	padding-top:3px;
+	font-size:14px;
+	float:left;
+	margin-top:3px;
+	margin-left:30px;
+	width:134px;
+	background-repeat: no-repeat;
+	height:22px;
+	text-align: left;
+	}
+.loginUser{
+	background-image: url(../images/gd/purple/org.gif) !important;
+	}
+ .headerIcon {
+	background-repeat: no-repeat;
+	width:24px;
+	height:22px;
+	text-align: center;
+}
+.dijitContentPaneLoading{
+	 font-color:#ff0000;
+	}
+.alertDlg{
+	   margin: -10px -8px;
+	   width:220px;
+       padding-left:40px;
+       padding-top:16px;
+       padding-bottom:16px;
+       background-repeat: no-repeat;
+       font:normal 16px arial,tahoma, helvetica, sans-serif;
+	}
+.alertDlg ul{
+	  margin: -8px -1px;
+	}
+
+.dijitDialogTitle{
+       background-repeat: no-repeat;
+       height:30px;
+	}
+.dijitDialogError .dijitDialogTitle ,
+.dijitDialogSay .dijitDialogTitle ,
+.dijitDialogWarn .dijitDialogTitle ,
+.dijitDialogAsk .dijitDialogTitle,
+.dijitDialogNotify .dijitDialogTitle {
+	margin: -10px -8px;
+	padding:0px;
+	font-size:18px;
+	padding-left:1px;
+	color:#0000ff;
+}
+.claro .dijitDialogPaneActionBar{
+	padding:0px;
+	text-align:center;
+}
+
+.mybaseDialog .dijitDialogTitle{
+	width:100%;
+	font-size:18px;
+	text-align:center;
+	color:#0000ff;
+	}
+

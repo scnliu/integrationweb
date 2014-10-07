@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+		<title>index.html</title>
+
+		<script type="text/javascript">
+		   var _appContext = '#springUrl('')';			
+		   var userCode="$!visitor.user.userName";
+		</script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/jquery-ui/ui/jquery-ui-1.8.9.custom.js">
+		</script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.core.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.widget.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/ui/ui.tool.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/ui/ui.button.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/ui/ui.prompt.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/plugins/jquery.window.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/core/web.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/core/login.js"></script>
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/plugins/jquery.qtip.js"></script>
+
+		<script type="text/javascript"
+			src="#springUrl('')/js/jquery/ligerUI/ligerMenu.js"></script>
+
+
+		<link href="#springUrl('')/css/web.css" rel="stylesheet"
+			type="text/css" />
+		<link href="#springUrl('')/js/jquery/themes/jquery.window.css"
+			rel="stylesheet" type="text/css" />
+		<link href="#springUrl('')/js/jquery/themes/jquery.qtip.css"
+			rel="stylesheet" type="text/css" />
+		<link href="#springUrl('')/js/jquery/themes/prompt.css"
+			rel="stylesheet" type="text/css" />
+		<link href="#springUrl('')/js/jquery/themes/jNice.css"
+			rel="stylesheet" type="text/css" />
+
+		<link href="#springUrl('')/js/jquery/ligerUI/css/ligerui-all.css"
+			rel="stylesheet" type="text/css" />
+
+	</head>
+	<body onresize="changeWin()">
+		<div id="desktop" class="deskmain">
+			<!-------------背景图片-------->
+			<img src="#springUrl('')/images/desktop/bg/blue_glow.jpg" class="deskbg"
+				id="bgImageId" />
+
+
+			<!------top菜单-------------->
+			<div id="topBar" class="topBar">
+				<div class="topBarbgL"></div>
+				<div class="topBarBgR">
+					<a title="桌面1, Ctrl+Alt+1" class="indicator tab_icon_1"
+						href="javascript:switchDesk('1')"></a>
+					<a title="桌面2, Ctrl+Alt+2" class="indicator tab_icon_2"
+						href="javascript:switchDesk('2')"></a>
+					<a title="桌面3, Ctrl+Alt+3" class="indicator tab_icon_3"
+						href="javascript:switchDesk('3')"></a>
+					<a title="桌面4, Ctrl+Alt+4" class="indicator tab_icon_4"
+						href="javascript:switchDesk('4')"></a>
+					<a title="桌面5, Ctrl+Alt+5" class="indicator tab_icon_5"
+						href="javascript:switchDesk('5')"></a>
+					<a title="桌面6, Ctrl+Alt+6" class="indicator tab_icon_6"
+						href="javascript:switchDesk('6')"></a>
+				</div>
+			</div>
+
+			<!--------middle菜单------->
+			<div class="middleBar" id="middleBar">
+				<!---桌面1 -->
+				<div id="desktop1">
+					<div id="desk0Div0" style="margin-top: 75px; margin-left: 70px;"
+						class="desk_icon deskIconImage0"></div>
+
+					<div id="desk0Div1" style="margin-top: 185px; margin-left: 70px;"
+						class="desk_icon deskIconImage1"></div>
+
+					<div id="desk0Div2" style="margin-top: 295px; margin-left: 70px;"
+						class="desk_icon deskIconImage2"></div>
+
+					<div id="desk0Div3" style="margin-top: 405px; margin-left: 70px;"
+						class="desk_icon deskIconImage3"></div>
+
+					<div id="desk0Div4" style="margin-top: 75px; margin-left: 180px;"
+						class="desk_icon deskIconImage4"></div>
+
+					<div id="desk0Div5" style="margin-top: 185px; margin-left: 180px;"
+						class="desk_icon deskIconImage5"></div>
+
+					<div id="desk0Div6" style="margin-top: 295px; margin-left: 180px;"
+						class="desk_icon deskIconImage6"></div>
+
+					<div id="desk0Div7" style="margin-top: 405px; margin-left: 180px;"
+						class="desk_icon deskIconImage7"></div>
+				</div>
+				<!-- 桌面2 -->
+				<div id="desktop2" style="display: none">
+					<div id="desk2Div0" style="margin-top: 75px; margin-left: 70px;"
+						class="desk_icon deskIconImage8"></div>
+				</div>
+				<!-- 桌面3 -->
+				<div id="desktop3" style="display: none;">
+					desktop3
+				</div>
+
+				<!-- 桌面4 -->
+				<div id="desktop4" style="display: none;">
+					desktop4
+				</div>
+
+				<!-- 桌面5 -->
+				<div id="desktop5" style="display: none;">
+					desktop5
+				</div>
+
+				<!-- 桌面6 -->
+				<div id="desktop6" style="display: none;">
+					desktop6
+				</div>
+
+			</div>
+
+
+			<!-------bottom菜单--------->
+			<div id="bottomBar">
+				<table style="border: 0px; width: 100%; height: 100%"
+					cellspacing="0" cellpadding="0">
+					<tr>
+						<td class="bottomBarL">
+							<div class="start"></div>
+						</td>
+						<td>
+							<div id="bottomBarM">
+
+							</div>
+						</td>
+
+						<td class="bottomBarRL">
+							<div class="setting"></div>
+						</td>
+
+						<td class="bottomBarRL">
+							<div class="theme"></div>
+						</td>
+
+						<td class="bottomBarRM">
+							<div id="time"></div>
+							<div id="date"></div>
+						</td>
+						<td class="bottomBarRR" title="显示桌面">
+							<div class="status"></div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<!--  -->
+			<div id="logo">
+				<div id="logoImg">
+				</div>
+				<div id="logoText">
+					您好,广州逸信电子科技有限公司欢迎你使用本系统!
+				</div>
+			</div>
+		</div>
+
+
+		<!-------------------------开始菜单----------------------------->
+		<div style="display: none;" class="startMenu">
+			<div class="loginMenu">
+				<span class="logintext">请登录 </span>
+				<a class="gom"></a>
+			</div>
+			<div class="menu bookmark"></div>
+			<div class="menu deskfast"></div>
+
+			<div class="menu about"></div>
+
+			<div class="menu contact"></div>
+
+			<div class="menu help"></div>
+
+			<div class="logoutMenu">
+				<a class="logout1"></a>
+				<a class="exit"></a>
+			</div>
+		</div>
+
+
+		<!-------------------登录页面---------------->
+		<div id="loginW" class="loginW">
+			<form action="#springUrl('')/login/login.do?action=submit"
+				method="post" id="loginForm">
+				<div id="login_box">
+					<div id="login_title">
+						<table style="width: 100%;">
+							<tr>
+								<td style="width: 90%" align="center">
+									<div id="login_text">
+										登录
+									</div>
+								</td>
+								<td>
+									<a id="login_close">关闭</a>
+								</td>
+							</tr>
+						</table>
+
+					</div>
+					<hr>
+					<div
+						style="height: 15px; font-size: 12px; color: red; margin-left: 120px;"
+						id="msg">
+						$!cmd.msg
+					</div>
+					<div id="login_content" class="no_drag">
+						<table align="center">
+							<tr>
+								<td>
+									<span style="font-size: 16px;">用户名：</span>
+									<input type="text" name="userCode" id="username"
+										style="height: 20px; width: 160px;" />
+								</td>
+							</tr>
+							<tr>
+								<td style="height: 8px;"></td>
+							</tr>
+							<tr>
+								<td>
+									<span style="font-size: 16px;">密&nbsp;&nbsp;码：</span>
+									<input type="password" name="password" id="password"
+										style="height: 20px; width: 160px;" />
+								</td>
+							</tr>
+							<tr>
+								<td style="height: 8px;"></td>
+							</tr>
+							<tr>
+								<td align="center">
+									<input type="submit" name="lSubmit" value="提交" id="loginSubmit" />
+									&nbsp; &nbsp; &nbsp;
+									<input type="button" name="lButton" value="取消" id="loginClose" />
+								</td>
+							</tr>
+
+						</table>
+
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+	</body>
+</html>
+
+
+<script type="text/javascript">
+   if("$!message_key"){
+	     login();
+	     $('#msg').html("$!message_key");
+	}
+
+   if("$!Force_Login"){
+      askFunc('系统检测到你的用户已经在其他地方登录，是否强制登录？',function(){
+    	document.getElementById("loginForm").submit();
+	},null,function(){	
+		 	document.forms[0].action= _appContext + '/login/login.do?action=cancelSubmit';
+	        document.forms[0].submit();
+	});
+
+   }
+</script>
+

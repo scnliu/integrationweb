@@ -1,0 +1,21 @@
+.node{
+font-size:12px;
+font-family:Verdana;
+color:#04396A;
+}
+
+.node a:hover{color:#333;text-decoration:none}
+a:visited{color:#0051A2;text-decoration:none}
+a:link{color:#0051A2;text-decoration:none}
+
+.nodeSel{
+	background-color: #c0d2ec;
+	text-decoration:none;
+}
+
+/*
+span{height:17px;solid #FFFFFF;cursor:hand}
+
+.highlight a{color:#FFFFFF;text-decoration:none}
+*/
+img{border:0}

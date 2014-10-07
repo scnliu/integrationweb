@@ -1,0 +1,70 @@
+#macro(Head)
+	#set($sysCfg = ${rc.webApplicationContext.servletContext.getAttribute('syscfg_key')})
+    #set($visitor = ${visitor_key})
+    #set($cityCode = ${sysCfg.cityCode})
+    #set($cityName = ${sysCfg.cityName})
+    #set($topic = ${visitor.topic})
+    #set($css ="#springUrl('')/css/")
+    #set($img ="#springUrl('')/images/")
+    #set($_treeScriptLoaded = false)
+    <script>
+    	var _appContext="#springUrl('')";
+    </script>
+	<link href="#springUrl('')/css/main.css" rel="stylesheet" type="text/css" />
+	
+	<link href="#springUrl('')/js/jquery/themes/jqtransform.css?sd=2" rel="stylesheet" type="text/css" />
+	<link href="#springUrl('')/js/jquery/themes/bvalidator.css" rel="stylesheet" type="text/css" />
+	<link href="#springUrl('')/js/jquery/themes/jquery.autocomplete.css" rel="stylesheet" type="text/css" />
+	<link href="#springUrl('')/js/jquery/themes/jNice.css" rel="stylesheet" type="text/css" />
+	<link href="#springUrl('')/js/jquery/themes/jquery.jtooltip.css" rel="stylesheet" type="text/css"/>
+	<link href="#springUrl('')/js/jquery/themes/white/flexigrid.css" rel="stylesheet" type="text/css"/>
+	<link href="#springUrl('')/js/jquery/themes/prompt.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" href="#springUrl('')/css/core.css" type="text/css">
+	<link href="#springUrl('')/js/jquery/themes/start/jquery.ui.datepicker.css" rel="stylesheet" type="text/css"/>
+	<link href="#springUrl('')/js/jquery/themes/start/jquery.ui.theme.css" rel="stylesheet" type="text/css"/>
+	<link href="#springUrl('')/js/jquery/themes/start/jquery.ui.core.css" rel="stylesheet" type="text/css"/>
+	<link href="#springUrl('')/js/jquery/themes/base.css" rel="stylesheet" type="text/css"/>
+	
+	<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+	<script src="#springUrl('')/js/jquery/plugins/jquery.bgiframe.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.core.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.widget.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.mouse.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.draggable.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.position.js" type="text/javascript"></script>
+	<script src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.datepicker.js" type="text/javascript"></script>
+	
+	   
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/jquery.jqtransform.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.tool.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.button.js?2=3432"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.checkbox.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.radio.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/jquery.bvalidator.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/custom-validators.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.prompt.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.template-0.3.js"></script>
+	    
+	<script>  
+	   var dojo={
+	   			 byId:function(id){return document.getElementById(id);}
+	   			}
+	</script>
+	<script type="text/javascript" src="#springUrl('')/js/core/common.js"></script>    
+	<script type="text/javascript">
+		var _appContext = "#springUrl('')";
+		var _css = "#springUrl('')/css/";
+		var _img = "#springUrl('')/images/";
+		//setButtonTopic('gd','blue');
+		function setSize(){
+		     if(top.document.getElementById('leftTd')!=null)
+			 $(document).css('height',(top.$('body').height()-#if($topHeight)${topHeight}#else 104#end)+"px");
+		}
+		$(document).ready(function(){ 
+	  	});
+		function formatDate(date){
+	 		return dojo.date.locale.format(date, {datePattern:"yyyy-MM-dd HH:mm:SS"});
+		}
+	</script>
+#end

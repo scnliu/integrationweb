@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>系统信息</title>
+    #Head()
+    <style>
+    	#loginName a img{
+    		border:none;
+    	}
+    	#loginName a{
+    		margin-right:6px;
+    	}
+    	.showMessage{
+    		/* border:3px solid #73ACE5;
+			borderWidth:2px;
+			borderColor :#73ACE5;
+			fontSize : "9pt";
+			background : #73ACE5;
+			color :#017cc9;
+			padding :5px 8px 3px 8px;
+			position :absolute;
+			overflow:auto;
+			display:none;  */
+			/* background: url('#springUrl('')/views/core/serviceMsg/img/kk-4.png') no-repeat;
+			background-position : 0px 26px;
+			z-index : 1000; */
+			position :absolute;
+			overflow:auto;
+			display:none;
+			padding-left: 7px;
+    	}
+    	
+    </style>
+    <script type="text/javascript">
+		var _appContext = "#springUrl('')";
+		var _img = "${img}";
+		function main(){
+			document.forms[0].action= _appContext + '/data/allCellRtPt.do?action=cddCellRtPt';
+			document.forms[0].submit();
+		}
+		function checking(){
+
+		}
+	</script>
+		<script type="text/javascript">
+			//鼠标移动弹出层信息
+			  function onMouseOverCell(cell,value,tablekind,event,obj){
+				if(event.target.id=='deleteImg'){
+					return;
+				}
+				  var y=$(obj).offset().top+($(obj).outerHeight()/2)-40;
+				  var x=$(obj).offset().left+$(obj).outerWidth()-20;
+				  if($(obj).find("img").length==2){
+					  x=x-13;
+				  }
+					jQuery.ajax({
+						url: "#springUrl('')/views/npi/serviceMsg/serviceMsgCtrl.do?action=readUserMsg&USERID="+cell,
+						type: 'POST',
+						data: {
+						},
+						success: function(data,status) {
+							$("#message_div2").html(data[0]);
+							$("#message_div2").css("background-position","0px 20px");
+							$("#message_div").css("top",y).css("left",x).show();
+							var cha=($("#message_div").outerHeight()+y)-($("#loginName_div").offset().top+$("#loginName_div").outerHeight());
+							if(cha>0){
+								$("#message_div").css("top",(y-cha));
+								$("#message_div2").css("background-position","0px "+(20+cha)+"px")
+							}
+							jQuery("body").bind("mousedown",function(event){
+								var pars=$(event.target).parents();
+					    		if(!(event.target==obj||pars.eq(pars.length-3).attr("id")=='message_div')){
+					    			$("#message_div").hide();
+					    			jQuery("body").unbind("mousedown");
+					    		}
+					    	});
+						},
+						error:function(data){
+						}
+					});
+				  }
+			
+		   
+			  /* function showDivInfo(data,x,y){
+				  var divTip= document.getElementById("divid");
+				  if(divTip == null||typeof(divTip)=="undefined"){
+					  var divTip=document.createElement("div");
+					  divTip.id="divid";
+					  divTip.style.border="3px solid black"
+					  divTip.style.borderWidth="2px";
+					  divTip.style.borderColor ="#73ACE5";
+					  divTip.style.fontSize = "9pt";
+					  divTip.style.backgroundColor = "#FFFFFF"; 
+					  divTip.style.color = "#017cc9";
+					  divTip.style.padding = "5px 8px 3px 8px"
+					  divTip.style.position = "absolute";
+					  divTip.overflow="auto";
+					  divTip.style.display = "none"; 
+					  document.body.appendChild(divTip); 
+				  }
+
+		          divTip.onmouseout=onMouseOutCell;
+				  divTip.style.top = 100;
+				  divTip.style.left =100;
+		          divTip.innerHTML = data[0]; 
+				  divTip.style.display ="block";  
+			 } */
+			  //回调
+			  var running=true;
+			  function start(){
+					  running=true;
+					  setTimeout(readRunMsg,200);
+			  }
+			  var params={};
+			  //params['maximum']=dojo.byId('maximum').get('value');
+			  //params['maxTime']=dojo.byId('maxTime').get('value');
+			  function readRunMsg(){
+					jQuery.ajax({
+						url: "#springUrl('')/views/npi/serviceMsg/serviceMsgCtrl.do?action=readRunMsg",
+						type: 'POST',
+						data: {},
+						success: function(data,status) {
+							showInfo(data);
+						},
+						error:function(data){
+						}
+					});
+			      if(running)
+				  setTimeout(readRunMsg,6000);   
+			  }
+			  function callback(data){
+				  showInfo(data);
+			  }
+		    function showInfo(data){
+		    	document.getElementById("jvmMaxMemory").innerHTML="<span style='color:#ec8c02;'>"+data.jvmMaxMemory+"</span> MB";
+		    	document.getElementById("jvmUsedMemory").innerHTML="<span style='color:#ec8c02;'>"+data.jvmUsedMemory+"</span> MB";
+		    	$("#jvmFreeMemory").html("<span style='color:#ec8c02;'>"+data.jvmFreeMemory+"</span> MB");
+		    	document.getElementById("loginName").innerHTML=data.loginName;
+		    	document.getElementById("loginCount").innerHTML=data.loginCount;
+		    	//dojo.byId('nowCount').innerHTML="<span style='color:#ec8c02;'>"+data.nowCount+"</span>";
+		    	//dojo.byId('maximum').innerHTML="<span style='color:#ec8c02;'>"+data.maximum+"</span>";
+		    	//dojo.byId('maxTime').innerHTML="<span style='color:#8F8FBD;'>"+data.maxTime+"</span>";
+		    }
+		    var a_obj=null;
+		    function showDelete(obj,username,userprop){
+		    	if("3"==userprop){
+		    		if($(obj).find("img").length==2){
+			    		return;
+			    	}
+			    	a_obj=obj;
+			    	var str="<img id='deleteImg' src='#springUrl('')/images/desktop/xx.png' onclick=logout('"+username+"') title='强制退出' style='cursor: pointer;'/>"
+			    	$(obj).append(str);
+			    	jQuery("body").bind("mousemove",function(event){
+			    		if(!(event.target==obj||event.target.id=='deleteImg')){
+			    			if($(obj).find("img").length==2){
+				    			$(obj).find("img").eq(1).remove();
+				    			jQuery("body").unbind("mousemove");
+					    	}
+			    		}
+			    	});
+		    	}
+		    }
+		    
+		    function logout(name){
+		    	jQuery.ajax({
+					url: "#springUrl('')/views/npi/serviceMsg/serviceMsgCtrl.do?action=logout",
+					type: 'POST',
+					data: {"username":name},
+					success: function(data,status) {
+						$(a_obj).remove();
+					},
+					error:function(data){
+						alert("出错");
+					}
+				});
+		    }
+		    
+		    jQuery(document).ready(function(){
+		    	start();	
+		    });
+		</script>
+<style type="text/css">
+.showInfo {
+	font-size: 16px;
+	margin-top: 3px;
+	border-top: 1px solid #abd6ff;
+}
+.dataInfoDiv {
+  padding-left:4px;
+  padding-top:7px;
+  padding-bottom:7px;
+  font-weight:bold;
+}
+.dataHead{
+  font-size:18px;
+  border-left:0px;
+  border-right:0px;
+}
+.claro .yk_table .yk_td_content{
+  padding-left:3px;
+}
+.yk_td_title{
+  text-align:right;
+  width:110px;
+}
+</style>
+    <body class="claro" onload="checking()" style="margin:0px">
+	#Form("optForm","#",{})
+	<br />
+	<table width="99%" border="0"> 
+	<tr>	
+	   <td width="49%">
+	     <table border=0 cellspacing=0 
+				 style="width:100%">
+	      <tr>
+			<td class="yk_td_content" colspan=2 style="padding-left:4px;">
+				<div class="yk_NodeTxt"><image src="#springUrl ( '')/images/head/os.gif"/>  操作系统信息</div>
+			   <table align="left" border=0 cellspacing=0
+				class="yk_table" style="width:99%;">
+		       <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                             操作系统名称
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.systemName
+		           </td>
+		       </tr>
+		       <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                             操作系统版本
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.systemVersion
+		           </td>		       
+		       </tr>
+		       </table>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="yk_td_content" colspan=2 style="padding-left:4px;">
+				<div class="yk_NodeTxt"><image src="#springUrl ( '')/images/head/server.gif"/>  服务器信息</div>
+			   <table align="left" border=0 cellspacing=0
+				class="yk_table" style="width:99%;">
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                              服务器名称
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.serverName
+		           </td>
+		       </tr>
+		       <tr>		     
+		           <td class="yk_td_title" style="text-align:center;">
+		                             服务器版本
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.serverVersion
+		           </td>
+		         </tr>
+		       </table>
+			</td>		  
+		  </tr>
+		  <tr>
+			<td class="yk_td_content" colspan=2 style="padding-left:4px;">
+				<div class="yk_NodeTxt"><image src="#springUrl ( '')/images/head/database.gif"/>  数据库信息</div>
+			   <table align="left" border=0 cellspacing=0
+				class="yk_table" style="width:99%;">
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                              数据库名称
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.dbName
+		           </td>
+		       </tr>
+		       <tr>		           
+		           <td class="yk_td_title" style="text-align:center;">
+		                             数据库版本
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.dbVersion
+		           </td>
+		         </tr>
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                              数据库驱动
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.dbDriver
+		           </td>
+		         </tr>
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		                              数据库的连接
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.dbUrl
+		           </td>		         
+		         </tr>
+		       </table>
+			</td>		  
+		  </tr>
+		  <tr>
+			<td class="yk_td_content" colspan=2 style="padding-left:4px;">
+				<div class="yk_NodeTxt"><image src="#springUrl ( '')/images/head/JVMinfo.gif"/>  JVM信息</div>
+			   <table align="left" border=0 cellspacing=0
+				class="yk_table" style="width:99%;">
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		           JVM版本
+		           </td>
+		           <td class="yk_td_content">
+		           $!cmd.jvmid
+		           </td>
+		       </tr>
+		       <tr>		           
+		           <td class="yk_td_title" style="text-align:center;">
+		           JVM最大内存
+		           </td>
+		           <td id="jvmMaxMemory" class="yk_td_content">
+		           <span style="color:#ec8c02;" >
+		           $!cmd.jvmMaxMemory
+		           </span>
+		           </td>
+		         </tr>
+		         <tr>
+		           <td class="yk_td_title" style="text-align:center;">
+		           JVM已用内存
+		           </td>
+		           <td id="jvmUsedMemory" class="yk_td_content">
+		           <span style="color:#ec8c02;" >
+		           $!cmd.jvmUsedMemory
+		           </span>
+		           </td>
+		       </tr>
+		       <tr>		           
+		           <td class="yk_td_title" style="text-align:center;">
+		           JVM剩余内存
+		           </td>
+		           <td id="jvmFreeMemory" class="yk_td_content">
+		           <span style="color:#ec8c02;" >
+		           $!cmd.jvmFreeMemory
+		           </span>
+		           </td>		         
+		         </tr>
+		       </table>
+			</td>		  
+		  </tr>
+		 </table>
+	   </td>
+	   <td width="2%"></td>
+	   <td width="49%" valign="top">
+	     <table border=0 cellspacing=0 style="width:100%">
+	      <tr>
+			<td class="yk_td_content" colspan=4 style="padding-left:2px;">
+				<div class="yk_NodeTxt">
+				<table>
+				   <tr>
+				      <td align='left'><img src="#springUrl('')/images/head/usersf.gif"/></td>
+				      <td><span style="color:#8F8FBD;"></span>&nbsp;</td>
+				      <td><span>当前在线人数:<span id="loginCount" style="color:#ec8c02;"></span></span></td>
+				     <!--    <td><span style="color:#8F8FBD;">当前在线人数:</span></td>
+				      <td id="nowCount">$!cmd.nowCount</td>
+				      <td><span style="color:#8F8FBD;">;最高在线人数:</span></td>
+				      <td id="maximum">$!cmd.maximum</td>
+				      <td><span style="color:#8F8FBD;">,时间是:</span></td>
+				      <td id="maxTime">$!cmd.maxTime</td>
+				     -->
+				    
+				   </tr>
+				</table>
+               </div>
+               <div id="loginName_div" style="width:99%;height:365px;overflow: auto;">
+				   <table align="left" border=0 cellspacing=0
+					class="yk_table" style="width:100%;;height:100%;">
+					<tr>
+					   <td id="loginName" valign="top">
+					   </td>
+					</tr>
+				   </table>
+			   </div>
+			</td>
+		  </tr>
+		 </table>	   
+	   </td>
+	</tr>
+	</table>
+	
+	#FormEnd()
+	<div id="message_div" class="showMessage">
+		<div style="background: url('#springUrl('')/views/core/serviceMsg/img/kk-1.png') no-repeat;background-position : 6px 0px;height: 10px;"></div>
+		<div id="" style="background: url('#springUrl('')/views/core/serviceMsg/img/kk-2.png') repeat-y;background-position : 6px 0px;width:230px;">
+			<div id="message_div2" style="background: url('#springUrl('')/views/core/serviceMsg/img/kk-4.png') no-repeat;background-position : 0px 20px;padding :5px 0px 3px 18px;">
+			</div>
+		</div>
+		<div style="background: url('#springUrl('')/views/core/serviceMsg/img/kk-3.png') no-repeat;background-position : 6px 0px;height: 10px;"></div>
+	</div>
+	</body>
+</html>

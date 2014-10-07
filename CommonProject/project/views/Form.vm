@@ -1,0 +1,53 @@
+#******************************************
+ *                                        *
+ *             form∂®“Â          
+  #Form("optForm","#",{})
+      #Radio("optType","1",$optType,"key","label",{"vertical":"1"})
+     <input type="hidden" name="test"/>
+  #FormEnd()
+ ********************************#
+#macro(Form $name,$action,$attr)
+	#if($name)
+	#else
+	   #set($name="formName")
+	#end
+	#set($formName=$name)
+	$form.setTagName("$name")
+	#set($id=$name)
+	#set($method="post")
+	#set($width="100%")
+	#if($attr.get("method"))
+	 #set($method=$attr.get("method"))
+	#end
+	#if($attr.get("width"))
+	 #set($width=$attr.get("width"))
+	#end
+	#foreach($key in $attr.keySet())
+	   $form.setAttr("$key","$attr.get($key)")
+	#end
+	$form.setTagId("$id")
+	$form.setAttr("action","$action")
+	#if($attr.get("ajax"))
+	 $form.setAjax($attr.get("ajax"));
+	#end
+	#if($attr.get("onSubmit"))
+	 $form.setOnSubmit($attr.get("onSubmit"))
+	#end
+	#set($isMulti=false)
+	#if($attr.get("enctype"))
+	  #set($isMulti=true)
+	#end
+<form name="$name" id="${form.getTagId()}" #if($attr.get("onSubmit"))onSubmit='$attr.get("onSubmit")' #end  #if($attr.get("enctype"))enctype='$attr.get("enctype")' #end action="$!action"
+	method="$method" style="width: ${width};">
+#end
+
+
+#macro(FormEnd)
+</form>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#${form.getTagId()}").bValidator();
+	});
+</script>
+#set($formName="")
+#end

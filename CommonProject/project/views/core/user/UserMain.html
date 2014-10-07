@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+    #set($topHeight=120)
+    #Head()
+    <style type="text/css">
+		.qbi {
+			cursor: pointer;
+			display: inline-block;
+			height: 13px;
+			padding-top: 4px;
+			text-align: center;
+			width: 17px;
+			background: url('#springUrl('')/images/icons/search.png') no-repeat center;
+			position: absolute; 
+			right: 10px;
+			top: 5px;
+		    z-index: 100;
+	  }
+	  .searchField{
+	  		background-color:#F5F5F5;
+	  		border:0px;
+	  }
+		</style>
+	<script type="text/javascript" src="#springUrl('/js/core/user/user.js')"></script>
+		    <script type="text/javascript">
+				function checking(){
+					var returnvalue="$!MSG"; 
+					if(returnvalue=="")
+					{}
+					else
+					{
+						notify('$MSG');
+					}
+				}
+				function clearCondition(){
+					/**
+					$('#mainForm_user_userCode').attr({'value':''});
+					$('#mainForm_user_userName').attr({'value':''});
+					*/
+					this.location="#springUrl('')/user/userManager.do?action=queryUser";
+				}
+		</script>
+</head>
+<body class="claro" onload="checking()" style="margin:0px">
+        #Form("mainForm","#springUrl('')/user/userManager.do?action=queryUser",{"method":"post"})
+					   <fieldset class="searchField">
+					    
+							<table cellpadding="0" cellspacing="0" border="0" width=>
+								<tr>
+									<td align="right">
+										&nbsp;用户编号
+									</td>
+									<td> 
+									    <div style="position: relative; zoom: 1">
+									<input name="user.userCode" value="$!cmd.user.userCode" class="lst" id="mainForm_user_userCode" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+						      		<script>
+										$("#mainForm_user_userCode").jqInputText()
+							 		</script>
+									</td>
+									<td align="right">
+										&nbsp;用户名称
+									</td>
+									<td >
+									     <div style="position: relative; zoom: 1">
+									<input name="user.userName" value="$!cmd.user.userName" class="lst" id="mainForm_user_userName" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+						      		<script>
+										$("#mainForm_user_userName").jqInputText()
+							 		</script>
+									</td>
+									<td align="right">
+										&nbsp;用户类型
+									</td>
+									<td style="width:160px">
+									    #Select("user.userProp","$!{cmd.user.userProp}",${cmd.typeOption},"value","label",{})
+									</td>
+									<td valign="top">#ButtonSearch({"onClick":"mainQuery"})</td>
+									<td valign="bottom">&nbsp;#ButtonClear({"onClick":"clearCondition()"})</td>
+								</tr>
+							</table>
+						</fieldset>
+					<fieldset class="table">
+						#table($cmd.tableModel, $buttons)
+					</fieldset>
+			#FormEnd()
+			</body>
+</html>

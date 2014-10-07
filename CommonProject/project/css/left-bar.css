@@ -1,0 +1,44 @@
+/******左则工具条***********/
+#leftBar{
+		position:absolute;
+		top:50%;
+		margin-top:-270px;
+		left:0px;
+		width:80px;
+		z-index:2;
+		background: url('../images/desktop/left/left-headbg.png') no-repeat;
+}
+#leftBar .leftbar-middle{
+		margin-top:16px;
+		width:80px;
+		height:450px;
+		background: url('../images/desktop/left/left-middlebg.png') repeat-y;
+	}
+#leftBar .leftbar-foot{
+		width:80px;
+		height:16px;
+		background: url('../images/desktop/left/left-footbg.png') no-repeat;
+}
+/*******左则工具条选项**********/
+.left-bar-item{
+		margin-top:12px;
+	}
+.left-bar-item img{
+   width: 42px;
+   height: 42px;
+   float: top;
+   margin:10px 4px 10px 7px;
+   cursor:pointer;
+}
+.left-bar-item div{
+ color:#fff;
+ font-size:11px;
+ width:62px;
+ margin-top:-8px;
+ text-align:center;
+}
+.left-bar-item:hover{
+  	background: url('../images/desktop/left/back_switch.png') no-repeat 2px 5px;
+}
+
+

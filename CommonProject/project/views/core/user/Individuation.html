@@ -1,0 +1,283 @@
+<html>
+	<head>
+		<title>个性化设置</title> #head() #set($topicImg = ${sysCfg.img('')})
+		<script type="text/javascript"
+			src="#springUrl('/js/core/login/login.js')"></script>
+		#if(${message_key})
+		<script type="text/javascript">
+		if('${message_key}' == '个性化设置成功'){
+			window.close();
+			opener.top.location = '#springUrl('/login/login.do?action=mode')';
+			//opener.top.document.getElementById('topFrame').src = '#springUrl('/login/login.do?action=topFrame')';
+			//opener.top.document.getElementById('leftTree').src = '#springUrl('/login/login.do?action=leftFrame')';
+			//opener.top.document.getElementById('extrude').src = '#springUrl('/login/login.do?action=extrude')';
+			//opener.top.document.getElementById('mainFrame').src = '#springUrl('/login/login.do?action=mainFrame')';
+			//opener.top.document.getElementById('footFrame').src = '#springUrl('/login/login.do?action=footFrame')';
+		}
+		
+	</script>
+		#end
+		<script type="text/javascript">
+	dojo.require("dojo.widget.FloatingPane");
+	dojo.widget.ModalFloatingPane.prototype.closeWindow = function(){
+		this.hide();
+	}
+	dojo.addOnLoad(function(){
+		var selectFunc = dojo.widget.byId('selectFunc');
+		selectFunc.show();
+		selectFunc.hide();
+	});
+</script>
+		<style>
+.select {
+	width: 38%; #
+	width: 61%;
+	height: 20px;
+}
+</style>
+	</head>
+	<body onkeypress="_savePasswordKeyPress(event, '#springUrl('')');">
+		<form action="/user/userManager.do?action=savePassword" method="POST">
+			<table align="center" width="98%" border="0" cellspacing="0"
+				cellpadding="0">
+				<tr>
+					<td width="23" align="right" valign="bottom">
+						<img src="${img}/point_red.gif" width="7" height="7" hspace="8"
+							vspace="9">
+					</td>
+					<td width=175 valign="bottom" class="title_black">
+						<font color="F">个性化设置 
+					</td>
+					<td width="23" align="right" valign="middle">
+						<img src="${img}/arrow_green.gif" width="7" height="7" hspace="8">
+					</td>
+					<td width=558 valign="middle">
+						当前位置：用户管理 &gt;
+						<font color="#FF6600">个性化设置</font>
+					</td>
+				</tr>
+			</table>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<!--<td width="12" height="14" background="${img}/t_l.gif"></td-->
+					<!--<td background="${img}/t_p.gif"></td-->
+					<!--<td width="13" background="${img}/t_r.gif"></td-->
+				</tr>
+				<tr>
+					<td background="${img}/l_p.gif"></td>
+					<td align="center" bgcolor="#F6F6F6">
+
+						<table width="98%" class="headtable">
+							<tr>
+								<td width="100%" height="28px" class="headbg1" align="left">
+									个性化设置
+								</td>
+							</tr>
+						</table>
+
+						<table class="formtable" cellpadding="0" cellspacing="0"
+							border="0">
+							<tbody>
+								<tr class="alternateRow">
+									<td align="left" class="label">
+										<font color="red">模式</font>
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="left" class="label" width="50%">
+										<input type="radio" name="screenMode" value="fullScreen"
+											class="radio" #if( 'fullScreen' ==
+											$ind.screenMode) checked="checked" #end />
+										全屏显示
+										<input type="radio" name="screenMode" value="noFullScreen"
+											class="radio" #if( 'noFullScreen' ==
+											$ind.screenMode) checked="checked" #end />
+										非全屏显示
+									</td>
+								</tr>
+								<tr class="alternateRow">
+									<td align="left" class="label">
+										<font color="red">菜单类型</font>
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="left" class="label" width="50%">
+										<input type="radio" name="menuType" value="tree" class="radio"
+											#if( 'tree' == $ind.menu) checked="checked" #end />
+										树型菜单
+										<input type="radio" name="menuType" value="accordion"
+											class="radio" #if( 'accordion' ==
+											$ind.menu) checked="checked" #end />
+										折叠式菜单
+
+									</td>
+								</tr>
+								<tr class="alternateRow">
+									<td align="left" class="label">
+										<font color="red">首页</font>
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="left" class="label" width="50%">
+										欢迎页面
+										<input type="radio" name="indexPageType" value="welcomePage"
+											#if($indexPage.value== '_WELCOME_PAGE') checked="checked"
+											#end />
+
+										功能菜单
+										<input type="radio" id="iptFuncCode" name="indexPageType"
+											value="funcCode" #if($indexPage.value !='_WELCOME_PAGE'
+											) checked="checked" #end />
+										<input type="text" id="funcName" name="funcName" class="text2"
+											value="#if($indexPage.value != '_WELCOME_PAGE')$!indexPage.description #end"
+											readonly="readonly" />
+										<img src="${img}/func.gif" onclick="openSelectFunc();"
+											style="margin-left: 5px;" title="功能选择">
+										<input type="hidden" id="funcId" name="funcId"
+											value="#if($indexPage.value != '_WELCOME_PAGE')$ind.indexPage #end" />
+
+									</td>
+								</tr>
+								<tr class="alternateRow">
+									<td align="left" class="label">
+										<font color="red">主题</font>
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="center" width="100%">
+										<table>
+											<tr>
+												<td width="33%" style="border-right: 0px;">
+													<img src="${topicImg}/$sysCfg.sysType/topic_blue.jpg"
+														onclick="topicSelect('topic_blue');">
+												</td>
+												<td width="34%" style="border-right: 0px;">
+													<img src="${topicImg}/$sysCfg.sysType/topic_green.jpg"
+														onclick="topicSelect('topic_green');">
+												</td>
+											</tr>
+											<tr>
+												<td style="border-right: 0px;">
+													<input type="radio" name="topic" value="blue"
+														id="topic_blue" class="radio" #if( 'blue' ==
+														$ind.topic) checked="checked" #end />
+													蓝色
+												</td>
+												<td style="border-right: 0px;">
+													<input type="radio" name="topic" value="green"
+														id="topic_green" class="radio" #if( 'green' ==
+														$ind.topic) checked="checked" #end />
+													绿色
+												</td>
+											</tr>
+											<tr>
+												<td style="border-right: 0px;">
+													<img src="${topicImg}/$sysCfg.sysType/topic_purple.jpg"
+														onclick="topicSelect('topic_purple');">
+												</td>
+												<td style="border-right: 0px;">
+													<img src="${topicImg}/$sysCfg.sysType/topic_orange.jpg"
+														onclick="topicSelect('topic_orange');">
+												</td>
+											</tr>
+											<tr>
+												<td style="border-right: 0px;">
+													<input type="radio" name="topic" value="purple"
+														id="topic_purple" class="radio" #if( 'purple' ==
+														$ind.topic) checked="checked" #end />
+													紫色
+												</td>
+												<td style="border-right: 0px;">
+													<input type="radio" name="topic" value="orange"
+														id="topic_orange" class="radio" #if( 'orange' ==
+														$ind.topic) checked="checked" #end />
+													橙色
+												</td>
+											</tr>
+											<tr>
+												<td style="border-right: 0px;">
+													<img src="${topicImg}/$sysCfg.sysType/topic_brown.jpg"
+														onclick="topicSelect('topic_brown');">
+												</td>
+												<td style="border-right: 0px;">
+												</td>
+											</tr>
+											<tr>
+												<td style="border-right: 0px;">
+													<input type="radio" name="topic" value="brown"
+														id="topic_brown" class="radio" #if( 'brown' ==
+														$ind.topic) checked="checked" #end />
+													褐色
+												</td>
+												<td style="border-right: 0px;"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="buttontable">
+							<tr>
+								<td>
+									<button dojoType="Button"
+										onclick="_saveIndividuation('#springUrl('')');">
+										保存
+									</button>
+								</td>
+								<td>
+									<button dojoType="Button" onclick="closeWin();">
+										关闭
+									</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td background="${img}/r_p.gif"></td>
+				</tr>
+				<tr>
+					<!--<td width="12" height="14" background="${img}/d_l.gif"></td-->
+					<!--<td background="${img}/d_p.gif"></td-->
+					<!--<td background="${img}/d_r.gif"></td-->
+				</tr>
+			</table>
+
+
+			<div widgetId="selectFunc" dojoType="ModalFloatingPane"
+				title="选择功能菜单"
+				style="position: absolute; width: 300px; height: 450px; display: none;"
+				hasShadow="true" resizable="true" displayCloseAction="true"
+				displayMinimizeAction="false" displayMaximizeAction="false"
+				windowState="normal">
+				<table width="98%">
+					<tr>
+						<td width="100%" height="28px" class="headbg" align="center">
+							功能菜单
+						</td>
+					</tr>
+				</table>
+
+				<table width="98%" height="80%" cellpadding="0" cellspacing="0"
+					border="0">
+					<tbody>
+						<tr>
+							<td width="100%" align="left" valign="top" class="tree-td">
+								#tree(${treeModel})
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table width="98%" align="center">
+					<tr>
+						<td align="center">
+							<button dojoType="Button" onclick="selectFunc();">
+								确定
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</body>
+
+</html>
+

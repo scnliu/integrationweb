@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" " http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Left Tree</title>
+	#Head()
+    <script type="text/javascript">
+		var _appContext = '#springUrl('')';
+		var _css = '${css}';
+		var _img = '${img}';
+	</script>
+		<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/zTreeStyle/22x22zTreeStyle.css" type="text/css">
+		<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/zTreeStyle/22x22zTreeIcons.css" type="text/css">
+		<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.ztree-2.6.min.js"></script>
+<style type="text/css">
+<!--
+body {
+	background-image: url(#springUrl('')/images/left_bg.jpg);	
+}
+divTree {
+
+}
+-->
+</style>
+<script type="text/javascript" >
+/////////////////////////////////////////////////////////////////
+var _appContext = "#springUrl('')";
+var tabpanel;
+var zTree;
+
+var setting = {
+		isSimpleData: true,
+		treeNodeKey: "id",
+		treeNodeParentKey: "pId",
+		showLine: true,
+		root:{ 
+			isRoot:true,
+			nodes:[]
+		},
+		callback:{
+			click: zTreeOnClick
+		}
+	};
+#foreach($treeModel in $tms)
+   zNodes=	${treeModel.ykmainbuild()};
+#end
+
+jQuery(document).ready(function(){
+	mh=top.$('body').height()-115;
+	jQuery('#ztree').height(mh);
+	zTree = jQuery('#ztree').zTree(setting, zNodes);
+});
+function zTreeOnClick(event, treeId, treeNode) {
+	if (treeNode.showTabs){
+		parent.Home_Main_Frame.makeTab(treeNode.id,treeNode.name,treeNode.taburl);
+	}	
+}
+</script>
+
+</head>
+
+<body>
+<div>
+	<ul id="ztree" class="ztree" style="margin-left:-18px; margin-top:2px;overflow-x:auto;overflow-y:auto;"></ul>
+</div>
+</body>
+</html>

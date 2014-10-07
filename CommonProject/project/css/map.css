@@ -1,0 +1,172 @@
+html,body {
+	font-family: "微软雅黑", "宋体", Arial, sans-serif;
+	font-size: 14px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+	overflow: auto;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	border: 0px solid #afdfdf;
+	margin-top: 0px;
+	background:#fafafa;
+}
+
+.map_hand {
+	cursor:move;
+}
+
+.map_move {
+	cursor: move;
+}
+#mapTypeCtl{
+	}
+.mapType {
+	height: 24px;
+	width: 68px;
+	right: 10px;
+	top: 2px;
+	position: absolute;
+	z-index: 999999;
+	font-size: 14px;
+	text-align: center;
+	cursor: hand;
+	padding-top: 3px;
+	background-image: url(../gis/toolbar/mtype.png) !important;
+	background-position: -4px -3px;
+}
+
+.typeSelected {
+	background-image: url(../gis/toolbar/mtypelight.png) !important;
+	font-weight: bold;
+}
+
+#mapToolbar {
+	border: none;
+	top: 0px;
+	height: 100%;
+	background-position: -6px;
+	width: 32px;
+	right: 0px;
+	background-image: url(../gis/toolbar/tb_bg2.png) !important;
+}
+
+#mapToolbar img {
+	margin-top: 10px;
+	margin-left: 6px;
+	margin-bottom: -2px;
+}
+
+.tipcontent {
+	color: #017cc9;
+	font-size: 16px;
+}
+
+.tipcontent span {
+	color: #FF6600;
+}
+
+/*************显示小区信息弹出框********************/
+.infoTable {
+	font-weight: normal;
+	font-size: 14px;
+	font-family: "宋体";
+	color: orange;
+	border-collapse:collapse;
+	*table-layout:fixed; 
+}
+
+.infoTable td.infoName {
+	color: #004d7e;
+	background-color:#7DECE3;
+	font-family: "宋体", Arial, sans-serif;
+	white-space:nowrap;
+	*table-layout:fixed; 
+	inline-height:20px;
+	width:82px;
+}
+.infoTable tr td{
+	border-bottom:1px solid #adadad;
+	font-family: "宋体", Arial, sans-serif;
+}
+/**********图层控制CSS*********************/
+#layersortable {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#layersortable li {
+	margin: 0 0px 1px 1px;
+	padding: 5px;
+	height: 1.5em;
+}
+
+html>body #layersortable li {
+	height: 1.1em;
+	line-height: 1.2em;
+}
+
+.ui-state-highlight {
+	height: 1.1em;
+	line-height: 1.2em;
+}
+
+.editLayerHead {
+	height: 1.5em;
+	margin: 2 1px 0px 0px;
+	padding: 2px 11px;
+	background: transparent url(../images/pager/new_bg.gif ) left bottom;
+}
+
+div.editLayerHead table {
+	width: 100%;
+}
+
+div.editLayerHead table td {
+	
+}
+
+li span a.del {
+	margin-right: 10;
+	margin-top: 1;
+	cursor: pointer;
+	width: 28px;
+	float: right;
+	line-height: 22px;
+	height: 26px;
+	text-decoration: none;
+	background: url(../images/icons/delete.png) no-repeat left top;
+}
+
+*+html li span a.del {
+	margin-right: 10;
+	margin-top: -20px;
+	cursor: pointer;
+	width: 28px;
+	float: right;
+	line-height: 22px;
+	height: 26px;
+	text-decoration: none;
+	background: url(../images/icons/delete.png) no-repeat left top;
+}
+
+li span a:active.del {
+	margin-right: 10;
+	margin-top: 1;
+	cursor: pointer;
+	width: 28px;
+	float: right;
+	line-height: 22px;
+	height: 26px;
+	text-decoration: none;
+	background: url(../images/icons/no.png) no-repeat left top;
+}
+
+#layersortable li span {
+	margin-right: 16px;
+}

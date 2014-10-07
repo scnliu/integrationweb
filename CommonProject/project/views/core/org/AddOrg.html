@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>工作区管理</title> #Head()
+		<script type="text/javascript" src="#springUrl('/js/core/org/org.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/core/page/select.js')"></script>
+		<script type="text/javascript">
+			var sucess = '${sucess}'
+			if(sucess == 'true'){
+				parent.reset();
+			}
+			
+		</script>
+		<script type="text/javascript">
+				function checking(){
+					var returnvalue="$!MSG";
+					if(returnvalue=="")
+					{}
+					else
+					{
+						notify('$MSG');
+					}
+				}
+		</script>
+	</head>
+	<body class="claro" onload="checking()" scroll="no">
+	    #Form("addForm","#springUrl('')/org/orgManager.do?action=saveOrg",{"method":"post","onSubmit":"saveSubmit()"})
+		<br />
+		<div class="yk_NodeTxt">
+	       <span style="color:#1c3d8a;margin-top:-3px;">新增工作区</span>
+	    </div>
+	    <div>
+		<input type="hidden" name="org.parentId" value="root">
+		<input type="hidden" name="org.level" value="1">
+		 <input type="hidden" name="org.order" value="0">
+        <table align="center" class="yk_table">
+			   <tbody>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						<font color="red">*</font>编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #RemoteValidate("org.id","$!cmd.org.id","#springUrl('')/org/orgManager.do?action=existOrgCode","saveBtn",{"checkMsg":"部门编号已经存在或者输入格式不对","required":"true"})
+					</td>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						<font color="red">*</font>简称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #ValidationText("org.orgName","$!cmd.org.orgName",{"required":"true"})
+					</td>					
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						<font color="red">*</font>全称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #ValidationText("org.orgFullName","$!cmd.org.orgFullName",{"required":"true"})
+					</td>
+				    <td align="center" class="yk_td_title" style="width:18%;">
+						负责人姓名
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.chief","$!cmd.org.chief",{})
+					</td>				
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人电话
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.phone","$!cmd.org.phone",{})
+					</td>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人手机号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.mobile","$!cmd.org.mobile",{})
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人邮件
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.email","$!cmd.org.email",{})
+					</td>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						是否停用
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Select("org.isStop","$!{cmd.org.isStop}",${cmd.stopOption},"value","label",{"emptyOption":true})
+					</td>				
+				</tr>
+				<tr>
+					<td align="center" valign="top" class="yk_td_title" style="width:18%;">
+						描述
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;" colspan="3">
+					    #Textarea("org.descript","$!cmd.org.descript",{"rows":"4","cols":"50"})
+					</td>
+				</tr>
+			</tbody>
+		</table>				
+		</div>
+		<br />
+		<div class="yk_NodeTxt">
+			<span style="color:#1c3d8a;margin-top:-3px;">分配用户</span>
+			</div>
+			<div>
+						<table align="center" cellpadding="0"
+							cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td width="100%" align="center" style="PADDING-LEFT: 2px;">
+										#lrSelect('userCodes' $unselected $selected '未分配用户' '已分配的用户')
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+			</div>
+			<br/>
+			<div> 
+			<script>
+                   function saveSubmit(){
+                       var targetOptions=document.getElementById('userCodes').options;
+                		for(var i = 0; i < targetOptions.length; i++){
+                			targetOptions[i].selected = true;
+                		}
+                   }           
+                 </script>
+				<table align="center">
+					<tr>
+						<td>
+							#ButtonSave({"id":"saveBtn","form":"addForm"})
+						</td>
+						<td>
+							#ButtonClear({})
+						</td>
+						<td>
+						    #ButtonReturn({"url":"#springUrl('')/org/orgManager.do?action=queryOrg"})
+						</td>
+					</tr>
+				</table>
+            </div>
+		#FormEnd()
+	</body>
+</html>
+

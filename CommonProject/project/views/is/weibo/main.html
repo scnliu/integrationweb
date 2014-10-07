@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<title>weiboMain</title>
+	#Head()
+</head>
+<body>
+	<div class="yk_NodeTxt">微话题跟踪系统</div>
+	<input type="hidden" id='accessCode' name='accessCode' value='$!accessCode'/>
+	<hr/>
+	#if($!isExist=="1")
+		已有可进行采集的访问码！！
+		<a href="#springUrl('')/weibo/trends.do?action=getData">开始采集</a><br/>
+		<a href="">查看访问限制</a>；<br/>
+		<a href="#springUrl('')/weibo/trends.do?action=list">查看微话题列表</a>；<br/>
+		访问码到期时间:$!expireDate，请在这个时间之前重新<a href="$!oauthUrl">授权</a>
+	#else
+		#if($!isExist=="0")
+			没有发现已经保存的微博访问码，现在正在授权中...<br/>
+		#else
+			访问码已经过期，正在重新授权中...
+		#end
+		<iframe src="$!oauthUrl" frameborder=0 width="100%" height=400></iframe>
+		<br/>
+	<hr/>
+		授权完成后，<a href="#springUrl('')/weibo/trends.do?action=main">返回</a>
+	#end
+</body>
+</html>

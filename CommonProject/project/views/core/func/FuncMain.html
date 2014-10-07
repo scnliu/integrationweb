@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" " http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>功能管理</title>
+#set($topHeight=120)
+#Head()
+   <script type="text/javascript" src="#springUrl('/js/core/func/func.js')"></script>
+   <script type="text/javascript">
+	var sucess = '${sucess}'
+		if(sucess == 'true'){
+			parent.document.getElementById('FuncLeft').src = '#springUrl('/func/funcManager.do?action=leftTree&fc=0103')';
+			top.document.getElementById('leftIframe').src = '#springUrl('/login/login.do?action=leftFrame')';
+        }
+	function checking(){
+		var returnvalue="$!MSG";
+		if(returnvalue=="")
+		{}
+		else
+		{
+			notify("$MSG");
+		}
+	}
+	</script>
+</head>
+<body style="margin:0px" onload="checking();">
+#Form("mainForm","#springUrl('')/func/funcManager.do?action=queryFunc",{"method":"post"})
+<input type="hidden" name="func.parentCode" value="$!{cmd.func.parentCode}">
+<input type="hidden" id="func_level" name="func.level" value="${cmd.func.level}">
+
+<fieldset class="table">
+		#table($cmd.tableModel $buttons)
+</fieldset>
+  #FormEnd()
+</body>
+</html>

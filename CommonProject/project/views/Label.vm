@@ -1,0 +1,7 @@
+#macro(Label $label)
+
+#end
+
+#macro(LabelFor $label,$name)
+
+#end

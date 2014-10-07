@@ -1,0 +1,88 @@
+.anchored {
+	z-index: 800;
+	position: absolute;
+	background: transparent;
+	display:none;
+}
+
+.anchored .anchored-head {
+	background: url(anchored-head.png) no-repeat center top;
+	width: 247px;
+	height: 24px;
+	border-bottom: 1px solid #DBF7FD;
+}
+ .anchored-head table tr td{
+	font:bold 13px arial,tahoma, helvetica, sans-serif;
+}
+
+.anchored  .anchored-head a.close {
+	margin-top: 8px;
+	margin-right: 4px;
+	width: 12px;
+	float: right;
+	height: 12px;
+	cursor: pointer;
+	background: url(../img/xf.png) no-repeat left top;
+}
+
+.anchored .anchored-head a:hover.close {
+	background: url(../img/x.png) no-repeat left top;
+	
+}
+
+.anchored .anchored-body {
+	background: url(anchored-body.png) repeat-y;
+	width: 247px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.anchored .anchored-foot {
+	border-top: 1px solid #DBF7FD;
+	background: url(anchored-foot.png) no-repeat center bottom;
+	width: 247px;
+	height: 62px;
+}
+
+/**************´ó¿ò******************/
+.anchored2 {
+	z-index: 800;
+	position: absolute;
+	background: transparent;
+	display:none;
+}
+
+.anchored2 .anchored-head {
+	background: url(anchored2-head.png) no-repeat center top;
+	width: 450px;
+	height: 24px;
+	border-bottom: 1px solid #DBF7FD;
+}
+
+.anchored2  .anchored-head a.close {
+	margin-top: 8px;
+	margin-right: 4px;
+	width: 12px;
+	float: right;
+	height: 12px;
+	cursor: pointer;
+	background: url(../img/xf.gif) no-repeat left top;
+}
+
+.anchored2 .anchored-head a:hover.close {
+	background: url(../img/x.gif) no-repeat left top;
+}
+
+.anchored2 .anchored-body {
+	background: url(anchored2-body.png) repeat-y;
+	width: 450px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.anchored2 .anchored-foot {
+	border-top: 1px solid #DBF7FD;
+	background: url(anchored2-foot.png) no-repeat center bottom;
+	width: 450px;
+	height: 62px;
+}

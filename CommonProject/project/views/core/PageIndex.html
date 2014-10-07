@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+		<head>
+			#set($sysCfg =
+			${rc.webApplicationContext.servletContext.getAttribute('syscfg_key')})
+			<title>${sysCfg.cityName} $sysCfg.sysName</title> #globObj()
+			<script type="text/javascript">
+			   var _appContext = '#springUrl('')';
+			   var userScene='$!visitor.user.orgId';
+			   var userCode = '$!visitor.user.userCode';
+			</script>
+			<link href="#springUrl('')/css/PageIndex.css" rel="stylesheet" type="text/css" />
+			<!--<link href="../../css/PageIndex.css" rel="stylesheet" type="text/css" />-->
+			<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-ui/ui/jquery-ui-1.8.9.custom.js"></script>
+			<script type="text/javascript"src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.core.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.widget.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.tool.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.button.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.prompt.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.window.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/core/home.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/core/login/login.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.qtip.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/jquery/ligerUI/ligerMenu.js"></script>
+			<script type="text/javascript" src="#springUrl('')/js/spp/window.js"></script>
+			<link href="#springUrl('')/css/web.css" rel="stylesheet" type="text/css" />
+			<link href="#springUrl('')/css/icon.css" rel="stylesheet" type="text/css" />
+			<link href="#springUrl('')/js/jquery/themes/jquery.window.css" rel="stylesheet" type="text/css" />
+			<link href="#springUrl('')/js/jquery/themes/jquery.qtip.css" rel="stylesheet" type="text/css" />
+			<link href="#springUrl('')/js/jquery/themes/prompt.css" rel="stylesheet" type="text/css" />
+			<link href="#springUrl('')/js/jquery/themes/jNice.css" rel="stylesheet" type="text/css" />
+			<style>
+				.desk_icon {
+					width: 100px;
+					height: 84px;
+					float: left;
+				}
+				.main_iframe {
+					position: absolute;
+					margin: 0px;
+					width: 100%;
+					height: 100%;
+					z-index: 2;
+					margin-left: 0px;
+				}
+				.hindex{
+					z-index: 200000;
+				}
+			</style>
+		</head>
+		<script type="text/javascript">
+			var isPassWd = '$!visitor.user.isPassWd';
+			function checkUserPass(){
+				if(isPassWd == 1){
+					$("#filterDiv").css({"display":"block"});
+					toEditPersonInfo();
+					$("#editPersonInfo_div").addClass("hindex");
+				}
+			}
+		</script>
+		<body style="padding: 0px; margin: 0px; background: #000;" onload="checkUserPass();">
+			<div id="filterDiv" style="width:3000px;height:1000px;position:absolute; filter:alpha(Opacity=80);-moz-opacity:0.5;opacity: 0.5;z-index:90000; background-color:black;display: none;">
+			</div>
+			<div class="main_iframe">
+				<iframe src="#springUrl('')/MenuCtrl.do?action=home&pinCode=HomePage"
+					id="mainIframe" frameborder="no" width='100%' height='100%'
+					noresize marginwidth="0" marginheight="0" name="mainIframe"
+					framespacing="0" style="margin: 0px;">
+				</iframe>
+			</div>
+			
+			<!--bottom菜单	-->
+			<div>
+				<div id="bottomBar">
+					<table style="border: 0px; width: 100%; height: 100%"
+						cellspacing="0" cellpadding="0">
+						<tr>
+							<td class="bottomBarL">
+								<div class="start"></div>
+							</td>
+							<td>
+								<div id="bottomBarM">
+								</div>
+							</td>							
+							<td class="bottomBarRL" id="sceneTD" title="切换工作区[当前：共享工作区]">
+								<div class="scene"></div>
+							</td>
+							<td class="bottomBarRL" title="系统运行状态">
+								<div class="monitor"></div>
+							</td>
+							<td class="bottomBarRL" title="个性化设置">
+								<div class="theme"></div>
+							</td>
+							<td class="bottomBarRM" title="系统时间">							
+								<div id="time1" class="timeStr"><div id="time"></div></div>
+							</td>
+							<td class="bottomBarRR" title="显示桌面">
+								<div class="status"></div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!--	开始菜单	-->
+			<div style="display: none;" class="startMenu" tabindex='20'>
+				<div class="loginMenu" style="cursor: pointer;" onclick="toEditPersonInfo()" title="点击修改个人信息">
+					<img src="#springUrl('')/images/desktop/left/tFriends.png"
+						width='43' height='40'/>
+					<span class="logintext" id="userName_span">$visitor.user.userName </span>
+				</div>
+				<div class="menu about" onclick="_about('#springUrl('')')"></div>
+				<div class="menu contact" onclick="_contact('#springUrl('')')"></div>
+				<div class="menu help" onclick="_help('#springUrl('')')"></div>
+				<div class="logoutMenu">
+					<a class="logout1" href="javascript:_logout('#springUrl('')')"></a>
+					<a class="exit" href="javascript:_exit('#springUrl('')')"></a>
+				</div>
+			</div>
+			 
+			<style>
+			#user_message {
+				width: 300px;
+				height: 200px;
+				border: 2px solid #5d8d5d;
+				position: absolute;
+				display: none;
+				z-index: 8000;
+				background: #8daf8d
+			}
+			
+			#user_message .msg_content {
+				width: 297px;
+				height: 176px;
+				background: #bdffbd
+			}
+			</style>
+			<script>
+			   var msgWidget;
+				function showUserMsg(msg){
+					var w=$(document).width();
+					var h=$(document).height();
+					if(!msgWidget){
+						msgWidget=$('#user_message');
+						msgWidget.css('opacity',0.7);
+						msgWidget.click(function(){
+							msgWidget.fadeOut(500);
+						});
+					}
+					msgWidget.find('button').attr('url',"#springUrl('')/"+msg.viewUrl).attr('id',"msg_"+msg.id);
+					msgWidget.css('top',h-240);
+					msgWidget.css('left',w-308);
+					msgWidget.find('.msg_content').html(msg.msg);
+					msgWidget.fadeIn(500);
+				}
+				function closeMsg(btn){
+					$(btn).closest('#user_message').fadeOut(500);
+				}
+				function readUserMsg(){
+					jQuery.post("#springUrl('')/user/msgCtrl.do?action=queryMsg",function(data){
+						if(data&&data.id){
+							showUserMsg(data);
+						}
+					});
+					//setTimeout(readUserMsg,15000);	
+				}
+				
+				var sec=0;
+				$(document).ready(function(){
+					//setTimeout(readUserMsg,15000);
+					setInterval("scriptTime()", 7000);//7秒钟加7秒
+					setInterval("showTime()", 300000);//5分钟更新系统时间时间
+					showTime();
+
+					$('.time').click(function(e) { 
+						var xx = e.originalEvent.x || e.originalEvent.layerX ||0; 
+						var yy = e.originalEvent.y || e.originalEvent.layerY ||0; 
+						$("#time1").css({"left":(xx-150)+"px","top":(yy-55)+"px","display":"block"});
+						});
+					$('.time').mouseout(function(e) { 
+						$("#time1").css({"display":"none"});
+						});
+				});
+				var date;
+				function showTime(){
+					jQuery.post("#springUrl('')/serviceMsg/serviceMsgCtrl.do?action=getServerTime",function(data){
+						$('#time').html(data.time+"&nbsp;&nbsp;"+data.date);
+						date = data.date;
+						sec=parseInt(data.sec);
+					},"json");
+				}
+				
+				
+				function scriptTime(){
+					sec=sec+7;
+					var time=$('#time').html();
+					var arryT=new Array();
+					var hour,min;
+					arryT=time.split(":")
+					hour=parseInt(arryT[0]);
+					min=parseInt(arryT[1]);
+					if(sec>=60){
+						min++;
+						sec=sec-60;
+						if(min==60){
+							hour++;
+							min=0;
+							if(hour==24){
+								hour=0;
+							}
+						}
+					}
+					if(min<10){
+						$('#time').html(hour+":0"+min+"&nbsp;&nbsp;"+date);
+					}
+					else{
+						$('#time').html(hour+":"+min+"&nbsp;&nbsp;"+date);
+					}
+				}
+			</script>
+			<div id="user_message">
+				<button title="查看消息" onClick="openWindow(this);" url="">
+					查看
+				</button>
+				<button title="关闭" onClick="closeMsg(this);" url="">
+					关闭
+				</button>
+				<div class="msg_content">
+
+				</div>
+			</div>
+			<iframe id="_testd_iframe" style="display:none"></iframe>
+		</body>
+</html>

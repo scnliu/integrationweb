@@ -1,0 +1,72 @@
+#*****************************
+  下拉控件定义
+  #Select("seletName","$value",$list,"field","name",{})
+  emptyOption=true;
+  #SelectById("Id",{});testId.addOption({value:1,label:1});
+  
+*****************************#
+#******
+******#
+#macro(Select $name,$value,$list,$optKey,$optLabel,$attr)
+    #set($sel=$select)
+     $sel.setFormName("$!formName")
+	  $sel.setTagName("$name")
+	#foreach($key in $attr.keySet())
+	   $sel.setAttr("$key","$attr.get($key)")
+	#end
+	#set($class="medium")
+	#if($attr.get("class"))
+	 	#set($class=$attr.get("class"))
+	 	$sel.setAttr("class","$class")
+	#end
+	#set($id=$sel.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+	 $sel.setAttr("name","$name")
+	<select name="$name" #if($attr.get("width"))width='$attr.get("width")' #end id="$id" #if($attr.get("onChange"))onChange='$attr.get("onChange")'#end #if(!$attr.get("style"))style="width:94%;"#else style='$attr.get("style")'#end >
+		#foreach($item in $list)
+		  #set($itemVal=$sel.getProVal("$optKey",$item))
+		  <option value="$itemVal" #if($itemVal == $value) selected="selected"#end>$sel.getProVal("$optLabel",$item)</option>
+		#end
+	</select>
+$sel.setAttr("value","$value")
+<script type="text/javascript">
+$("#$id").jqSelect({});
+</script>
+#end
+#macro(MultiSelect $name,$value,$list,$optKey,$optLabel,$attr)
+    #set($sel=$select)
+     $sel.setFormName("$!formName")
+	  $sel.setTagName("$name")
+	#foreach($key in $attr.keySet())
+	   $sel.setAttr("$key","$attr.get($key)")
+	#end
+	#if($attr.get("class"))
+	 	#set($class=$attr.get("class"))
+	 	$sel.setAttr("class","$class")
+	#end
+	#set($id=$sel.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+	 $sel.setAttr("name","$name")
+	 $sel.setAttr("multiple","true")
+	 $sel.setAttr("value","$value")
+	<select name="$name" multiple="true" id="$id" dojoType="dojox.form.CheckedMultiSelect">
+	#foreach($item in $list)
+	  #set($itemVal=$sel.getProVal("$optKey",$item))
+	  <option value="$itemVal" #if($itemVal == $value) selected="selected"#end>$sel.getProVal("$optLabel",$item)</option>
+	#end
+	</select>
+
+<script type="text/javascript">var $id=new dojox.form.CheckedMultiSelect($sel.toString(),"$id");${id}.startup();</script>
+#end
+
+#macro(SelectById $id,$attr)
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#$id").jqSelect({});
+});
+</script>
+#end

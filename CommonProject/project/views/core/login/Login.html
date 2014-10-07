@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		#set($sysCfg = ${rc.webApplicationContext.servletContext.getAttribute('syscfg_key')})
+		
+		#set($css = ${sysCfg.css('')}) #set($img = ${sysCfg.img('')})
+		
+		<title>${sysCfg.cityName} $sysCfg.sysName</title>
+		#Head()
+		<link rel="shortcut icon"  type="image/x-icon" href="#springUrl('')/images/logo.ico" />
+		<link rel="Bookmark"  type="image/x-icon"  href="#springUrl('')/images/logo.ico"/>
+		<link rel="icon" href="#springUrl('')/images/logo.ico" type="image/x-icon" />		 
+		<link href="#springUrl('')/js/jquery/themes/prompt.css" rel="stylesheet" type="text/css"/>
+		<link href="#springUrl('')/js/jquery/themes/jNice.css" rel="stylesheet" type="text/css" />
+	
+		<script>
+			var _appContext = '#springUrl('')';	
+			if(top.document.getElementById('leftTd') != null){
+				parent.location = _appContext;
+			}
+		</script>
+		<script>
+			var dojo={};
+			dojo['byId']=function(id){
+					return document.getElementById(id);
+				}
+		
+		</script>
+		
+		<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.core.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.widget.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/core/login/login.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.tool.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.button.js"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/ui/ui.prompt.js"></script>
+		
+		<script type="text/javascript">
+			if('$exit' == 'true'){
+				window.opener = null;
+				window.open("","_self");    
+				window.close();
+			}	
+			
+			function loginSubmit(){
+				if(document.getElementById('lname').value== ''){
+					notifyFunc("用户编号不能为空",function(){$('#lname').focus();});
+					return false;
+				}
+				if(document.getElementById('lpassword').value== ''){
+					notifyFunc("密码不能为空",function(){$('#lpasswordw').focus();});
+					return false;
+				}
+				if(document.getElementById('verifyCode').value==''){
+				//	notify("验证码不能为空");
+				//	return false;
+				}
+			
+				return true;
+			}	
+		</script>
+		<script>
+		   function overImage(t){
+			   t.src="#springUrl ( '')/images/login/dl-1.jpg";
+		   }
+		   function outImage(t){
+		     t.src="#springUrl ( '')/images/login/dl-2.jpg";
+		   }
+		   function reloadImage(){
+			   document.getElementById('imageId').src="#springUrl('')/views/core/login/image.jsp?t="+(new Date()).toTimeString();
+		   }
+			   
+		</script>
+		<!--<div id="notifyDlg1" title="Empty the recycle bin?">-->
+		<!--	<p>-->
+		<!--		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;">-->
+		<!--		</span>-->
+		<!--		<div id="notifyDlg1_content">-->
+		<!--			s-->
+		<!--		</div>-->
+		<!--	</p>-->
+		<!--</div>-->
+		<!--<script>-->
+		<!--		var dialog=$("#notifyDlg1" ).dialog({-->
+		<!--				title:"提示",-->
+		<!--				autoOpen: false,-->
+		<!--				buttons:{"确定":function(){$(this).dialog("close");}}-->
+		<!--				});-->
+		<!--		function notify(msg){-->
+		<!--				$("#notifyDlg1_content").html(msg);-->
+		<!--				dialog.dialog("open");-->
+		<!--			}-->
+		<!--</script>-->
+		<!-- 
+		<script defer="defer">
+		  //document.getElementById('lname').value="admin";
+		  //document.getElementById('lpassword').value="admin";  
+		 // document.getElementById('f_login_ok1').click();
+		
+		 </script>
+		 -->
+		#if(${verifyError})
+		<script>
+		   $(document).ready(function(){
+			 	var d=notifyFunc("验证码错误!",function(){focus_verifyCode();});
+			 	d.focus();
+		   });
+			 function focus_verifyCode(){
+					$('#verifyCode').focus();
+				 }
+		</script>
+		#end #if(${message_key})
+		<script>
+		 	  $(document).ready(function(){
+				notifyFunc("$message_key",function(){$('#lname').focus();});
+		 	 });
+		</script>
+		#end #if(${Force_Login})
+		<script>
+			$(document).ready(function(){
+			    askFunc('系统检测到你的用户已经在其他地方登录，是否强制登录？',function(){
+			    	dojo.byId("f_loging").submit();
+				},null,function(){	
+					 	document.forms[0].action= _appContext + '/login/login.do?action=cancelSubmit';
+				        document.forms[0].submit();
+				});
+		 	 });
+		</script>
+		#end
+		
+		<script>
+			$(document).ready(function() {
+				 $(window).resize(
+						 resizeWin 
+				 );			
+				 resizeWin();							
+			});	
+
+			function resizeWin(){
+				var width = $(window).width();
+				var height = $(window).height();  
+
+				var left = (1366 - width)/85.5 + 62;
+				left = left * width / 100;
+				
+				 $("#loginInput1").css({
+						left : left
+				 });
+				 $("#loginInput2").css({
+						left : left
+				 });
+				 $("#loginInput3").css({
+						left : left
+				 });
+				 $("#loginInput4").css({
+						left : left
+				 });
+
+				 left = (1366 - width)/85.5 + 69;
+				 left = left * width / 100;
+				 $("#website").css({
+						left : left
+				 });
+				//alert(width + ":" + height);
+			 }
+		</script>
+		
+		<style>
+			body { 						
+			    background:url(#springUrl ('')/images/login/bj.jpg) repeat center; 
+			    margin:0px;
+			    padding:0px;
+			    overflow: hidden;			    
+			    top: 0px;
+			 	left: 0px;			 	
+			 	width: 100%; 
+			}
+			.mainDiv {
+			    background:url(#springUrl ('')/images/login/login7.0.jpg) repeat-x center;
+			    margin:0px;
+			    padding:0px;
+				font-size: 16px;	
+				height:652px;			
+				width: 100%;
+				position: relative;
+			}			 
+			
+			.loginInput1{
+			 position: relative;			
+			 left: 62%;
+			 top: 230px;
+			}
+			.loginInput2{
+			 position: relative;
+			 top: 250px;
+			 left: 62%;
+			 margin:0px;			  
+			}
+			.loginInput3{
+			 position: relative;
+			 top: 270px;
+			 left: 62%;
+			 margin:0px;			  
+			}
+			.loginInput4{
+			 position: relative;
+			 top: 300px;
+			 left: 62%;
+			 margin:0px;
+			}
+			
+			.website{
+			 position: relative;
+			 top: 440px;
+			 left: 69%;
+			 margin:0px;			  
+			}
+			
+			.loginInput {
+				background: url(#springUrl ('')/images/login/input.gif ) no-repeat left top;
+				padding-top:1px;
+				padding-bottom:1px;
+				padding-left:5px;
+				padding-right:5px;
+				width: 195px;
+				height: 25px;
+				color: blue;
+				font-size: 16px;
+				border:none;
+				margin-bottom:7px;
+				font-family: "宋体";
+			}
+			
+			.loginvalid {
+				background: url(#springUrl ('')/images/login/valid.gif ) no-repeat left top;
+				padding-top:1px;
+				padding-bottom:1px;
+				padding-left:5px;
+				padding-right:5px;
+				width: 98%;
+				height: 25px;
+				color: blue;
+				font-size: 16px;
+				border:none;
+				margin-bottom:7px;
+				font-family: "宋体";
+			}
+			 
+			.loginTable {
+				width: 500px;
+				border-spacing:0px;
+				margin-top: 283px;
+				text-align:left;
+				
+			}
+			*+html .loginTable {
+				margin-top: 268px;
+			}
+			
+			.loginTable td {
+				padding-left:7px;
+				border: 0px solid #ff0000;
+			}
+			
+			.passwordTd {
+				padding-top: 1px;
+			}
+			+html .passwordTd {
+				padding-top: 0px;
+			}
+			*+html .loginInput {
+				height: 27px;
+				margin-bottom:3px;
+			}
+			a{
+			 color:#ffffff;
+			}
+			table{
+			border-spacing:0px;
+			}
+			.verifyImg{
+				margin-top:0px;
+				display:inline-block;
+				inline-height:20px;
+				border:1px solid #aabbff;
+				cursor:hand;
+			}
+		</style>
+	</head>
+	
+	
+	<body onkeypress="_loginKeyPress(event, '#springUrl('')');">
+		<div class="mainDiv" id="mainDiv">
+			<form id="f_loging" name="f_login" method="post"
+					onSubmit="return loginSubmit();" action="#springUrl('')/login/login.do?action=submit">
+					<input type="hidden" id="vtype" name="vtype" value="$!{cmd.vtype}" />
+					
+							
+							<div id="loginInput1" class="loginInput1">
+														<input type="text" name="userCode" id="lname"
+														value="$!{cmd.userCode}" class="loginInput" accesskey="n"
+														tabindex="1" />
+							</div>
+							<div id="loginInput2" class="loginInput2">
+														<input type="password" name="password" id="lpassword"
+														value="$!{cmd.password}" class="loginInput"
+														style="font-size: 14px;" tabindex="2" />
+							</div> 
+							<div id="loginInput3" class="loginInput3">
+									<table border=0>
+										<tr>
+											<td valign="top" width="112">
+												<input type="text" name="verifyCode" id="verifyCode"
+														value="" class="loginvalid" style="font-size: 14px;"
+														tabindex="3" />
+											</td>
+											<td valign="top">
+												&nbsp;<img border=1 id="imageId"
+														style="top: 1px; margin-left: 1px;" height='25'
+														title='点击图片更换验证码' class="verifyImg"
+														onClick="reloadImage();"
+														src="#springUrl('')/views/core/login/image.jsp"/>
+											</td>
+											<td valign="middle">												
+												<span
+															style="color: #57b9eb; font-family: 宋体; font-size: 12px; cursor: pointer; margin-top: 0px; position: absolute; display:none"
+															onclick="reloadImage()"> 换一张 </span>
+											</td> 
+										</tr>  	
+									</table>	
+							</div>
+							<div id="loginInput4" class="loginInput4">	
+														<input type="image"
+														src="#springUrl ( '')/images/login/dl-2.jpg"
+														onMouseOver="overImage(this);" onMouseOut="outImage(this);"
+														name="s" />		
+							</div>	
+							
+													
+				</form>	
+		</div>
+	</body>
+</html>
+
+
+
+
+
+

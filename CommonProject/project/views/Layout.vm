@@ -1,0 +1,16 @@
+#macro(BorderLayout $Border_grid)
+    #set($Border_gridId=$Border_grid)
+	<div dojoType="dijit.layout.BorderContainer" liveSplitters="false" persist="true"
+		          id="$!{Border_grid}verticalSplitParam" design="headline" style="width: 99%; height: 100%;">
+#end
+
+#macro(BorderLayoutEnd)
+<script>
+  var mainBorder=new dijit.layout.BorderContainer({liveSplitters:false,style:"border:0px;padding:0px;margin:-3px;width: 100%; height: 99%;"},"$!{Border_gridId}verticalSplitParam");
+ // mainBorder.addChild(toppane);
+  mainBorder.addChild($!{Border_gridId});
+ 
+ // mainBorder.addChild($!{Border_gridId}_pagerbar);
+//  	dojo.byId("${g.getTagId()}_pagerbarbtn").innerHTML=dijit.byId("${g.getTagId()}_pagerbar").domNode.innerHTML;
+</script>
+#end

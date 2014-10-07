@@ -1,0 +1,221 @@
+
+
+
+
+/*
+------------------------------
+	jqismooth theme
+------------------------------
+*/
+.jqismoothwarning .jqismooth{ background-color: #cccccc; }
+.jqismoothfade{
+	display:none;
+	position: absolute;
+	background-color: #000000;
+	z-index:1000;
+}
+div.jqismooth{
+	position: absolute;
+	background-color: transparent;
+	padding: 10px;
+	width: 300px;
+	text-align: left;
+}
+div.jqismooth .jqismoothcontainer{
+	position: relative;
+	/*
+	background-color: transparent;
+	background: url(img/titleBar.png);
+	*/
+	background-color: #b6ebfd;
+	border:1px solid #eeeeff;
+	border: solid 1px #5F5D5A;
+	color: #ffffff;
+	font-weight: bold;
+}
+div.jqismooth .jqismoothcontainer .title{
+	margin: 0;
+	padding: 15 1 14 1;
+	color: #3388cc;
+	font:bold 14px arial,tahoma, sans-serif;
+	padding-top:4px;
+	text-align:center;
+	line-height:18px;
+	height:26px;
+}
+div.jqismooth .title .title_c{
+	  display: inline-block; 
+	  text-align:center;
+	  padding-top: 4px;
+	  padding-left: 6px;
+	}
+* html div.jqismooth .title .title_c{
+	padding-top: 4px;
+	padding-left: 12px;
+	float: left;
+	line-height:18px;
+	height:26px;
+ }
+*+html div.jqismooth .title .title_c{
+	padding-top: 4px;
+	padding-left: 12px;
+	float: left;
+	line-height:18px;
+	height:26px;
+ }
+div.jqismooth .title .jqismoothclose{
+	margin-right:10;
+	margin-top: 1;
+	float:right;
+    cursor: pointer;
+    width:28px;
+    float: right;
+	line-height:22px;
+	height:26px;
+	text-decoration:none;
+    background:url(img/close.jpg) no-repeat left top;
+}
+div.jqismooth .title a:hover.jqismoothclose{
+	margin-right:10;
+	margin-top: 1;
+	text-decoration:none;
+    background:url(img/close_f.jpg) no-repeat left top;
+}
+div.jqismooth .content{
+	  margin:0;
+	  padding-left:4px;
+	  padding-right:4px;
+	}
+div.jqismooth .jqismoothmessage{
+	position: relative;
+	background-color: #FFFFFF;
+	border:1px solid #A6A8FE;
+	padding:0;
+	background-repeat: no-repeat;
+	background-position:10px center;
+    font:normal 16px arial,tahoma, helvetica, sans-serif;
+    color:#4b6688;
+    overflow:auto;
+
+}
+div.jqismooth .jqismoothbuttons{
+	padding:3px;
+	background: transparent;
+	text-align:center;
+	line-height:26px;
+	height:26px;
+	
+}
+/*
+------------------------------
+	brown theme
+------------------------------
+*/
+.brownJqiwarning .brownJqi{ background-color: #cccccc; }
+.brownJqifade{
+	display:none;
+	position: absolute;
+	background-color: #000000;
+	z-index:1000;
+}
+div.brownJqi{
+	position: absolute;
+	background-color: transparent;
+	padding: 10px;
+	width: 400px;
+	text-align: left;
+		border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+div.brownJqi .brownJqicontainer{
+	position: relative;
+	background-color: #b6ebfd;
+	border:1px solid #eeeeff;
+	color: #ffffff;
+	font-weight: bold;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+div.brownJqi .brownJqicontainer .title{
+	margin: 0;
+	padding: 15 1 14 1;
+	color: #000000;
+	font:bold 12px "ËÎÌו",sans-serif;
+	padding-top:4px;
+	line-height:18px;
+	height:26px;
+}
+div.brownJqi .title .title_c{
+	  display: inline-block; 
+	  padding: 0; 
+	  padding-top: 4px;
+	  padding-left: 6px;
+	  
+	}
+* html div.brownJqi .title .title_c{
+	float:right;
+	padding-top: 4px;
+	padding-left: 12px;
+	float: left;
+	line-height:18px;
+	height:26px;
+ }
+*+html div.brownJqi .title .title_c{
+	padding-top: 4px;
+	padding-left: 12px;
+	float: left;
+	line-height:18px;
+	height:26px;
+ }
+div.brownJqi .title a.brownJqiclose{
+	margin-right:10;
+	margin-top: 1;
+	float:right;
+    cursor: pointer;
+    width:28px;
+    float: right;
+	line-height:22px;
+	height:26px;
+	text-decoration:none;
+    background:url(img/close.jpg) no-repeat left top;
+}
+div.brownJqi .title a:hover.brownJqiclose{
+	margin-right:10;
+	margin-top: 1;
+	text-decoration:none;
+    background:url(img/close_f.jpg) no-repeat left top;
+}
+div.brownJqi .content{
+	 padding-left:6px;
+	 padding-right:6px;
+	}
+div.brownJqi .brownJqimessage{
+	position: relative;
+	background-color: #FFFFFF;
+	border:1px solid #97b6bf;
+	padding: 22px 36px 22px 36px;
+	background-repeat: no-repeat;
+	background-position:20px center;
+    font:normal 13px arial,tahoma, helvetica, sans-serif;
+    color:#443311;
+    text-align:center;
+
+}
+div.brownJqi .brownJqimessage1{
+	background-color: #FFFFFF;
+	padding: 0 0 30px 0;
+    font:normal 13px arial,tahoma, helvetica, sans-serif;
+    text-align:center;
+
+}
+div.brownJqi .brownJqibuttons{
+	padding:3px;
+ 	padding-right:6px;
+	background: transparent;
+	text-align:right;
+	line-height:26px;
+	height:26px;
+}
+

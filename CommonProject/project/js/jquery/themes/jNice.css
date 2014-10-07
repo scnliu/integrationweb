@@ -1,0 +1,122 @@
+.btn-a-hide{
+	display:none;
+}
+.btn-a{
+	display: inline-block; 
+	padding: 0;
+	margin-right:1px;
+	text-decoration: none; 
+	cursor: pointer; 
+	 text-align: center; 
+	 overflow: visible;
+	 inline-height:16px;
+	 white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	}
+span.btn-a a{
+	padding: 0px;
+	float:left;
+	text-decoration: none; 
+	}
+* html span.btn-a{
+		margin-top:2px;
+	}
+*+ html span.btn-a{
+	margin-top:2px;
+ }
+a span.btn-r{
+	background: transparent url(img/btn_right.gif) no-repeat scroll right top;
+	float: left;
+	padding: 0px 14px 0px 0px; /* sliding doors padding */
+	margin: 0px;
+	color:#505050;
+	text-decoration:none;
+	cursor:hand;
+	line-height: 25px;
+	height:25px;
+	white-space:nowrap;
+}
+a span span.btn-empty{
+}
+a span span.btn-icon{
+	padding: 1px 0px 1px 0px;
+	width:18px;
+	height:16px;
+	margin-top:4px;
+	float: left;
+}
+
+a span span.btn-l{
+	background: transparent url(img/btn_left.gif) no-repeat left top;
+	color:#444;
+	padding: 1px 0px 0px 13px;
+	font-weight: normal;
+	font-size: 12px;
+	margin-left:0px;
+	text-decoration:none;
+	float: left;
+	white-space:nowrap;
+}
+*+ html a span span.btn-l{
+	display: inline-block; 
+	overflow:hidden;
+}
+/*  IE6 */
+* html a span.btn-r{
+}
+/* Ie7 */
+*+ html div.btn-a{
+	float: none;
+	white-space: nowrap;
+	clear:left;
+	}
+*+ html a span.btn-r{
+	display:inline;
+	}
+*+ html a span span.btn-icon{
+	display:inline;
+	}
+*+ html a span span.btn-empty{
+	display:inline;
+}
+*+ html a span span.btn-l{
+	display:inline;
+}
+/*##*/
+a.btn-disabled span.btn-r{
+	background-position: right -54px ;
+	outline:none;
+	cursor:default;
+}
+a.btn-disabled  span.btn-l{
+	background-position: 0px -54px;
+	outline:none;
+	cursor:default;
+}
+a:hover span.btn-r{
+	background-position: right -27px;
+	outline:none;
+}
+
+a:hover span span.btn-l {
+	background-position: left -27px;
+	text-decoration: none;
+}
+a.btn-focus span.btn-r{
+	background-position: right center;
+	outline:none;
+}
+
+a.btn-focus span span.btn-l {
+	background-position: left center;
+	text-decoration: none;
+}
+a:hover.btn-disabled span.btn-r{
+	background-position: right -54px ;
+	outline:none;	
+}
+a:hover.btn-disabled  span.btn-l{
+	background-position: 0px -54px;
+	outline:none;
+}

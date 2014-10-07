@@ -1,0 +1,61 @@
+/*Tooltip and Pointer CSS*/
+.ui-tooltip {
+	padding: 8px;
+	position: absolute;
+	z-index: 9999;
+	border: none;
+}
+
+.ui-tooltip .ui-tooltip-pointer{
+	position: absolute;
+	top:0px;
+	width: 13px;
+	height: 29px;
+    background: url(img/tooltip/arrow.png) no-repeat ;
+}
+
+.ui-tooltip .ui-tooltip-pointer-inner {
+	position: absolute;
+	width: 13px;
+	height: 29px;
+
+}
+
+/*Tooltip content*/
+.ui-tooltip {
+	-moz-box-shadow: 0 0 2px #000000;
+	padding: 2px;
+	color:#e53000;
+	border: 1px solid #e53000; /*±ß¿ò*/
+	background: #fffff5; /*±³¾°ÑÕÉ«*/
+}
+
+.ui-tooltip-no {
+	color: #8844ff;
+	position: absolute;
+	width: 2px;
+	height: 30px;
+	background: #fffff5; /*±³¾°ÑÕÉ«*/
+	left: -2px;
+	top: 0px;
+}
+
+/*left*/
+.ui-tooltip-arrow-lc .ui-tooltip-pointer {
+	left: -15px;
+	border-left: 0;
+}
+
+.ui-tooltip-arrow-lc .ui-tooltip-pointer {
+	bottom: 50%;
+	margin-bottom: -10px;
+}
+
+.ui-tooltip-arrow-lc .ui-tooltip-pointer-inner {
+	right: -14px;
+	width: 6px;
+}
+
+.ui-tooltip-arrow-lc .ui-tooltip-pointer-inner {
+	bottom: -4px;
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>工作区</title>
+#Head()
+	<style type="text/css">     
+        html,body {
+			font-family: "宋体", Arial, sans-serif;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			
+		}
+		/********************右键菜单***********************/
+.vmenu{
+		border:1px solid #aaa;
+		position:absolute;
+		background:#fff;
+		display:none;
+		font-size:0.75em;
+		z-index: 3;
+		}
+.first_li:HOVER{
+	background: #97CBFF;
+}
+.first_li span{
+	font-size: 12px;
+	width:90px;
+	display:block;
+	color:#1c3d8a; 
+	padding:10px 5px;
+	margin-left:2px;
+	cursor:pointer;
+	font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+}
+.first_li img{
+	  vertical-align:middle;
+	  margin-top:-4px;
+	}
+.inner_li{
+	display:none;
+	margin-left:90px;
+	position:absolute;
+	border:1px solid #aaa;
+	border-left:1px solid #ccc;
+	margin-top:-20px;
+	background:#fff;
+}
+.sep_li{
+	border-top: 1px ridge #aaa;
+	margin:2px 0;
+}
+.fill_title{
+	font-size:11px;
+	font-weight:bold;
+	height:12px;
+	overflow:hidden;
+	word-wrap:break-word;
+}
+    </style>
+	<link href="#springUrl('')/js/jquery/themes/zTreeStyle/zTreeStyle_1.css" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.ztree.core-3.1.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.ztree.exedit-3.1.js"></script>
+
+</head>
+<script>
+	//右键显示菜单
+	function OnRightClick(event, treeId, treeNode) {
+		if (!treeNode && event.target.tagName.toLowerCase() != "button" && $(event.target).parents("a").length == 0) {
+			orgTree.cancelSelectedNode();
+			showRMenu("root", event.clientX, event.clientY);
+		} else  {
+			if(treeNode.pId=="root"){
+				orgTree.selectNode(treeNode);
+				showRMenu("node", event.clientX, event.clientY);
+			}else{
+				orgTree.selectNode(treeNode);
+				showRMenu("root", event.clientX, event.clientY);
+			}
+		}
+	}
+	 //设置右键菜单显示
+	function showRMenu(type, x, y) {
+		$("#rMenu").show();
+		if (type=="root") {
+			$("#m_modify").hide();
+			$("#m_del").hide();
+		} else {
+			$("#m_del").show();
+			$("#m_modify").show();
+		}
+		rMenu.css({"top":y+"px", "left":x+"px", "visibility":"visible"});
+		$("body").bind("mousedown", onBodyMouseDown);
+	}
+	//添加参数
+	function addTreeNode() {
+		hideRMenu();
+		demoIframe.attr("src","#springUrl('')/org/orgManager.do?action=addOrg");
+	}
+	//删除参数
+	function removeTreeNode() {
+		askFunc("您确认删除工作区？",function(){
+			hideRMenu();
+			var nodes = orgTree.getSelectedNodes();
+			if (nodes && nodes.length>0) {
+				deleteById(nodes[0], nodes[0].id);
+			}
+		});
+		
+	}
+	//删除参数方法
+	function deleteById(nodes,id){
+		jQuery.ajax({
+			url:"#springUrl('')/org/orgManager.do?action=deleteOrg1",//请求的action路径
+			type: 'POST',
+			data: {"org.id":id},
+			error: function () {//请求失败处理函数
+				alert('删除失败');
+			},
+			success:function(){ //请求成功后处理函数。 
+				reset();
+			}
+		});
+	}
+	//修改参数
+	function modifyTreeNode() {
+		hideRMenu();
+		demoIframe.attr("src","#springUrl('')/org/orgManager.do?action=editOrg&org.id="+orgTree.getSelectedNodes()[0].id);
+	}
+	//添加参数后刷新树
+	function reset() {
+		jQuery.ajax({
+			url:"#springUrl('')/org/orgManager.do?action=refresh",//请求的action路径
+			type: 'POST',
+			error: function () {//请求失败处理函数
+				alert('刷新失败');
+			},
+			success:function(data){ //请求成功后处理函数。
+				orgNodes = eval(data);   //把后台封装好的简单Json格式赋给treeNodes
+				orgTree = jQuery.fn.zTree.init($("#zTree"), orgTreeSetting, orgNodes);
+			}
+		});				
+	}
+	function resetTree(){
+		hideRMenu();
+		reset();
+	}
+	//隐藏右键菜单
+	function hideRMenu() {
+		if (rMenu) rMenu.css({"visibility": "hidden"});
+		$("body").unbind("mousedown", onBodyMouseDown);
+	}
+	function onBodyMouseDown(event){
+		if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) {
+			rMenu.css({"visibility" : "hidden"});
+		}
+	}
+	//单击改变iframe显示
+	function zTreeOnClick(event, treeId, treeNode) {
+		if(treeNode.id=='root')
+			demoIframe.attr("src","#springUrl('')/org/orgManager.do?action=queryOrg");
+		else
+			demoIframe.attr("src","#springUrl('')/org/orgManager.do?action=viewOrg&org.id="+treeNode.id);
+		    
+	}
+	function getFontCss(treeId, treeNode) {
+		return (!!treeNode.highlight) ? {color:"#A60000", "font-weight":"bold",open:true} : {color:"#333", "font-weight":"normal"};
+	}
+	var rMenu,demoIframe,orgTree;
+	var orgNodes = $orgStr;
+	var orgTreeSetting = {
+		async: {
+			enable: false
+		},
+		view: {
+			dblClickExpand: false
+		},
+		check: {
+			enable: false
+		},
+		data: {
+			simpleData: {
+			enable: true
+			}
+		},
+		callback: {
+			onRightClick: OnRightClick,
+			onClick: zTreeOnClick
+		},
+		view: {
+			fontCss: getFontCss
+		}
+	};
+	$(document).ready(function(){
+		orgTree = jQuery.fn.zTree.init($('#zTree'), orgTreeSetting, orgNodes);
+		rMenu = $("#rMenu");
+		demoIframe = $("#testIframe");
+	});
+</script>
+<body>
+	<div id="rMenu" class="vmenu">
+        	<table >
+            	<tr id="m_add" onClick="addTreeNode();" class="first_li" >
+                	<td class="td_left" style="padding:10px 5px;"><img class="td_img" src="#springUrl('')/images/icons/add.png" align="top"/>
+                	增加工作区&nbsp;&nbsp;&nbsp;&nbsp;
+                </tr>
+            	<tr id="m_modify" onClick="modifyTreeNode()" class="first_li" >
+                	<td class="td_left" style="padding:10px 5px;"><img class="td_img" src="#springUrl('')/images/icons/pencil.png" align="top"/>
+                	修改工作区&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+            	<tr id="m_del" onClick="removeTreeNode();" class="first_li" >
+                	<td class="td_left" style="padding:10px 5px;"><img class="td_img" src="#springUrl('')/images/icons/delete.png" align="top"/>
+                	删除工作区&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                </tr>
+            </table>
+        </div>
+     <table border=0 height=100% width=100% align=center>
+     	<tr valign="top"  height=100%>
+     		<td width="240px;" style="background: url(#springUrl('')/images/tree/left-tree-bg.png);">
+     		<ul id="zTree" class="ztree" style="height: 760px"></ul>
+     		</td>
+     		<td height=100%>
+     			<iframe id="testIframe" name="testIframe" frameborder=0 scrolling=auto width=100% height=100%
+						src="#springUrl('')/org/orgManager.do?action=queryOrg">
+					</iframe>
+     		</td>
+     	</tr>
+     </table>
+	
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>功能管理</title>
+#Head()
+        <script type="text/javascript" src="#springUrl('/js/core/func/func.js')"></script>
+		<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/ImgPanel.css" type="text/css">
+		<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/ImgPanel.js"></script>
+<script type="text/javascript">
+	var sucess = '${sucess}'
+	if(sucess == 'true'){
+		parent.document.getElementById('FuncLeft').src = '#springUrl('/func/funcManager.do?action=leftTree&fc=0103')';
+		top.document.getElementById('leftIframe').src = '#springUrl('/login/login.do?action=leftFrame')';
+	}
+	
+</script>
+    <script type="text/javascript">
+			function checking(){
+				var returnvalue="$!MSG";
+				if(returnvalue=="")
+				{}
+				else
+				{
+					notify('$MSG');
+				}
+			}
+	        jQuery(document).ready(function(e) {
+	        	 var imgo = {};
+	        	 imgo.txtname="addForm_func_icon";
+	        	 imgo.imgUrl="#springUrl('')/js/jquery/themes/zTreeStyle/img/main/";
+		         imgo.items = $!cmd.msgImgLsit;
+		         jQuery("#faceTitle").imgpanel(imgo);			        	 
+	        	 
+	         });
+	</script>
+</head>
+<body class="claro" onload="checking()" scroll="no">
+#Form("addForm","#springUrl('')/func/funcManager.do?action=saveFunc",{"method":"post"})
+	<input type="hidden" name="func.parentCode" value="$!{cmd.func.parentCode}">
+	<input type="hidden" name="func.level" value="${cmd.func.level}">
+	<br />
+	<div class="yk_NodeTxt"> 
+	   <span style="color:#1c3d8a;margin-top:-3px;">新增功能</span>
+	</div>
+	<div>
+	
+	<table align="center" class="yk_table">
+		<tbody>
+			<tr>
+				<td align="center" class="yk_td_title">
+					<font color="red">*</font>功能编号
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;"> 
+				    #RemoteValidate("func.funcCode","$!cmd.func.funcCode","#springUrl('')/func/funcManager.do?action=existFuncCode","saveBtn",{"checkMsg":"功能编号已经存在","required":"true"})
+				</td>
+				<td align="center" class="yk_td_title">
+					<font color="red">*</font>功能名称
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+				    #ValidationText("func.funcName","$!cmd.func.funcName",{"required":"true"})
+				</td>
+				<td align="center" class="yk_td_title">
+					<font color="red">*</font>类    型
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+				    #Select("func.funcProp","$!{cmd.func.funcProp}",${cmd.typeOption},"value","label",{"emptyOption":true})	    
+				</td>
+			</tr>
+			<tr>
+				<td align="center" class="yk_td_title">
+					是否停用
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+				    #Select("func.isStop","$!{cmd.func.isStop}",${cmd.stopOption},"value","label",{"emptyOption":true})
+				</td>
+				<td align="center" class="yk_td_title">
+					链    接
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+				    #ValidationText("func.link","$!cmd.func.link",{})
+				</td>
+				<td align="center" class="yk_td_title">
+					标题信息
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+				    #Text("func.title","$!cmd.func.link",{})
+				</td>
+			</tr>
+			<tr>
+				<td align="center" class="yk_td_title">
+					图标
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;" >
+				
+				<table class="yk_table_1">
+				    <tr>
+				      <td>
+				        #Text("func.icon","$!cmd.func.icon",{})
+				      </td>
+				      <td>
+				        <div id="faceTitle"></div>							     							        
+				      </td>
+				    </tr>						  
+				 </table>		
+				</td>		
+				<td colspan="4"></td>		
+			</tr>
+			<tr>
+				<td align="center" class="yk_td_title">
+					描   述
+				</td>
+				<td class="yk_td_content" style="PADDING-LEFT: 2px;" colspan="5">
+				    #Textarea("func.descript","$!cmd.func.descript",{"rows":"4","cols":"60"})
+				</td>
+			</tr>
+			#if($isRoot == true)
+				<tr>
+					<td align="center" class="yk_td_title"><font color="red">*</font>系统上下文</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;" colspan="5">
+					#Text("func.context","$!cmd.func.context",{})
+					</td>
+				</tr>
+				#end
+		</tbody>
+	</table>
+	</div>
+	<div> 
+
+		<table align="center">
+			<tr>
+				<td>
+					#ButtonSave({"id":"saveBtn","form":"addForm"})
+				</td>
+				<td>
+					#ButtonClear({})
+				</td>
+				<td>
+				    #ButtonReturn({"url":"#springUrl('')/func/funcManager.do?action=queryFunc&func.level=${cmd.func.level}&func.parentCode=$!{cmd.func.parentCode}"})
+				</td>
+			</tr>
+		</table>
+	</div>
+#FormEnd()
+</body>
+</html>
+

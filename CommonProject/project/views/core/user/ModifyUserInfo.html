@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		#set($topHeight=120)
+	#Head()
+		<title>修改用户信息</title> 
+		<script type="text/javascript" src="#springUrl('/js/core/login/login.js')"></script>		
+		<script type="text/javascript" src="#springUrl('/js/core/page/table.js')"></script>
+<script type="text/javascript">
+	function checking(){
+		var returnvalue="$!MSG";
+		if(returnvalue=="")
+		{}
+		else
+		{
+			notify('$MSG');
+		}
+	}
+	jQuery(document).ready(function(){
+		var password = $("#modifypassword");
+		var cPassword = $("#modifycPassword");
+		password.val("");
+		cPassword.val("");
+	});
+</script>
+
+	</head>
+	<body onload="checking()">
+	#Form("editForm","#springUrl('')/login/login.do?action=saveUserInfo",{"method":"post"})
+	<input type="hidden" name="path_appContext" id="path_appContext" value="#springUrl('')">
+	<input type="hidden" name="user.userProp" value="${cmd.user.userProp}">
+    <input type="hidden" name="user.isStop" value="${cmd.user.isStop}">
+		<br />
+		<div class="yk_NodeTxt">
+		   <span style="color:#1c3d8a;margin-top:-3px;">修改用户信息</span>
+	    </div>
+			<div>
+					<table align="center" class="yk_table">
+							<tbody>
+								<tr>
+									<td class="yk_td_title">
+										<font color="red">*</font>用户编号：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #Text("user.userCode","$!cmd.user.userCode",{"readOnly":true})
+									</td>
+									<td class="yk_td_title">
+										<font color="red">*</font>用户名称：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #ValidationText("user.userName","$!cmd.user.userName",{"required":"true"})
+									</td>
+									
+									<td class="yk_td_title">
+										固定电话：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #NumberText("user.tel","$!cmd.user.tel",{})				    
+									</td>
+								</tr>                                
+								<tr>
+									<td class="yk_td_title">
+										<font color="red">*</font>旧密码：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									   #RemoteValidate("user.oldPassword","$!cmd.user.oldPassword","#springUrl('')/login/login.do?action=checkPwd","saveBtn",{"checkMsg":"旧密码输入不对","required":"true","type":"password"})
+									</td>
+									<td class="yk_td_title">
+										<font color="red">*</font>新密码：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #ValidationText("user.password","$!cmd.user.password",{"id":"modifypassword","required":"true","type":"password"})										
+									</td>
+									<td class="yk_td_title">
+										<font color="red">*</font>确认密码：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+										#ValidationText("user.cPassword","$!cmd.user.cPassword",{"id":"modifycPassword","required":"true","onBlur":"_checkPassword()","type":"password"})	
+									</td>									
+                                 </tr>
+								<tr>
+									<td class="yk_td_title">
+										手机：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #PhoneText("user.mobile","$!cmd.user.mobile",{})
+									</td>
+									 <td class="yk_td_title">
+										Email：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #EmailText("user.email","$!cmd.user.email",{})
+									</td>
+									<td class="yk_td_title">
+										描述：
+									</td>
+									<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+									    #Text("user.descript","$!cmd.user.descript",{"style":"height:22px;width:100%"})
+									</td>
+								</tr>
+							</tbody>
+						</table>
+			</div>
+			<div> 
+
+						<table align="center">
+							<tr>
+								<td>
+									#ButtonSave({"id":"saveBtn","form":"editForm"})
+								</td>
+								<td>
+									#ButtonClear({})
+								</td>
+							</tr>
+						</table>
+            </div>
+		#FormEnd()
+		
+	</body>
+</html>
+

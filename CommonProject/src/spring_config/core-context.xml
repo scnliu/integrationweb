@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- 部门管理 -->
+	<bean id="orgDaoImp" class="net.linybin7.core.frame.org.dao.OrgDaoImp">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+	<!--  
+	<bean id="faultDaoImp" class="net.linybin7.core.frame.org.dao.FaultDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+-->
+	<bean id="orgServiceImp" class="net.linybin7.core.frame.org.service.OrgSveImp">
+		<property name="orgDao">
+			<ref local="orgDaoImp" />
+		</property>
+			<!--  
+		<property name="faultDao">
+			<ref local="faultDaoImp" />
+		</property>
+		-->
+	</bean>
+
+	<!-- 用户管理 -->
+	<bean id="userDaoImp" class="net.linybin7.core.frame.user.dao.UserDaoImp">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="userServiceImp" class="net.linybin7.core.frame.user.service.UserSveImp">
+		<property name="userDao">
+			<ref local="userDaoImp" />
+		</property>
+		<property name="orgDao">
+			<ref local="orgDaoImp" />
+		</property>
+		<property name="roleDao">
+			<ref local="roleDaoImp" />
+		</property>
+	</bean>
+	<!-- 角色管理 -->
+	<bean id="roleDaoImp" class="net.linybin7.core.frame.role.dao.RoleDaoImp">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="roleServiceImp" class="net.linybin7.core.frame.role.service.RoleSveImp">
+		<property name="roleDao">
+			<ref local="roleDaoImp" />
+		</property>
+		<property name="orgDao">
+			<ref local="orgDaoImp" />
+		</property>
+	</bean>
+	<!-- 个性化管理 -->
+	<bean id="individuationDaoImpl" class="net.linybin7.core.frame.individuation.dao.IndividuationDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="individuationServiceImpl" class="net.linybin7.core.frame.individuation.service.IndividuationServiceImpl">
+		<property name="dao">
+			<ref local="individuationDaoImpl" />
+		</property>
+	</bean>
+	<!-- 功能管理 -->
+	<bean id="funcDaoImp" class="net.linybin7.core.frame.func.dao.FuncDaoImp">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="funcServiceImp" class="net.linybin7.core.frame.func.service.FuncSveImp">
+		<property name="funcDao">
+			<ref local="funcDaoImp" />
+		</property>
+	</bean>
+
+	<!-- 系统日志 -->
+	<bean id="sysLogDao" class="net.linybin7.core.frame.log.dao.SysLogDaoImpl"
+		parent="jdbcDao">
+	</bean>
+	<bean id="sysLogSvc" class="net.linybin7.core.frame.log.service.SysLogSvcImpl">
+		<property name="sysLogDao">
+			<ref local="sysLogDao" />
+		</property>
+	</bean>
+	
+	<bean id="funcStatDao" class="net.linybin7.core.frame.func.dao.FuncStatDaoImpl" parent="abDao">
+	</bean>
+	<bean id="funcStatSve" class="net.linybin7.core.frame.func.service.FuncStatSveImpl">
+		<property name="statDao">
+			<ref bean="funcStatDao" />
+		</property>
+	</bean>
+	
+	<!-- 要调用的工作类 -->
+        <bean id="funcStatJob" class="net.linybin7.core.job.FuncStatJob">
+        	<property name="statService">
+        		<ref local="funcStatSve"/>
+        	</property>
+        	<property name="funcService">
+        		<ref local="funcServiceImp"/>
+        	</property>
+        </bean>
+        <!-- 定义调用对象和调用对象的方法 -->
+        <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="funcStatJob"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>stat</value>
+            </property>
+        </bean>
+        <!-- 定义触发时间 -->
+        <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+            <property name="jobDetail">
+                <ref bean="jobtask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>* /5 * * * ?</value>
+            </property>
+        </bean>
+        <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+        <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+            <property name="triggers">
+                <list>
+                    <ref bean="doTime"/>
+                </list>
+            </property>
+        </bean>
+
+	<!-- 用户管理 -->
+	<!--
+		<bean id="userDaoImp"
+		class="net.linybin7.core.frame.user.dao.UserDaoImp"> <property
+		name="sessionFactory"> <ref bean="coreSessionFactory" /> </property>
+		</bean> <bean id="userServiceImp"
+		class="net.linybin7.core.frame.user.service.UserSveImp"> <property
+		name="userDao"> <ref bean="userDaoImp"/> </property> </bean>
+	-->
+</beans>

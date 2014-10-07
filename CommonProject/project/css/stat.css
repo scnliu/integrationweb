@@ -1,0 +1,45 @@
+@CHARSET "UTF-8";
+/**********************
+ *     统计页面使用         *
+ **********************/
+ .divbig {
+	width: 1024px; 
+	height: 360px; 
+	margin:30px auto;
+}
+.divtitle {
+	width: 1020px; 
+	height: Auto; 
+	margin:10px auto;
+	font-family: "宋体";
+	font-size: 18px;
+	display: block;
+	font-weight: bold;
+}
+.divtable {
+	width: 1024px; 
+	height: auto; 
+	margin:10px auto;
+}
+.divbig1 {
+	width: 1024px; 
+	height: 400px; 
+	margin:30px auto;
+	border: 1px solid #95d2ef;
+}
+.divsmallleft {
+	float: left;
+	margin:5px auto;
+	border: 1px solid #95d2ef;
+}
+.divsmallright {
+	float: right;
+	margin:5px auto;
+	border: 1px solid #95d2ef;
+}
+.td {
+	background:#ffffff; 
+    PADDING-TOP: 2px;
+    PADDING-BOTTOM:2px;
+    text-align:center;
+}

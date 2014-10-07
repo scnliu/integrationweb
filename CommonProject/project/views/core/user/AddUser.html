@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>用户管理</title> 
+		#set($topHeight=120)
+		#Head()
+		<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/zTreeStyle/zTreeStyle.css" type="text/css">
+		<script type="text/javascript" src="#springUrl('/js/core/user/user.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/core/page/select.js')"></script>
+		<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/jquery.ztree-2.6.min.js"></script>
+	    <script type="text/javascript">
+				function checking(){
+					var returnvalue="$!MSG";
+					if(returnvalue=="")
+					{}
+					else
+					{
+						notify('$MSG');
+					}
+				}
+				var shValue=0;
+				function ChangeValue(f){
+					var shValue=$("#addForm_user_limitType").val();
+					if(shValue==0){
+				 		  $('#id_h').show();
+				 		  $('#td_permitNum_t').hide();
+				 		  $('#td_permitNum').hide();
+				 		  $('#td_permitNum_kongbai').hide();
+				 		  $('#td_effectTime_t').hide();
+				 		  $('#td_effectTime').hide();
+				 		  $('#td_days_t').hide();
+				 		  $('#td_days').hide();
+					}else if(shValue==1){
+				 		  $('#id_h').hide();
+				 		  $('#td_permitNum_t').show();
+				 		  $('#td_permitNum').show();
+				 		  $('#td_permitNum_kongbai').show();
+				 		  $('#div_permitNum').fadeIn(2000);
+				 		  $('#td_effectTime_t').hide();
+				 		  $('#td_effectTime').hide();
+				 		  $('#td_days_t').hide();
+				 		  $('#td_days').hide();
+						 
+					}else if(shValue==2){
+				 		  $('#id_h').hide();
+				 		  $('#td_permitNum_t').hide();
+				 		  $('#td_permitNum').hide();
+				 		  $('#td_permitNum_kongbai').hide();
+				 		  $('#td_effectTime_t').show();
+				 		  $('#td_effectTime').show();
+				 		  $('#div_effectTime').fadeIn(2000);
+				 		  $('#td_days_t').show();
+				 		  $('#td_days').show();
+				 		  $('#div_days').fadeIn(2000);
+						 
+					}
+				}
+				
+				var zTree;
+				var setting = {
+						isSimpleData: true,
+						treeNodeKey: "id",
+						treeNodeParentKey: "pId",
+						fontCss: setFont,
+						showLine: false,
+						root:{ 
+							isRoot:true,
+							nodes:[]
+						},
+						callback: {
+							click: zTreeOnClick
+						}
+					};
+				function showMenu() {
+					
+					jQuery.ajax({
+						url:"#springUrl('')/org/orgManager.do?action=selectOrgToTree",//请求的action路径
+						type: 'POST',
+						data: {},
+						error: function () {//请求失败处理函数
+							alert('请求失败');
+						},
+						success:function(data,status){ //请求成功后处理函数。  
+							zNodes = eval(data);   //把后台封装好的简单Json格式赋给treeNodes
+						}
+					});
+					zTree = jQuery('#ztree').zTree(setting, zNodes);
+					jQuery("body").bind("mousedown", 
+							function(event){
+								if (!(event.target.id == "menuBtn" || event.target.id == "DropdownMenuBackground" 
+										|| $(event.target).parents("#DropdownMenuBackground").length>0)) {
+									hideMenu();
+								}
+					});
+					var cityObj = $("#orgName");
+					var cityOffset = $("#orgName").offset();
+					jQuery("#DropdownMenuBackground").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+					
+				}
+				function setFont(treeId, treeNode) {
+					if (treeNode && treeNode.isParent) {
+						return {color: "blue"};
+					} else {
+						return null;
+					}
+				}
+				function hideMenu() {
+					jQuery("#DropdownMenuBackground").fadeOut("fast");
+				}	
+				
+				function zTreeOnClick(event, treeId, treeNode) {
+					if (treeNode) {
+						if(treeNode.name=="工作区"){
+							return ;
+						}
+						else{
+							var cityObj = jQuery("#orgName");
+							cityObj.attr("value", treeNode.name);
+							
+							var idObj=jQuery("#orgId");
+							idObj.attr("value", treeNode.id);
+							hideMenu();						
+						}
+					}
+				}
+				var zNodes;
+				jQuery(document).ready(function(){
+					hideMenu();
+					jQuery.ajax({
+						url:"#springUrl('')/org/orgManager.do?action=selectOrgToTree",//请求的action路径
+						type: 'POST',
+						data: {},
+						error: function () {//请求失败处理函数
+							alert('请求失败');
+						},
+						success:function(data,status){ //请求成功后处理函数。  
+							zNodes = eval(data);   //把后台封装好的简单Json格式赋给treeNodes
+						}
+					});
+				});
+		</script>
+	</head>
+	<body  onload="checking()" scroll="no">
+	<div id="DropdownMenuBackground" style="display:none; position:absolute; height:280px; min-width:160px; background-color:white;border:1px solid; margin-left:-7px;margin-top:-3px;overflow-y:auto;overflow-x:auto;">
+	<ul id="ztree" class="ztree"></ul>
+    </div>
+		#Form("addForm","#springUrl('')/user/userManager.do?action=saveUser",{"method":"post","onSubmit":"saveSubmit()"})
+		<br />
+		<div class="yk_NodeTxt">
+		   <span style="color:#1c3d8a;margin-top:-3px;">添加用户基本信息</span>
+	    </div>
+		<div>
+		<table align="center" class="yk_table">
+				<tbody>
+					<tr>
+						<td align="center" class="yk_td_title">
+							<font color="red">*</font>用户编号
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;"> 
+						    #RemoteValidate("user.userCode","$!cmd.user.userCode","#springUrl('')/user/userManager.do?action=existUserCode","saveBtn",{"required":"true"})
+						</td>
+						<td align="center" class="yk_td_title">
+							<font color="red">*</font>用户名称
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+						    #ValidationText("user.userName","$!cmd.user.userCode",{"required":"true","maxLength":"20"})
+						</td>
+						<td align="center" class="yk_td_title">
+							用户类型
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #Select("user.userProp","$!{cmd.user.userProp}",${cmd.typeAddAndEditOption},"value","label",{"emptyOption":true})
+						</td>
+					</tr>
+					<tr>
+						<td align="center" class="yk_td_title">
+							<font color="red">*</font>密   码
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">				
+						    #ValidationText("user.password","$!cmd.user.password",{"id":"addpassword","required":"true","type":"password"})
+						</td>
+						<td align="center" class="yk_td_title">
+							<font color="red">*</font>确认密码
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #ValidationText("user.cPassword","$!cmd.user.cPassword",{"id":"addcPassword","required":"true","type":"password","onBlur":"_checkPassword"})
+						</td>
+						<td align="center" class="yk_td_title">
+							是否停用
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #Select("user.isStop","$!{cmd.user.isStop}",${cmd.stopOption},"value","label",{"emptyOption":true})
+						</td>
+					</tr>
+					<tr>
+						<td align="center" class="yk_td_title">
+							固定电话
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #NumberText("user.tel","$!cmd.user.tel",{})					    
+						</td>
+						<td align="center" class="yk_td_title">
+							手   机
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #PhoneText("user.mobile","$!cmd.user.mobile",{})
+						</td>
+						<td align="center" class="yk_td_title">
+							Email
+						</td>
+						 <td  style="width:23%;">	
+						  #EmailText("user.email","$!cmd.user.email",{})						  
+							</td>								    
+					</tr>
+					<tr>
+						<td align="center" class="yk_td_title">
+							描   述
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+						    #Text("user.descript","$!cmd.user.descript",{})
+						</td>
+						<td align="center" class="yk_td_title">
+							强制修改密码
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;" colspan="3">
+						    <input type="checkbox" name="user.isPassWd" value="1" checked="checked"/>是
+						</td>
+					</tr>
+					<tr>
+					  	<td align="center" class="yk_td_title">
+							登录类型
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;">
+							#Select("user.limitType","$!{cmd.user.limitType}",${cmd.limitTypeOption},"value","label",{"emptyOption":true,"onChange":"ChangeValue()"})
+						</td>
+						<td class="yk_td_content" id="id_h" colspan="4">
+						</td>
+						<td align="center" class="yk_td_title" id="td_permitNum_t" style="display:none;">
+							可登录次数：
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;display:none;" id="td_permitNum" >
+						    <div id="div_permitNum" style="display:none;">
+						       #NumberText("user.permitNum","$!cmd.user.permitNum",{"required":"true"})
+						    </div>
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;display:none;" id="td_permitNum_kongbai" colspan="2">
+						</td>		
+						<td align="center" class="yk_td_title" id="td_effectTime_t" style="display:none;">
+							生效时间：
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;display:none;" id="td_effectTime">
+						    <span id="div_effectTime" style="display:none;">
+						    <!-- #Date("user.effectTime","$!cmd.user.effectTime",{"required":"true"}) -->
+						    #Text("user.effectTime","$!cmd.user.effectTime",{"required":"true"})
+						    </span>
+						</td>
+						<td align="center" class="yk_td_title" id="td_days_t" style="display:none;">
+							可使用天数：
+						</td>
+						<td class="yk_td_content" style="PADDING-LEFT: 2px;display:none;" id="td_days">
+						    <span id="div_days" style="display:none;">
+						    #NumberText("user.days","$!cmd.user.days",{"required":"true"})
+						    </span>
+						</td>						
+					</tr>
+				</tbody>
+			</table>
+			<div id="DropdownMenuBackground" style="display:none; position:absolute; height:200px; min-width:150px; background-color:white;border:1px solid;overflow-y:auto;overflow-x:auto;">
+	          <ul id="dropdownMenu" class="tree"></ul>
+            </div>
+			</div>
+			<br/>
+			<div class="yk_NodeTxt">
+			<span style="color:#1c3d8a;margin-top:-3px;">分配角色</span>
+			</div>
+			<div>
+						<table align="center" cellpadding="0"
+							cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td width="100%" align="center" style="PADDING-LEFT: 2px;">
+										#lrSelect('roleCodes' $unselected $selected '未分配角色' '已分配的角色')
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+			</div>
+            <br />
+			<div> 
+                 <script>
+                   function saveSubmit(){
+                       var targetOptions=document.getElementById('roleCodes').options;
+                		for(var i = 0; i < targetOptions.length; i++){
+                			targetOptions[i].selected = true;
+                		}
+                   }           
+                 </script>
+						<table align="center">
+							<tr>
+								<td>
+									#ButtonSave({"id":"saveBtn","form":"addForm"})
+								</td>
+								<td>
+									#ButtonClear({})
+								</td>
+								<td>
+								    #ButtonReturn({"url":"#springUrl('')/user/userManager.do?action=queryUser"})
+								</td>
+							</tr>
+						</table>
+            </div>
+		#FormEnd()
+	</body>
+</html>
+	<script>
+	$("#addForm_user_effectTime").jqInputText();
+		$("#addForm_user_effectTime").datepicker({});
+	</script>
+

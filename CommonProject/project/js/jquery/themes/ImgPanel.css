@@ -1,0 +1,28 @@
+.faceContent{
+    width:287px; 
+    position:absolute;
+    border:1px solid 
+    #aaa;display:none;
+    z-index:9999; 
+    text-align:center;
+    padding:3px;
+    background:#fff;
+    }
+.faceContent a img{
+     float:left;
+     cursor:pointer;
+     margin:2px 2px; 
+     border:#cacaca 1px solid;
+     width:50px;
+     height:40px;
+     } 
+.faceContent a:hover img{
+     border:1px solid #f51d69
+    } 
+.faceTitle{
+    height:22px; 
+    width:36px; 
+    background:url(zTreeStyle/img/22x22/normalRootOpen.png) no-repeat center center #fff;
+    cursor:pointer;
+}
+	

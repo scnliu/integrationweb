@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	#Head()
+<title></title>
+</head>
+
+<frameset cols="165,*" frameborder="no" border="5" framespacing="0" rows="*" id="FunFrame">
+    <frame src="#springUrl('/org/orgManager.do?action=leftTree&fc=0101')" name="OrgLeft" id="OrgLeft"></frame>
+	<frame src="#springUrl('/org/orgManager.do?action=queryOrg&org.parentId=Root&org.level=1&fc=0101')" name="OrgMain"></frame>
+</frameset>
+  
+<body>
+</body>
+</html>

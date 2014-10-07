@@ -1,0 +1,109 @@
+<html>
+	<head>
+		<title>选择工作区</title> 
+		#Head()
+		<style type="text/css">
+			ul{
+			 list-style: none;
+			 margin:0;
+			}
+			ul li{
+				background: #f1f9fe;  
+				height: 30px;
+				margin: 3px;
+				line-height: 35px;
+			}
+			
+			ul li .titlelbl{
+				color: #232323;
+			}
+			ul li .descriptlbl{
+				color: #85a0b3;
+			}
+		</style>
+		<script type="text/javascript" src="#springUrl('/js/core/org/org.js')"></script>
+	</head>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var userScene = '$user.userCode';
+	     $('#changeForm_check').click(function(){
+	    	    //var url=$(this).attr('src');
+	    	    var scene = $("input[name='scene']:checked").val();
+	    	    jQuery.ajax({
+					url:"#springUrl('')/login/login.do?action=changeScene",//请求的action路径
+					data : {'scene':scene},
+					type: 'POST',
+					dataType: "json",
+					error: function () {//请求失败处理函数
+						alert('请求失败');
+					},
+					success:function(data,status){ //请求成功后处理函数。
+						if(scene == ''){
+							parent.userScene='';
+							$("#sceneTD",parent.document).attr("title","切换工作区[当前：共享工作区]");
+							$('.scene', parent.document).css({"background":"url('#springUrl('/images/desktop/bottom/b_scenes_s.png')')"});
+							parent.mainIframe.window.location.reload();
+							parent.sceneWindow.close();
+						}else if(scene == userScene){
+							parent.userScene=userScene;
+							$("#sceneTD",parent.document).attr("title","切换工作区[当前：个人工作区]");
+							$('.scene', parent.document).css({"background":"url('#springUrl('/images/desktop/bottom/b_scenes_p.png')')"});
+							parent.mainIframe.window.location.reload();
+							parent.sceneWindow.close();
+						}else if(scene != userScene && scene.length>0){
+							parent.userScene=scene;
+							jQuery.ajax({
+								url:_appContext + '/org/orgManager.do?action=getAjaxOrgName',//请求的action路径
+								data : {'orgId':scene},
+								type: 'POST',
+								dataType: "json",
+								error: function () {//请求失败处理函数
+								},
+								success:function(data,status){ //请求成功后处理函数。
+									t = data.orgName;
+									$("#sceneTD",parent.document).attr("title","切换工作区[当前："+t+"工作区]");
+									$('.scene', parent.document).css({"background":"url('#springUrl('/images/desktop/bottom/b_scenes_o.png')')"});
+									parent.mainIframe.window.location.reload();
+									parent.sceneWindow.close();
+								}
+							});
+						}
+					}
+				});
+		     });
+	     $('#changeForm_close').click(function(){
+						parent.sceneWindow.close();
+		     });
+		
+  });
+	</script>
+	<body class="claro">
+		#Form("changeForm","#springUrl('')/login/login.do?action=changeScene",{"method":"post"})
+		<br/>
+		<div class="yk_NodeTxt">
+	       <span style="color:#1c3d8a;margin-top:-3px;">选择工作区</span>
+	    </div>
+	    <div style="width: 500px;height:400px;overflow:auto;">
+	    	<ul style="list-style: none;">
+	    		<li><span id="shareScene">
+	    		<input type="radio" name="scene" id="shareScene" value="" />
+	    			<label class="titlelbl">共享工作区</label><label class="descriptlbl">（所有用户使用相同共享数据、分析结果）</label>
+	    		</span>
+	    		</li>
+	    		<li><span id="selfScene"><input type="radio" name="scene" id="selfScene" value="$user.userCode"/>
+	    		<label class="titlelbl">个人工作区</label><label class="descriptlbl">（使用本用户自己的个人数据、分析结果，其他用户无法访问）</label>
+	    		</span></li>
+	    		#foreach($org in $orgs)
+	    			<li><span id="$org.id"><input type="radio" name="scene" id="$org.id" value="$org.id"/>
+	    			<label class="titlelbl">$org.orgName</label><label class="descriptlbl">#if($org.descript)（$!org.descript） #else $!org.descript #end</label></span></li>
+	    		#end
+	    	</ul>
+	    </div>
+	    <div style="bottom: 5px;" align="center">
+	    #_Button("check","check","button","icon-ok",{})
+	    #_Button("close","close","button","icon-cancel","")
+	    </div>
+		#FormEnd()
+	</body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>工作区管理</title> 
+		#set($topHeight=120)
+		#Head()
+		<style type="text/css">
+		.qbi {
+			cursor: pointer;
+			display: inline-block;
+			height: 13px;
+			padding-top: 4px;
+			text-align: center;
+			width: 17px;
+			background: url('#springUrl('')/images/icons/search.png') no-repeat center;
+			position: absolute; 
+			right: 10px;
+			top: 5px;
+		    z-index: 100;
+	  }
+	  .searchField{
+	  		background-color:#F5F5F5;
+	  		border:0px;
+	  }
+		</style>
+		<script type="text/javascript" src="#springUrl('/js/core/org/org.js')"></script>
+		<script type="text/javascript">
+			var sucess = '${sucess}'
+			if(sucess == 'true'){
+				parent.reset();
+	        }
+			function checking(){
+				var returnvalue="$!MSG";
+				if(returnvalue=="")
+				{}
+				else
+				{
+					notify("$MSG");
+				}
+			}
+	
+</script>
+	</head>
+	<body onload="checking();" style="margin:0px">
+        #Form("mainForm","#springUrl('')/org/orgManager.do?action=queryOrg",{"method":"post"})
+			<input type="hidden" name="org.parentId" value="root">
+			<input type="hidden" name="org.level" value="${cmd.org.level}">
+	   <fieldset class="searchField">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td>
+						<table cellpadding="0"
+							cellspacing="0" border="0">
+							<tr>
+								<td>
+									&nbsp;工作区编号
+								</td>
+								<td>
+									<div style="position: relative; zoom: 1">
+									<input name="org.id" value="$!cmd.org.id" class="lst" id="mainForm_org_id" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+						      		<script>
+										$("#mainForm_org_id").jqInputText()
+							 		</script>
+								</td>							
+								<td>
+									&nbsp;工作区简称
+								</td>
+								<td>
+									<div style="position: relative; zoom: 1">
+									<input name="org.orgName" value="$!cmd.org.orgName" class="lst" id="mainForm_org_orgName" type="text" />
+							    	<span class="qbi"></span>
+							 		</div>
+							 		<script>
+										$("#mainForm_org_orgName").jqInputText()
+							 		</script>
+								</td>
+								<td>
+								#ButtonSearch({"onClick":"mainQuery()"})</td>
+								<td>&nbsp;
+								#ButtonClear({})</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			</fieldset>
+			<fieldset class="table">
+					#table($cmd.tableModel $buttons)
+			</fieldset>
+		#FormEnd()
+
+	</body>
+</html>

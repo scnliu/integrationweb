@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>工作区管理</title> #Head()
+		<script type="text/javascript" src="#springUrl('/js/core/page/select.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/core/org/org.js')"></script>
+		<script type="text/javascript">
+			var sucess = '${sucess}'
+			if(sucess == 'true'){
+				parent.reset();
+			}
+		</script>
+		<script type="text/javascript">
+		$(document).ready( function() {
+			jQuery("body").bind("mousedown", //点击本页面隐藏树形的右击弹出div
+					function(event){
+						//parent.faultKindTree.hideRMenu();
+						//parent.faultKindTree.hideRMenu2();
+					});
+		});
+		
+		</script>
+		<script type="text/javascript">
+				function checking(){
+					var returnvalue="$!MSG";
+					if(returnvalue=="")
+					{}
+					else
+					{
+						notify('$MSG');
+					}
+				}
+
+				 function saveSubmit(){
+	                 var targetOptions=document.getElementById('userCodes').options;
+	          		for(var i = 0; i < targetOptions.length; i++){
+	          			targetOptions[i].selected = true;
+	          			//window.frames["FunFrame"].location.href="#springUrl($visitor.indexPage)";
+	          			//window.frames["FunFrame"].faultKindTree.location.reload();
+	          			//alert("aaa");
+	          			//window.frames["FunFrame"].faultKindTree.location.reload();
+	          		}
+	             }  
+
+	            // function s()
+	            // {
+	            //	 window.frames["FunFrame"].location.reload();
+	            // }
+		</script>
+	</head>
+	<body class="claro" onload="checking()" scroll="no">
+	     #Form("editForm","#springUrl('')/org/orgManager.do?action=updateOrg",{"method":"post","onSubmit":"saveSubmit()"})
+		<br />
+		<div class="yk_NodeTxt"> 
+	       <span style="color:#1c3d8a;margin-top:-3px;">填写工作区信息</span>
+	    </div>
+	    <div>
+		<input type="hidden" name="org.parentId" value="${cmd.org.parentId}">
+		<input type="hidden" name="org.id" value="$!{cmd.org.id}">
+        <table align="center" class="yk_table">
+			   <tbody>
+                 <tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						<font color="red">*</font>简称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #ValidationText("org.orgName","$!cmd.org.orgName",{"required":"true","style":"width:300px"})
+					</td>	
+					<td align="center" class="yk_td_title" style="width:18%;">
+						<font color="red">*</font>全称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #ValidationText("org.orgFullName","$!cmd.org.orgFullName",{"required":"true","style":"width:300px"})
+					</td>				
+				</tr>
+				<tr>
+					
+				    <td align="center" class="yk_td_title" style="width:18%;">
+						负责人姓名
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.chief","$!cmd.org.chief",{"style":"width:300px"})
+					</td>	
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人邮件
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.email","$!cmd.org.email",{"style":"width:300px"})
+					</td>			
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人电话
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.phone","$!cmd.org.phone",{"style":"width:300px"})
+					</td>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						负责人手机号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;">
+					    #Text("org.tel","$!cmd.org.tel",{"style":"width:300px"})
+					</td>
+					
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title" style="width:18%;">
+						描述
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 2px;width:23%;" colspan="3">
+					     #Textarea("org.descript","$!cmd.org.descript",{"rows":"4","cols":"50"})
+					</td>
+				</tr>
+			</tbody>
+		</table>				
+		</div>
+		   <br />
+		   
+		   <div class="yk_NodeTxt">
+			<span style="color:#1c3d8a;margin-top:-3px;">分配角色</span>
+			</div>
+			<div>
+						<table align="center" cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td width="100%" align="center">
+										#lrSelect('userCodes' $unselected $selected '用户列表' '此工作区用户')
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+			</div>
+			<br />
+			 
+			<div> 
+				<table align="center">
+					<tr>
+						<td>
+						    #ButtonSave({"id":"saveBtn","form":"editForm"})
+						</td>
+						<td>
+							#ButtonClear({})
+						</td>
+						<td>
+						    #ButtonReturn({"url":"#springUrl('')/org/orgManager.do?action=queryOrg"})
+						</td>
+					</tr>
+				</table>
+            </div>
+		#FormEnd()
+	</body>
+</html>
+

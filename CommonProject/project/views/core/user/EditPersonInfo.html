@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>资料修改</title>
+#set($topHeight=77) #Head()
+<link rel="stylesheet"
+	href="#springUrl('')/js/jquery/themes/zTreeStyle/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript"
+	src="#springUrl('')/js/jquery/plugins/jquery.ztree-2.6.min.js"></script>
+<script type="text/javascript" src="#springUrl('/js/core/user/user.js')"></script>
+<script type="text/javascript"
+	src="#springUrl('/js/core/page/select.js')"></script>
+<script type="text/javascript"
+	src="#springUrl('')/js/jquery/ui/ui.fileupload.js"></script>
+<script type="text/javascript"
+	src="#springUrl('')/js/jquery/plugins/uploader/swfobject.js"></script>
+<script type="text/javascript"
+	src="#springUrl('')/js/jquery/plugins/uploader/jquery.uploadify.v2.1.4.js"></script>
+<link href="#springUrl('')/js/jquery/plugins/uploader/css/upload.css"
+	rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	function checking() {
+		var returnvalue = "$!MSG";
+		if (returnvalue == "") {
+		} else {
+			parent.notify('$MSG');
+		}
+	}
+	var upload;
+	var validator;
+	$(document).ready(function() {
+		validator=$("#editForm").bValidator();
+		upload = new Uploader(
+				'btn1',
+				{
+					url : "#springUrl('')/user/userManager.do?action=fileUpload",
+					//'onAllComplete' : saveSubmit,
+					'onSelectOnce' : onselectOnce,
+					'onCancel' : oncancel,
+					'multi' : false,
+					'fileExt' : '*.jpg;*.gif;*.png',
+					'fileDesc' : 'Image Files (.JPG, .GIF, .PNG)'
+				});
+	});
+	function onselectOnce() {
+		$("#btn1_files").css("display", "block");
+	}
+	function oncancel() {
+		var queueSize = $("#btn1_files > div").length;
+		if (queueSize > 1) {
+			$("#btn1_files").css("display", "block");
+		} else {
+			$("#btn1_files").css("display", "none");
+		}
+	}
+	$(document).ready(function() {
+		var str = '$!editPersonInfoSuccess';
+		if ("1" == str) {
+			$('#userName_span', parent.document).html($("#userNameId").val());
+			$('#filterDiv', parent.document).css( {
+				"display" : "none"
+			});
+			$('#editPersonInfo_div', parent.document).removeClass("hindex");
+		}
+	})
+	var allowSubmit = false;
+	function saveSubmit() {
+		if(validator.validate()){
+			allowSubmit = true;
+			document.getElementById('editForm').submit();
+		}
+		//$('#userName_span', parent.document).html($("#userNameId").val());
+	}
+	function startUpload(){
+		var queueSize = $("#btn1_files > div").length;
+		if(queueSize>0){
+			upload.upload();
+		}
+	}
+</script>
+</head>
+<body onload="checking()">
+<br />
+<table align="center">
+	<tr>
+		<td>
+		<div class="yk_NodeTxt"><span
+			style="color: #1c3d8a; margin-top: -3px;">修改个人基本信息</span></div>
+		</td>
+
+	</tr>
+</table>
+<div>
+#Form("editForm","#springUrl('')/user/userManager.do?action=updatePersonInfo",{"method":"post","style":"width:100%"})
+
+<input type="hidden" id="password" name="user.password" class="text2"
+	value="$!cmd.user.password" />
+<table align="center" class="yk_table">
+	<tbody>
+		<tr>
+			<td align="center" class="yk_td_title" style="width: 20%;"><font
+				color="red">*</font>用户名称：</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 30%;"
+				width=""><input type="hidden" name="user.userCode"
+				value="$!cmd.user.userCode" />
+			#ValidationText("user.userName","$!cmd.user.userName",{"id":"userNameId","required":"true","style":"width:98%"})
+			</td>
+			<td style="width: 20%;" align="center" class="yk_td_title">旧密码：
+			</td>
+			<td style="width: 30%;" class="yk_td_content"
+				style="PADDING-LEFT: 2px;">
+			#ValidationText("user.oldPassword","",{"id":"oldPassword","type":"password","style":"width:97%"})
+			</td>
+
+		</tr>
+		<tr>
+			<td align="center" class="yk_td_title" style="width: 20%;">新密码：
+			</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 30%;">
+			#ValidationText("user.newPassword","",{"id":"nPassword","type":"password","style":"width:98%"})
+			</td>
+			<td align="center" class="yk_td_title" style="width: 20%;">
+			密码确认：</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 30%;">
+			#ValidationText("user.cPassword","",{"id":"cPassword","type":"password","style":"width:97%"})
+			</td>
+		</tr>
+		<tr>
+			<td align="center" class="yk_td_title" style="width: 20%;">
+			固定电话：</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 30%;">
+			#NumberText("user.tel","$!cmd.user.tel",{"style":"width:98%"})</td>
+			<td align="center" class="yk_td_title" style="width: 20%;">手机：</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 30%;">
+			#PhoneText("user.mobile","$!cmd.user.mobile",{"style":"width:97%"})</td>
+		</tr>
+		<tr>
+
+			<td align="center" class="yk_td_title">Email</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px;" colspan="3">
+			#EmailText("user.email","$!cmd.user.email",{"style":"width:99%"})</td>
+		</tr>
+		<tr>
+
+			<td align="center" class="yk_td_title">头像</td>
+			<td class="yk_td_content" style="PADDING-LEFT: 2px;" colspan="3">
+			<span id="btn1">选择文件</span>
+			<div style="width: 100%; height: 90px; display: none;"
+				id="btn1_files"></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+#FormEnd()
+<br />
+<div><script type="text/javascript">
+	
+</script>
+<table align="center">
+	<tr>
+		<td>#Button("uploadFile","上传图片","icon-back",{"onClick":"startUpload()"})</td>
+		<td>#ButtonSave({"id":"saveBtn","onClick":"saveSubmit()"})</td>
+		<td>#ButtonClear({})</td>
+	</tr>
+</table>
+</div>
+<br />
+<span style="color: red;">第一次使用时请修改登录密码，密码不能与用户名相同</span>
+</body>
+</html>
+<script>
+	
+</script>
+

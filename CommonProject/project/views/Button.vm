@@ -1,0 +1,186 @@
+#******************************************
+ *                                        *
+ *             按钮定义              *
+ *     
+ * 0普通:Button("name","label","iconClass",{})，
+ * 1新增:ButtonAdd({})，
+ * 2删除:ButtonDel({})，
+ * 3修改：ButtonEdit({})，
+ * 4查看：ButtonView({})，
+ * 5查询：ButtonSearch({})，
+ * 6清空：ButtonClear({})，
+ * 7取消：ButtonCancel({})，
+ * 8确定：ButtonCheck({})，
+ * 9关闭：ButtonClose({})                                   *
+ * 10启用：ButtonStart({})，
+ * 11停用：ButtonStop({})                                   *
+ * 12重置：ButtonReset({})                                   *
+ * 13提交：ButtonCommit({})                                   *
+ * 14保存：ButtonSave({})                                   *
+ * 15上一条：ButtonPrev({})                                   *
+ * 16下一条：ButtonNext({})                                   *
+ * 17返回：ButtonReturn({}) #ButtonReturn({"url":"#springUrl('')/user/userManager.do?action=queryUser"})                                  *
+ * 18Busy:#BusyButton("test","test",{})
+ ******************************************#
+#macro(_Button $name,$label,$type,$iconClass,$attr)
+    #set($btn=$button.create())
+    #set($labelI18n="#springMessageText($label,$label)")
+    $btn.setFormName("$!formName")
+    #set($onClick=$attr.get("onClick"))
+	$btn.setOnclick("$!{onClick}")
+	 $btn.setTagName("$!name")
+	#if($attr.get("gridId"))
+	    #set($gridId=$attr.get("gridId"))
+	 	$btn.setGridId("${gridId}")
+	#end
+	#foreach($key in $attr.keySet())
+	   $btn.setAttr("$key","$attr.get($key)")
+	#end
+		#set($id=$btn.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+#set($btnForm=$attr.get("form"))
+$btn.setAttr("label","$labelI18n")
+$btn.setAttr("type","$type") 
+ <input type="$type" id="$id" name="action2" #if($attr.get("disabled"))disabled="disabled"#end
+ onClick="$!btn.getOnclick()"
+  iconCls="$!iconClass" value="$name"/>
+	<script type="text/javascript">
+		$("#$id").button({label:"$labelI18n"});
+	</script>
+	#set($onClick="")
+#end
+
+#macro(Button $name,$label,$iconClass, $attr)
+ #_Button($name,$label,"button",$iconClass,$attr)
+#end
+
+#*********1**新增***************#
+#macro(ButtonAdd $attr)
+ #_Button("add","add","button","icon-add",$attr)
+#end
+#**********2*删除****************#
+#macro(ButtonDel $attr)
+ #_Button("del","delete","button","icon-delete",$attr)
+#end
+#********3*修改***************#
+#macro(ButtonEdit $attr)
+ #_Button("edit","edit","button","icon-edit",$attr)
+#end
+#********4*查看***************#
+#macro(ButtonView $attr)
+ #_Button("view","view","button","icon-help",$attr)
+#end
+#********5*查询***************#
+#macro(ButtonSearch $attr)
+ #_Button("search","search","submit","icon-search",$attr)
+#end
+#********6*清空***************#
+#macro(ButtonClear $attr)
+ #_Button("clear","clear","reset","icon-delete",$attr)
+#end
+#*******7**取消***************#
+#macro(ButtonCancel $attr)
+ #_Button("cancel","cancel","button","dijitEditorIcon mailIconCancel",$attr)
+#end
+#******8***确定***************#
+#macro(ButtonCheck $attr)
+ #_Button("check","check","submit","dijitEditorIcon mailIconOk",$attr)
+#end
+#******9***关闭***************#
+#macro(ButtonClose $attr)
+ #_Button("close","close","button","dijitEditorIcon mailIconCancel",$attr)
+#end
+#******10***启用***************#
+#macro(ButtonStart $attr)
+ #_Button("start","start","button","icon-start",$attr)
+#end
+#******11**停用***************#
+#macro(ButtonStop $attr)
+ #_Button("stop","stop","button","icon-stop",$attr)
+#end
+#******12***重置***************#
+#macro(ButtonReset $attr)
+ #_Button("reset","reset","reset","dijitEditorIcon dijitEditorIconUndo",$attr)
+#end
+#******13***提交***************#
+#macro(ButtonCommit $attr)
+ #_Button("commit","commit","submit","dijitEditorIcon dijitEditorIconSave",$attr)
+#end	
+#******14***保存***************#
+#macro(ButtonSave $attr)	
+ #_Button("save","save","submit","icon-save",$attr)
+#end
+#******15***上一条***************#
+#macro(ButtonPrev $attr)
+ #_Button("prev","previousRecord","button","dijitEditorIcon dijitEditorIconJustifyLeft",$attr)
+#end
+#******16***下一条***************#
+#macro(ButtonNext $attr)
+ #_Button("next","nextRecord","button","dijitEditorIcon dijitEditorIconJustifyRight",$attr)
+#end
+#******17***返回***************#
+#macro(ButtonReturn $attr)
+	#set($btn=$button.create())
+    #if($attr.get("label"))
+      	#set($labelI18n=$attr.get("label"))
+    #else
+	   #set($returnLabel="return")
+	   #set($labelI18n="#springMessageText($returnLabel,$returnLabel)")
+   	#end
+     $btn.setFormName("$!formName")
+	 $btn.setTagName("$!name")
+	#foreach($key in $attr.keySet())
+	   $btn.setAttr("$key","$attr.get($key)")
+	#end
+	#set($id=$btn.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+    #set($onClick=$attr.get("onClick"))
+	$btn.setOnclick("$!{onClick}")
+	#set($returnUrl=$attr.get("url"))
+   <input type="button" id="$id"
+	 onClick="$!btn.getOnclick()"
+	  iconCls="icon-back" href="$returnUrl" value="$labelI18n"/>
+		<script type="text/javascript">
+			$("#$id").button();
+		</script>
+		#set($onClick="")
+#end
+
+
+#macro(BusyButton,$name,$label,$attr)
+	#set($iconClass=$attr.get("iconClass"))
+
+	#set($onClick="")
+	 #set($btn=$button.create())
+    #set($labelI18n="#springMessageText($label,$label)")
+    $btn.setFormName("$!formName")
+    #set($onClick=$attr.get("onClick"))
+	$btn.setOnclick("$!{onClick}")
+	 $btn.setTagName("$!name")
+	#if($attr.get("gridId"))
+	    #set($gridId=$attr.get("gridId"))
+	 	$btn.setGridId("${gridId}")
+	#end
+	#foreach($key in $attr.keySet())
+	   $btn.setAttr("$key","$attr.get($key)")
+	#end
+		#set($id=$btn.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+#set($btnForm=$attr.get("form"))
+$btn.setAttr("label","$labelI18n")
+$btn.setAttr("type","$type")
+ <input type="$type" id="$id" name="action2" 
+ onClick="$!btn.getOnclick()"
+  iconCls="$!iconClass" value="$name"/>
+	<script type="text/javascript">
+		$("#$id").button({label:"$labelI18n"});
+	</script>
+	#set($onClick="")
+#end
+

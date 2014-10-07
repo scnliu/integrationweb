@@ -1,0 +1,32 @@
+ .navigation-li-icon{
+    	height:25px;
+    	padding: 6px 22px; 
+    	margin-left:-4px;
+    	background:url(../images/tb-1.png);
+    	background-repeat:no-repeat;
+    	background-position:left 4px;
+    	inline-height:24px;
+    	white-space:nowrap;
+    	overflow:hidden;
+		text-overflow:ellipsis;
+		font-family: "Î¢ÈíÑÅºÚ", "ËÎÌå", Arial, sans-serif;
+		font-size: 14px;
+		vertical-align:middle;
+		cursor:pointer;
+		width:102px;
+    }
+    .navigation-li{
+      	height:39px;
+      	padding-left:18px;
+		background:url(../images/b-1.jpg) no-repeat;
+		cursor:pointer
+    }
+    .navigation-ul{
+    
+    }
+    .navigation-li-selected{
+      background:url(../images/b-1.2.jpg) no-repeat;
+    }
+    .navigation-li:hover{
+      background:url(../images/b-1.1.jpg) no-repeat;
+    }

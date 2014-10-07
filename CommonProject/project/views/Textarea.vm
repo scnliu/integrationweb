@@ -1,0 +1,31 @@
+#**************
+   #Textarea("autids","$autid",{"id":"sssdf","rows":"2","cols":"30"})
+ 
+ ************************#
+#macro(Textarea $name,$value $attr)
+    #set($txt=$tag)
+     $txt.setFormName("$!formName")
+	  $txt.setTagName("$name")
+	#foreach($key in $attr.keySet())
+	   $txt.setAttr("$key","$attr.get($key)")
+	#end
+	#set($class="medium")
+	#if($attr.get("class"))
+	 	#set($class=$attr.get("class"))
+	#end
+	#if($attr.get("rows"))
+	 	#set($rows=$attr.get("rows"))
+	#end
+	#if($attr.get("cols"))
+	 	#set($cols=$attr.get("cols"))
+	#end
+	#set($id=$txt.getTagId())
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	#end
+<textarea type="text" name="$!name" rows="$rows" cols="$cols" #if($attr.get("readOnly"))readOnly=true #end #if($attr.get("onBlur"))onBlur='$attr.get("onBlur")'#end #if($attr.get("onkeyup")) onkeyup="$attr.get('onkeyup')" #end
+			id="${id}">$!value</textarea>
+			 <script>
+			   $("#$id").jqTextarea();
+			 </script>
+#end

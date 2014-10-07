@@ -1,0 +1,60 @@
+#*****************************
+  单选框定义
+  #Radio("name","$value",$list,"field","name",{})多个选择
+  #ARadio("name","$value",{})单个选择
+*****************************#
+#******
+******#
+#macro(Radio $name,$value,$list,$optKey,$optLabel,$attr)
+    #set($sel=$radioTag.create())
+     $sel.setFormName("$!formName")
+	  $sel.setTagName("$name")
+	  
+	#foreach($key in $attr.keySet())
+	   $sel.setAttr("$key","$attr.get($key)")
+	#end
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 #set($id=$sel.getTagId())
+	#end
+	 $sel.setAttr("name","$name")
+	#foreach($item in $list)
+		#if($attr.get("vertical"))
+		  <div>
+		#end
+	#set($itemVal=$sel.getProVal("$optKey",$item))
+	$sel.setValue("$itemVal")
+	<input type=radio name="$name" id="${id}_$velocityCount" #if($itemVal == $value)checked="checked"#end value="$itemVal"  #if($attr.get("onClick"))onClick='$attr.get("onClick")' #end #if($attr.get("onChange"))onChange='$attr.get("onChange")'#end/><label for="${id}_$velocityCount">$sel.getProVal("$optLabel",$item)</label>
+	<script type="text/javascript">
+      $("#"+"${id}_$velocityCount").radio();
+      </script>
+      	#if($attr.get("vertical"))
+		  </div>	
+	#end
+#end
+#end
+
+#macro(ARadio $name,$value,$label,$attr)
+    #set($sel=$tag)
+     $sel.setFormName("$!formName")
+	  $sel.setTagName("$name")
+	  $sel.setAttr("name","$name")
+	#if($attr.get("id"))
+	 	#set($id=$attr.get("id"))
+	 #else
+	 #set($id=$sel.getTagId())
+	#end
+	#set($check=false)
+	#if($attr.get("checked"))
+	 	#set($check=true)
+	#end
+	 $sel.setAttr("value","$value")
+	<input type=radio name="$name" id="${id}" #if($attr.get("checked"))checked="$!check"#end #if($attr.get("onClick"))onClick='$attr.get("onClick")' #end #if($attr.get("onChange"))onChange='$attr.get("onChange")'#end value="$value"/>
+	<label for="${id}">
+	  $label
+	</label>
+	<script type="text/javascript">
+      $("#${id}").radio();
+     </script>
+#end

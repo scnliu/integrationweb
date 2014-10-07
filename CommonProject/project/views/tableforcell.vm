@@ -1,0 +1,175 @@
+#******************************************
+ *                                        *
+ *             表格组件宏定义                  *
+ *                                        *
+ ******************************************#
+#macro(tableforcell $tableModel $buttons)
+	<script type="text/javascript" src="#springUrl('/js/core/page/table.js')"></script>
+	<table cellpadding="0" cellspacing="0" border="0" bgcolor="#F6F6F6" width="100%" class="tableHead" id='fTable'>
+	<tr>
+	  						  <td align="left">#dojoButtonGroup($buttons)</td>
+						  <td align="right">
+						  	#if( $cmd.tableModel.paging)
+							   #page($cmd.tableModel.page $cmd.tableModel.displayCount)
+						    #end
+						  </td>
+	</tr>
+	</table> 
+	<table class="datatable" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;" id="id1">
+		<thead>
+			<tr>
+				#if($tableModel.hasIndex)
+				<td width="30px" align="center">
+					序号
+				</td>
+				#end
+				#foreach( $_column in $tableModel.columns )
+				<td width="$_column.width" align="center">
+					#if($_column.checkbox)
+				<input type="checkbox" id="list_selectAll" onChange="selectAll();" />
+				<script>
+				  var checkCount=0;
+				  $("#list_selectAll").checkbox();
+				</script>
+					#else
+				$_column.label
+					#end
+				</td>
+				#end
+			</tr>
+		</thead>
+		<tbody id="_table_list_id_">
+			#set($_rowIndex = ($tableModel.page.currentPage - 1) * $tableModel.page.pageSize)
+			#foreach( $_row in $tableModel.data)
+				$tableModel.setRow($_row)
+				#if( ${velocityCount} % 2 == 0)
+				<tr id='tr_$tableModel.getProp($tableModel.columns.get(0).name)' class = "alternateRow" onMouseOver="this.className='selected'" onMouseOut="this.className='alternateRow'">
+				#else
+				<tr id='tr_$tableModel.getProp($tableModel.columns.get(0).name)'  class = "noselected" onMouseOver="this.className='selected'" onMouseOut="this.className='noselected'">
+				#end
+				#if($tableModel.hasIndex)
+				<td width="30px" align="center">
+					#set($_rowIndex = $_rowIndex + 1)
+					$_rowIndex
+				</td>
+				#end
+				#set($outCount=$velocityCount)
+				#foreach(  $_column in $tableModel.columns )
+					<td align="$_column.align" width="$_column.width" style="word-wrap:  break-word" #if($_column.titleTrim != '')title="$_column.titleTrim"#end>
+						#if( $_column.checkbox)
+					<input type="checkbox" id="list_cb_${outCount}" name="selectedIds"  value="$!tableModel.getProp($_column.name)"/>
+						<script>
+						function checkchoose_${outCount}(){
+						
+						}
+						$("#list_cb_${outCount}").checkbox();
+				  		checkCount=${outCount};
+				</script>
+						#elseif ( $_column.link != '')
+					<a href="#if($_column.pop)javascript:f_addTab('$_column.tabid','$_column.tabname','$tableModel.parse($_column.link)');#else$tableModel.parse($_column.link)#end">$!tableModel.getProp($_column.name)</a>
+						#else
+				$!tableModel.getProp($_column.name)
+						#end
+					</td>
+				#end
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end
+#******************************************
+ *                                        *
+ *             分页组件宏定义                  *
+ *                                        *
+ ******************************************#
+#macro( pageforcel $paging $displayCount)
+<script type="text/javascript" src="#springUrl('/js/core/page/paging.js')"></script>
+<input type="hidden" name="${paging.currentPageProp}" value='1'/>
+<script type="text/javascript">
+<!--
+	if(document.images)
+	{
+	
+	  var image_array = new Array();	
+	  // path to the directory with images
+	  var path = '${img}/';
+	  // enumeration of the "active" images
+	  image_array[0] = path + "homepage1.png";
+	  image_array[1] = path + "previouspage1.png";
+	  image_array[2] = path + "nextpage1.png";
+	  image_array[3] = path + "trailerpage1.png";
+	  
+	  var preload_image = new Array (); 
+	  for(var i=0; i<image_array.length; i++)
+	  {
+	    preload_image[i]= new Image();
+	    preload_image[i].src = image_array[i];
+	  }
+	  //alert("test");
+	}
+//-->
+</script>
+<script type="text/javascript">
+	function pageSetFirst(){
+		var _form = document.getElementById("_to_page_prop_").form;
+		_form['${paging.currentPageProp}'].value = 1;
+	}
+	function rollover(name, filename)
+	{
+	    
+		var fullpath = '${img}/' + filename;
+		document.images[name].src = fullpath;
+		//alert(fullpath);
+		
+	}
+</script>
+
+<table class="paging"  cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="right" class="pager_head">
+    <table>
+     <tr>
+      <td>
+		<a class="page-first#if($paging.first)-disabled#end" href="javascript:#if($paging.first)void(0);#else toPage(1,'$paging.action', '${paging.currentPageProp}');#end" ></a> 
+		</td>
+	   <td>
+		<a class="page-prev#if($paging.first)-disabled#end" href="javascript:#if($paging.first)void(0);#else toPage($paging.pre,'$paging.action', '${paging.currentPageProp}');#end" ></a>
+	   </td>
+	   <td align='center'>
+	    <span class="note">
+	    <span>
+		  <font color="#FF6600">$paging.currentPage</font>
+		  /
+	    </span>
+		<span  color="#FF66ff">
+		  <font color="#017cc9">$paging.totalPage</font>
+		</span>
+		页
+		</span>
+	   </td>
+	   <td>
+	    <a class="page-next#if($paging.last)-disabled#end" href="javascript:#if($paging.last)void(0);#else toPage($paging.next,'$paging.action', '${paging.currentPageProp}');#end"></a>
+	    </td>
+	   <td>
+	    <a class="page-last#if($paging.last)-disabled#end" href="javascript:#if($paging.last)void(0);#else toPage($paging.totalPage,'$paging.action', '${paging.currentPageProp}');#end"></a>&nbsp;
+	   </td>
+	   <td>
+		 共
+		<span>
+		  <font color="#FF6600">$paging.count</font>
+		</span>
+		条记录
+		&nbsp;
+		 第
+		<input type="text" name="_to_page_prop_" id="_to_page_prop_" size="2"/>
+		页
+		</td>
+		<td>
+		    <a  class="go" style="WIDTH:16px;height:16px;" href="javascript:toPage(null, '$paging.action', '${paging.currentPageProp}', $paging.totalPage, $displayCount);"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+		</tr>
+	  </table>
+	</td>
+	</tr>
+</table>
+#end

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title></title>
+		#Head()
+		<link href="#springUrl('')/css/table.css" rel="stylesheet" type="text/css"/>
+		<link href="#springUrl('')/css/spp/ArticleMain.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="#springUrl('/js/core/user/user.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/core/page/table.js')"></script>
+		<style type="text/css">
+			.maintable td {
+				text-align: left;
+				height: 20px;
+				line-height:20px;
+				border: none;
+				color: #888;
+				padding: 2px;
+				font-family:arial,sans-serif; 
+				font-size:13px;
+			}
+		</style>
+		<script type="text/javascript"> 
+			$(document).ready( function() {
+				var height=document.documentElement.clientHeight-10;
+				$("#body_div").css("height",height);
+				if('$!openAdd'=='true'){
+					$("#newFault").show();
+				}
+				//window.parent.faultKindTree.location.reload();
+				jQuery("body").bind("mousedown", //点击本页面隐藏树形的右击弹出div
+						function(event){
+							parent.faultKindTree.hideRMenu();
+							parent.faultKindTree.hideRMenu2();
+						});
+			});
+			
+			var defaultVal="";
+			function toEdit(index){
+				defaultVal=$("#are"+index).val();
+				$("#text"+index).hide();
+				$("#area"+index).show();
+				$("#a_"+index).hide();
+				$("#button"+index).show();
+			}
+			
+			function edit(id,index){
+				defaultVal = $("#are"+index).val();
+				if(defaultVal==""){
+					notifyFunc("内容不能为空！",function(){
+						$("#are"+index).focus();
+					});
+					return false;
+				}
+				jQuery.ajax({
+					url : "#springUrl('')/org/orgManager.do?action=editFault",
+					type : "post",
+					data : {"id":id,'remark':encodeURI(defaultVal)},
+					dataType : "json",
+					success : function(data,status){
+						$("#text"+index).html(index+".&nbsp;&nbsp;"+defaultVal);
+						cancelEdit(index);
+					},
+					error : function() {
+						alert('请求失败');
+					}
+				});
+			}
+			
+			function cancelEdit(index){
+				$("#are"+index).val(defaultVal);
+				$("#text"+index).show();
+				$("#area"+index).hide();
+				$("#a_"+index).show();
+				$("#button"+index).hide();
+			}
+			
+			function toDelete(id){
+				askFunc("是否删除该现象?",function(){
+					jQuery.ajax({
+						url : "#springUrl('')/org/orgManager.do?action=delFault",
+						type : "post",
+						data : {"faultId":id},
+						dataType : "json",
+						success : function(data,status){
+							window.location.href="#springUrl('')/org/orgManager.do?action=faultManage&faultKindId="+$("#faultKindId").val();
+						},
+						error : function() {
+							alert('请求失败');
+						}
+					});
+					 },null,function(){	
+				});
+				//return false;
+			}
+			
+			function toAddFault(kindId){
+				if($("#faultKindId").val()==kindId){
+					$("#newFault").show();
+					document.getElementById("body_div").scrollTop=0;
+				}
+				else{
+					window.location.href="#springUrl('')/org/orgManager.do?action=faultManage&faultKindId="+kindId+"&openAdd=true";
+				}
+			}
+			
+			function toAdd(){
+				$("#newFault").show();
+			}
+			
+			function cancelAdd(){
+				$("#remark").val("");
+				$("#newFault").hide();
+			}
+			
+			function submit(){
+				document.forms[0].submit();
+			}
+
+			 function saveSubmit(){
+                 var targetOptions=document.getElementById('userCodes').options;
+          		for(var i = 0; i < targetOptions.length; i++){
+          			targetOptions[i].selected = true;
+          		}
+             }  
+		</script>
+	</head>
+	<body>
+		<div id="body_div" style="padding-top: 5px;padding-left: 0px;padding-right: 0px; overflow: auto;" >
+			<center><table class="table-head" style="display:#if($!faultKindId) block;#else none; #end " align="center">
+	   			<tr ><!-- 
+	   				<td align="left" width="80" valign="bottom">
+	   					// <a href="javascript:toAdd();" style="font-size: 12px;">
+	   					//	新增
+	   					//</a> 
+	   					#_Button("btnadd","修改信息","","icon-add",{"id":"btnadd","onClick":"toAdd()"})
+	   				</td> -->
+	   				<td align="center" valign="middle" width="1000">
+	   					<span class="yk_NodeTxt" style="font-size: 17px;">工作区信息</span>
+	   			<div align="center">
+        		<table align="center" class="yk_table">
+			   <tbody>
+				<tr height="50">
+					<td align="center" class="yk_td_title">
+						工作区简称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!faultKindRemark
+					</td>		
+					<td align="center" class="yk_td_title">
+						工作区全称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!orgFullName
+					</td>
+					<td align="center" class="yk_td_title">
+						工作区负责人姓名
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!chief
+					</td>
+				</tr>
+				<tr height="50">
+					<td align="center" class="yk_td_title">
+						工作区负责人电话
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!Phone
+					</td>
+					<td align="center" class="yk_td_title">
+						工作区负责人邮件
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!email
+					</td>
+					<td align="center" class="yk_td_title">
+						工作区介绍
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!descript
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+		</div>
+	   				</td>
+	   				<td align="right" width="75">
+	   				</td>
+	   			</tr>
+	   		</table></center>
+	   		
+	   		<table class="table-head" style="margin:50px 0 0 0;display:#if($!faultKindId) block;#else none; #end" align="center">
+	   			<tr >
+	   				<td align="center" valign="middle" width="1000">
+	   					<span class="yk_NodeTxt" style="font-size: 17px;">创建此工作区用户信息</span>
+	   					<span class="yk_NodeTxt" style="font-size: 17px;"></span>
+	   			<div align="center">
+        		<table align="center" class="yk_table">
+			   <tbody>
+				<tr height="50">
+					<td align="center" class="yk_td_title">
+						用户编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!usercode
+					</td>		
+					<td align="center" class="yk_td_title">
+						用户名称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!username
+					</td>
+					<td align="center" class="yk_td_title">
+						用户类型
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!userprop
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+		</div>
+	   				</td>
+	   				<td align="right" width="75">
+	   				</td>
+	   			</tr>
+	   		</table>
+	   		
+	   		
+			#Form("editForm","#springUrl('')/org/orgManager.do?action=updateOrgo",{"method":"post","style":"width:100%","onSubmit":"saveSubmit()"})
+			<table id="newFault" class="paging" cellpadding="0" cellspacing="0" border="0" align="center" style="display:none;margin:50px 0 0 0;width: 98%;background-color: #f4f9fc;">
+				 
+				<tr>
+	   				<td align="center">
+	   					#lrSelect('userCodes' $unselected $selected '用户列表' '此工作区用户')
+	   				</td>
+	   			</tr>
+	   			<tr>
+	   				<td width="85%">&nbsp;</td>
+	   			</tr>
+			</table>
+			#FormEnd()
+		</div>
+	</body>
+</html>
+		

@@ -1,0 +1,51 @@
+
+ .uploadifyFilesContent{
+ 	overflow-y:auto;
+ 	overflow-x:hidden;
+ }
+ .uploadifyBtn{
+ 	display: inline; 
+	padding: 0;
+	text-decoration: none !important; 
+	cursor: pointer; 
+	 text-align: center; 
+	 zoom: 1; 
+	 overflow: visible;
+	 margin-left:1px;
+	line-height: 24px;
+	height:24px;
+ }
+ .uploadifyQueueItem {
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E5E5;
+  font: 11px Verdana, Geneva, sans-serif;
+  height: 22px;    /* 22px*/
+  margin-top: 0;
+  margin-right: 2px;
+  margin-left: 2px;
+  padding: 0px;
+}
+ .uploadifyError {
+  background-color: #FDE5DD !important;
+  border: none !important;
+  border-bottom: 1px solid #FBCBBC !important;
+}
+ .uploadifyQueueItem .cancel {
+  float: right;
+}
+ .uploadifyQueue .completed {
+  color: #0099FF;
+}
+ .uploadifyProgress-hide {
+    display:none;
+ }
+ .uploadifyProgress {
+  background-color: #E5E5E5;
+  margin-top: 1px;
+  width: 100%;
+}
+ .uploadifyProgressBar {
+  background:url(../images/progress.jpg);
+  height:16px;
+  width: 0px;
+}		

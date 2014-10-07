@@ -1,0 +1,150 @@
+<html>
+	<head>
+		<title>工作区管理</title> #Head()
+		<script type="text/javascript" src="#springUrl('/js/core/org/org.js')"></script>
+	</head>
+	<body>
+	<br />
+		<form action="/org/orgManager.do?action=queryOrg" method="POST">
+		<div class="yk_NodeTxt"> 
+	       <span style="color:#1c3d8a;margin-top:-3px;">查看工作区信息</span>
+	    </div>
+		<div align="center">
+        <table align="center" class="yk_table">
+			   <tbody>
+				<tr>
+					<td align="center" class="yk_td_title" >
+						编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.id
+					</td>
+					<td align="center" class="yk_td_title">
+						上级编号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.parentId
+					</td>
+					<td align="center" class="yk_td_title">
+						简称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.orgName
+					</td>					
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						全称
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.orgFullName
+					</td>
+					<td align="center" class="yk_td_title">
+						负责人姓名
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.chief
+					</td>
+					<td align="center" class="yk_td_title">
+						负责人电话
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.phone
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						负责人手机号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.mobile
+					</td>
+					<td align="center" class="yk_td_title">
+						负责人邮件
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.email
+					</td>
+					<td align="center" class="yk_td_title">
+						介绍
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.descript
+					</td>
+				</tr>
+				<tr>
+					<td align="center" class="yk_td_title">
+						级    别
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.level
+					</td>
+					<td align="center" class="yk_td_title">
+						排序号
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.order
+					</td>
+					<td align="center" class="yk_td_title">
+						是否停用
+					</td>
+					<td class="yk_td_content" style="PADDING-LEFT: 5px;width:23%;">
+						$!cmd.org.stop
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+		</div>
+		<p>
+		<div class="yk_NodeTxt"> 
+	       <span style="color:#1c3d8a;margin-top:-3px;">已分配用户</span>
+	    </div>
+	    <div align="center">
+	    	<table align="center" class="yk_table">
+	    		<tbody>
+				<tr>
+					<td width="2%" align="center" style="border: 1px solid #95d2ef;background: #e1f5fd;">序号</td>
+					<td width="2%" align="center" style="border: 1px solid #95d2ef;background: #e1f5fd;">
+					</td>
+					<td align="center" class="yk_td_title" >
+						用户编号
+					</td>
+					<td align="center" class="yk_td_title" >
+						用户名称
+					</td>
+					<td align="center" class="yk_td_title" >
+						用户类型
+					</td>
+					<td align="center" class="yk_td_title" >
+						是否停用
+					</td>
+				</tr>
+				#set($num = 1)
+				#foreach($u in $users)
+					<tr>
+					<td width="2%" align="center">$num</td>
+					<td width="2%" align="center">
+						<img src="#springUrl('')/images/head/loginName.png"/>
+					</td>
+					<td align="center" class="yk_td_content" >
+						$u.userCode
+					</td>
+					<td align="center" class="yk_td_content" >
+						$u.userName
+					</td>
+					<td align="center" class="yk_td_content" >
+						$u.type
+					</td>
+					<td align="center" class="yk_td_content" >
+						$u.stop
+					</td>
+				</tr>
+				#set($num = $num + 1)
+				#end
+				</tbody>
+			</table>
+	    </div>
+		</form>
+	</body>
+</html>
+

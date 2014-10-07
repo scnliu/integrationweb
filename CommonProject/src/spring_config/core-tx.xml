@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="GBK" ?>
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+
+    <aop:config>
+		<aop:advisor pointcut="execution(* com.eshine..*.service.*.*(..)))"
+			advice-ref="coreTxAdvice" />
+
+	</aop:config>
+
+	<tx:advice id="coreTxAdvice" transaction-manager="coreTransactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="del*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="start*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="stop*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="assign*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="clear*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="execute*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*N" propagation="NEVER" />
+			<tx:method name="*" read-only="false"/>
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="coreTransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		 <property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property> 
+	</bean>
+
+</beans>

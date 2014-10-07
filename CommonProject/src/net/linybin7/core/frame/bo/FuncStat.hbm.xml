@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.linybin7.core.frame.bo.FuncStat" table="SA_FUNCTION_STAT">
+		<composite-id>
+			<key-property name="sysId" column="SYSID" length="20"></key-property>
+			<key-property name="funcCode" column="FUNCCODE" length="40"></key-property>
+			<key-property name="parentCode" column="PARENTCODE" length="40"></key-property>
+		</composite-id>
+		<property name="cnt" type="java.lang.Integer"
+			column="CNT" not-null="true" />
+	</class>
+
+</hibernate-mapping>

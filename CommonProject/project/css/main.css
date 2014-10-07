@@ -1,0 +1,45 @@
+@import "form.css";
+@import "icon.css";
+@import "pager.css";
+html,body {
+	scrollbar-base-color: #ddf9ff;
+	font-family: "ËÎÌו", Arial, sans-serif;
+	font-size: 12px;
+	margin: 0;
+}
+.headbg {
+	background-image: url(#springUrl ( '')/images/gd/blue/title_bg.gif );
+}
+
+.headbg1 {
+	background-image: url(#springUrl ( '')/images/gd/blue/title_bg.gif );
+}
+
+.showInfo {
+	font-size: 13px;
+	padding-left: 10px;
+	text-align: left;
+	color: #017cc9;
+}
+
+.showInfo span {
+	color: #ec8c02;
+}
+
+.yellowbg {
+	background-color: #fdfde0;
+}
+
+.dialogAlert {
+	float: left;
+	margin: 0px 7px 50px 0;
+}
+.remark{
+	width:100%;
+	overflow:hidden;
+	cursor:pointer;
+	inline-height:18px;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	*table-layout:fixed; 
+}

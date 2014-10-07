@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>upload</title>
+	#Head()
+	<link rel="shortcut icon" href="#springUrl('')/images/gd/favicon.ico">
+	<script type="text/javascript"
+		src="#springUrl('')/js/jquery/jquery-ui/ui/jquery.ui.progressbar.js"></script>
+	<link href="#springUrl('')/js/jquery/themes/base/jquery.ui.all.css"
+		rel="stylesheet" type="text/css" />
+	
+	<link href="#springUrl('')/js/jquery/plugins/uploader/css/upload.css"
+		rel="stylesheet" type="text/css" />
+	<script type="text/javascript"
+		src="#springUrl('')/js/jquery/ui/ui.fileupload.js"></script> 
+	<script type="text/javascript"
+		src="#springUrl('')/js/jquery/plugins/uploader/swfobject.js"></script>
+	<script type="text/javascript"
+		src="#springUrl('')/js/jquery/plugins/uploader/jquery.uploadify.v2.1.4.min.js"></script>
+	<script>
+         var msg = '$!MSG'; 
+         var running=true;
+		 var labelStr="正在导入";
+		 var startDate=null;
+		 var completeStr="";
+		 var second=0;
+		 var setMax=false;
+		 var runCount=0;
+		 var totalCell=0;//总小区数
+		 var step=0;
+		$(function() {
+				$( "#progressbar" ).progressbar({
+					value: 0
+				}); 
+				
+				if(msg != null && msg != ""){
+				  	  notify(msg);
+				  	}
+		});
+		$(document).ready(function(){
+			var f=new Uploader('btnF',{
+				 url:"#springUrl('')/data/commonUpload.do?action=fileUpload&sessionId=$jsession&configFile=$!configFile",
+				 'onAllComplete':onallcomplete,
+				 'onSelectOnce':onselectOnce,
+				 'onCancel':oncancel
+			});
+		   $('#_fSubmit').click(function(){
+				var checkCount=0;
+				var queueSize = $("#btnF_files > div").length;
+				$("[name='checkbox']").each(function(){
+					if($(this).attr("checked")=='checked') {
+				      checkCount++; 
+				    }
+				});
+			   if(queueSize>0){
+				   //浏览器	上传文件，上传后，再调用doStatClient导入文件
+			   		$('#_ReturnBtn').button("disable");
+				    $('#_fSubmit').button("disable");
+	  				//$("#btnF").css("display","none");
+					f.upload();
+				} 
+				if(checkCount>0){
+					//服务器 文件导入
+					$('#_fSubmit').button("disable");
+					$('#_ReturnBtn').button("disable");
+					$("#btnF").css("display","none");
+					running=true;
+					start(); 
+					doStatServer();
+				}
+			});
+		})
+		    
+		function onallcomplete(){
+			//上传完成，开始调用导入方法
+			$("#btnF_files").empty();
+			$("#btnF_files").css("display","none");
+			$("#detailNote").css("display","");
+			running=true;
+			doStatClient();
+			start(); 			
+		}
+		function onselectOnce(){
+			//当选择用浏览器上传时，服务器上传文件失效
+       	   $("[name='checkbox']").each(function(){
+       		    if($(this).attr("checked")=='checked'){
+       		    	 $(this).checkbox('check',false)
+		         } 
+			}); 
+           	var queueSize = $("#btnF_files > div").length;
+			if(queueSize > 0){
+				$("#fileList").css("display","none");
+				$("#btnF_files").css("display","");
+				$("#detailNote").css("display","none");
+			}else{
+				$("#btnF_files").css("display","none");
+				$("#detailNote").css("display","");
+			}			
+		}
+		function oncancel(){
+			//取消选择时，如果浏览器要上传的文件为空，则选择服务器上的文件
+           	var queueSize = $("#btnF_files > div").length;
+			if(queueSize > 1){
+				$("#btnF_files").css("display","");
+				$("#detailNote").css("display","none");
+			}else{
+				$("#fileList").css("display","");
+				$("#btnF_files").css("display","none");
+				$("#detailNote").css("display","none");	
+			}
+        }
+	   
+		//从浏览器选择文件导入
+		function doStatClient(){
+			var params={};
+			#foreach($row in $columns)
+				var ${row.name}_p=document.getElementById("${row.name}_0").value;
+				params['${row.name}']=encodeURI(${row.name}_p);
+		  	#end
+		  	var r1=document.getElementsByName('importType');
+			var importType;
+		  	if(r1[1].checked==true){
+		  		importType="2";
+		  	}else{
+		  		importType="1";
+			}
+			jQuery.ajax({
+			  	type:"POST",
+			  	url:"#springUrl('')/data/commonUpload.do?action=doStatClient&sysName=$sysName&configFile=$!configFile&importType="+importType,
+			  	data:params,
+				dataType:"json",
+				success:callbackStat
+			});	   
+		}
+		//从服务器选择文件导入	 
+	    function doStatServer(){
+			var params={};
+			var checkCount=0;
+			var values="";
+			$("[name='checkbox']").each(function(){
+				if($(this).attr("checked")=='checked') {
+					checkCount++; 
+					if(values.length>0)values+=",";
+					values+=$(this).val();
+				}
+			}); 
+			params['file']=encodeURI(values);
+	
+			#foreach($row in $columns)
+				var ${row.name}_p=document.getElementById("${row.name}_0").value;
+				params['${row.name}']=encodeURI(${row.name}_p);
+			#end
+		  	jQuery.ajax({
+			  	type:"POST",
+			  	url:"#springUrl('')/data/commonUpload.do?action=doStatServer&sysName=$sysName&configFile=$!configFile&importType="+importType,
+			  	data:params,
+				dataType:"json",
+				success:callbackStat
+			});	   
+		}
+		//导入的回调方法为空
+		function callbackStat(data){}
+				 
+		function start(){
+			startDate=new Date();
+			$("#progressTr").css("display","");
+			$("#progressbar").css("display","");
+			$("#showInfo").css("display","");
+			$("#optimizing").css("display","none");
+			$("#progressbar").progressbar("value" , 0);
+			running=true;
+			setTimeout(readProgress,500);
+		}
+	   function readProgress(){
+  		    var foo=jQuery.ajax({url:"#springUrl('')/data/commonUpload.do?action=readProgress&tableName=$!tableName",
+					type:"POST",
+					encoding:"utf-8",
+					dataType:"json",
+					success:callback
+			});
+			if(running)
+				setTimeout(readProgress,200);   
+		}
+	    function showInfo(data){
+	    	var totalCell=data.contentLength;
+	  	    var amount=data.uploadLength;
+	  		var infoDiv=$('#showInfo');
+	  		var spentTime=Math.floor((data.edate.time-data.sdate.time)/1000);
+	  		var speed=Math.floor(amount/spentTime);
+	  		var remainTime=0;
+	  		if(speed!=0)remainTime=Math.floor((totalCell-amount)/speed);
+	  		 $('#fileNames').html(data.tableType);
+	         $('#totalCell').html(totalCell);
+	         $('#computeAmount').html(amount);
+	         $('#remainCell').html(totalCell-amount);
+	         $('#speed').html(speed+'个/秒');
+	         $('#remainTime').html(remainTime+'秒 ');
+	         $('#percent').html(Math.floor(amount*100/totalCell)+"%");
+		}
+	    function callback(data){
+	    	if(data.contentLength>=0){
+		  	      if(step!=data.step){
+		  	    	 $("#progressbar").progressbar("option" , "max" , data.contentLength)
+		  			step=data.step;
+		  	      }
+		  	  }
+		      $("#progressbar").progressbar("value" ,data.uploadLength); 
+	  	      showInfo(data);  
+	  	   
+	        if(data.error){
+	  			if(data.step==2){
+	  				running=false;
+			   		$('#_ReturnBtn').button("enable");
+				    $('#_fSubmit').button("enable");
+	  				//$("#btnF").css("display","");
+	  				$("#progressbar").css("display","none");
+	  				$("#showInfo").css("display","none");
+	  				$("#optimizing").css("display","");
+	  				#if($fileList.size()>0)
+		  				$("#detailNote").css("display","none");
+		  				$("#fileList").css("display","");
+		  			#else
+						$("#detailNote").css("display","");
+						$("#fileList").css("display","none");
+				  	#end
+	  				$('#optimizing').html(data.errorContent);
+	  			}
+			} else if(data.contentLength==data.uploadLength){
+	  			var endDatess=new Date();
+	  			second=endDatess.valueOf()-startDate.valueOf();
+	  			if(data.step==2){
+	  				running=false;
+	  				setMax=false;
+			   		$('#_ReturnBtn').button("enable");
+				    $('#_fSubmit').button("enable");
+	  				$("#progressbar").css("display","none");
+	  				//$("#btnF").css("display","block");			  				
+	  				#if($fileList.size()>0)
+		  				$("#fileList").css("display","");
+		  				$("#detailNote").css("display","none");
+	  				#else
+	  					$("#fileList").css("display","none");
+	  				   $("#detailNote").css("display","");
+		  			#end
+	  				$("#showInfo").css("display","none");
+	  				$("#optimizing").css("display","");
+	  				$('#optimizing').html('导入完成,用时'+(second/1000)+'秒');	
+	  			}
+	        }
+	    }
+	    function returnUpload(){
+		    if('$!returnUrl'=='')
+	    		history.go(-1);
+		    else
+			    window.location="#springUrl('')"+'$returnUrl';
+		}
+	    function outRow(r){
+			$(r).removeClass("rowOver");
+		}
+		var currRow=null;
+		function selectRow(r){
+			if(currRow!=null)$(currRow).removeClass("selected");
+			currRow=r;
+			$(r).addClass("selected");
+		}
+		function overRow(r){
+			$(r).addClass("rowOver");
+		}
+	</script>
+	<style>
+		.uploadIcon {
+			background-image: url(#springUrl ( '')/views/pub/smartimport/up.jpg );
+			background-repeat: no-repeat;
+			background-position: center center;
+			width: 30px;
+			height: 18px;
+		}
+		.returnIcon {
+			background-image: url(#springUrl ( '')/views/pub/smartimport/re.jpg );
+			background-repeat: no-repeat;
+			background-position: center center;
+			width: 30px;
+			height: 18px;
+		}
+		.fileText td {
+			border: 0px solid #95D2EF;
+			border-bottom: 1px solid #E5E5E5;
+		}
+		.progressClass {
+			height: 18px;
+			background: #E4E4E4;
+		}
+		.yk_NodeTxt {
+			font-size: 14px;
+		}		
+		.text1 {
+			width: 98%;
+		}
+		.rowColor{
+			background-color: #f5fcff;
+		}
+		.fileText2 td{
+			border:0px;
+		}
+	</style>
+</head>
+<body class="claro">
+#Notify("s")
+<div style="height: 10px;"></div>
+<div class="yk_NodeTxt">$!tableComment</div>
+<form id="formF" class="form">
+<table style="width: 98%; display: ;" border="0" align="center"
+	class="yk_table">
+	<tr>
+		<td width="300px" rowspan='3'>
+			<table style="width:100%;height:100px" class="fileText2" >
+				<tr>
+					<td align="center">
+						更新方式：<br/><br/>
+					  #Radio("importType","1",$importFileType,"key","label",{})
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td style="width: 14%; height: 30px; padding-left: 10px; padding-top: 5px"
+			align="center">
+			<div id="btnF" style="height: 20px;">浏览...</div>
+		</td>
+		<td rowspan="3" style="width: 70%">
+		<!-- 浏览器上传的文件列表 -->
+		<div id="btnF_files"
+			style="width: 99%; height: 105px; border: none; overflow-y: auto; overflow-x: hidden; display: none"></div>
+		<!-- 服务器文件列表 -->
+		<div id="fileList"
+			style="display: #if($fileList.size() > 0) block #else none #end; overflow-y: auto; overflow-x: hidden; width: 99%; height: 105px;">
+			<table id="tableList" class="fileText" style="width: 99%">
+				#if($fileList.size()>0)
+				<tr>
+					<td colspan="3"
+						style="color: #D56A00; height: 10px;; font-size: 12px;">
+					&nbsp; 服务器文件($fileList.size()个)</td>
+				</tr>
+				#end #foreach($ff in $fileList)
+				<tr>
+					<td style="width: 5%;" align="center"><input type="checkbox"
+						id="$velocityCount" name="checkbox" value="$!ff.fileName" /> <script>
+			                 $("#$velocityCount").checkbox(); 
+			                 </script></td>
+					<td>$!ff.fileName</td>
+					<td>$!ff.fileSize KB</td>
+				</tr>
+				#end
+			</table>
+		</div>
+		<!-- 如果服务器有文件，则 不显示-->
+		<table
+			style="width: 99%; height: 60px; display: #if($fileList.size()>0 ) none #end;"
+			border="0" id="detailNote" rel="#loadme">
+			<tr>
+				<td align="left" valign="top" colspan="10" style="border: white;">
+				<font color="#ff8a00">支持.txt,xls,xlsx文件导入</font></td>
+			</tr>
+			<tr>
+				<td align="left" style="border: white;"><font color="#ff8a00">
+				建议把execl格式文件转换为"文本文件(制表符分隔)(*.txt)"格式进行导入,可以达到最快的处理速度。 </font></td>
+			</tr>
+			<tr>
+				<td style="border: white;"><font color="#ff8a00">
+				如果导入execel格式的文件，文件大小不要超过10M！ </font></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="height: 30px;" align="center">
+		<div style="margin-left: 5px; margin-top: 5px;">
+		#Button("fSubmit","导入数据","icon-down",{})</div>
+		</td>
+
+	</tr>
+	<tr>
+		<td style="height: 35px;" align="center">
+		<div style="margin-left: 5px; margin-top: 5px;">
+		#Button("ReturnBtn","返回上页","icon-back",{"onClick":"returnUpload()"})</div>
+		</td>
+	</tr>
+	#if($des!='')
+	<tr>
+		<td colspan='3' align='center'>$des</td>
+	</tr>
+	#end
+	<tr>
+		<td colspan="3" height="25px;">
+		<table border="0" width="100%" style="display: none;" id="progressTr">
+			<tr>
+				<td style="border: 0px; padding: 3px;" colspan="4" align="center">
+				<div id="progressbar" class="progressClass"></div>
+				<div class="showInfo" id="showInfo" style="font-size: 12px; text-align: center;">
+					文件名:<span id="fileNames"></span> 
+					数据总数:<span id="totalCell"></span> 
+					已导入:<span id="computeAmount"></span> 
+					剩余:<span id="remainCell"></span> 
+					平均速度:<spann id="speed"></span> 
+					进度:<span id="percent"></span> 
+					剩余时间:<span id="remainTime"></span>
+				</div>
+				<div id="optimizing" style="display: none;"></div>
+				</td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+</form>
+<br />
+<table class="datatable" cellpadding="0" align="center" cellspacing="0"
+	border="0" style="width: 98%;">
+	<thead>
+		<tr>
+			<th width="5%">
+				<div align="center">列号</div>
+			</th>
+			<th width="150">
+				<div align="center">数据库字段</div>
+			</th>
+			<th>
+				<div align="center">导入文件列名</div>
+			</th>
+			<th>
+				<div align="center">说明</div>
+			</th>
+			<th>
+				<div align="center">能否为空</div>
+			</th>
+		</tr>
+	</thead>
+	<tbody id="sort_node">
+		#set ($count=1)
+		#foreach($row in $columns)
+			#if(${count} % 2 == 0) #set($class ="alternateRow")#else #set($class ="noselected") #end 				
+				<tr id='tr_$!row.name' class="row #if($velocityCount%2==0) rowColor #end" onMouseOver="overRow(this)"  onMouseOut="outRow(this)"">
+					<td width="5%" align="center">$count</td>
+					<td width="150">$!row.name</td>
+					<td width="150"><input type="text" class="text1"  id="$!{row.name}_0" value="$!row.defaultValue" /></td>
+					<td align="left"> $!row.comment</td>			
+					<td width="150" align="center"> 
+						#if(${row.nullable})可空#else非空 #end
+					</td>
+				</tr>
+			#set ($count=$count+1)
+		#end
+	</tbody>	
+</table>
+</body>
+</html>

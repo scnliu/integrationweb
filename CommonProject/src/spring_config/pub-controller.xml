@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GBK" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- ↓↓↓↓↓↓<通用数据导入>↓↓↓↓↓↓ -->
+	<bean name="/init/dbInit.do" class="net.linybin7.pub.init.ctrl.InitCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="initService" ref="initService" />
+	</bean>
+     <!-- ↑↑↑↑↑↑</通用数据导入>↑↑↑↑↑↑ -->
+    
+    <!-- ↓↓↓↓↓↓<通用数据导入>↓↓↓↓↓↓ -->
+	<bean name="/data/commonUpload.do" class="net.linybin7.pub.data.ctrl.CommonUpload">
+         <property name="methodNameResolver" ref="paramResolver" />
+         <property name="service" ref="commonUploadService" />
+         <property name="initService" ref="initService" /> 
+     </bean>
+     <!-- ↑↑↑↑↑↑</通用数据导入>↑↑↑↑↑↑ -->
+     
+     
+     <bean name="/MenuCtrl.do" class="net.linybin7.core.sys.ctrl.MenuCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="funcService" ref="funcServiceImp" />
+		<property name="iService" ref="individuationServiceImpl" /> 
+	</bean>
+</beans>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" " http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>页面tabs</title>#Head()
+	
+	<style type="text/css">  
+     html,body{  
+         height: 100%;  
+     }  
+     .icon_home
+        {
+            background-image:url("#springUrl('')/js/jquery/themes/img/TabPanel/home.png-");
+        }
+    </style>
+    <link href="#springUrl('')/css/main.css" rel="stylesheet" type="text/css" />
+    
+	<link rel="stylesheet" href="#springUrl('')/js/jquery/themes/TabPanel.css" type="text/css">
+	<script type="text/javascript" src="#springUrl('')/js/jquery/jquery-1.6.2rc1.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/core/common.js"></script>
+	<script type="text/javascript" src="#springUrl('')/js/jquery/plugins/TabPanel.js"></script>
+    <script type="text/javascript" >
+       var _appContext = "#springUrl('')";
+       var tabMap={};
+       jQuery(document).ready(function(e) {
+         var mainh = document.documentElement.clientHeight;
+         var mainw = document.documentElement.clientWidth;
+         var header = 22;
+         var bottom = 30;
+         var tabo = {};
+         #if($func)
+         tabo.items = [{ id: "menu_$func.funcCode", show:true,text: "$func.funcName", classes: "icon_home", isactive: true,closeable: true, url:"#springUrl('')/$func.link"}];
+         #end
+         tabo.width = mainw;
+         tabo.height = mainh;
+         jQuery("#tabs").tabpanel(tabo);
+         jQuery(window).resize(window_resize);
+         tabMap["menu_$func.funcCode"]="menu_$func.funcCode";
+
+       });        
+
+       function makeTab(id,title,sUrl){
+	        if(!tabMap[id]){     	
+				tabMap[id]=id;
+				addTab(id,title,sUrl);
+	        }else{
+	        	openTab(id,title,sUrl);
+	        }
+    	   
+	     }
+       function addTab(id,title,sUrl){	
+           jQuery("#tabs").addtabitem({ id: id, text: title, 
+          	 isactive: true, closeable: true, url:sUrl}); 
+           
+       }  
+	   function openTab(id,title,sUrl){
+		   jQuery("#tabs").opentabitem({ id: idreplace(id), text: title, url: sUrl, isactive: true, closeable: true }, true);
+	   }
+       function idreplace(id) {
+           return id.replace(/[^a-zA-Z\d_]/ig, "_")
+       }
+       function set_resize(type) {
+           mainh = document.documentElement.clientHeight-9;
+           mainw = document.documentElement.clientWidth;
+           jQuery("#tabs").resizetabpanel(mainw, mainh);
+       }
+       function window_resize() {
+           mainh = document.documentElement.clientHeight+2;
+           mainw = document.documentElement.clientWidth;
+           var w = mainw+175;
+           $("#tabs").resizetabpanel(mainw, mainh);
+       }
+    </script>
+</head>
+
+<body>
+       <div id="tabs" style="padding: 0px;width:100%;height:100%">
+        </div>
+	     <div class="vmenu" id="tabMenu">
+			<div class="first_li" id="tab_delete"><span><img src="#springUrl('')/js/jquery/themes/img/TabPanel/closethis.png" /> 关闭当前页</span></div>
+			<div class="first_li" id="tab_deleteOthers"><span><img src="#springUrl('')/js/jquery/themes/img/TabPanel/closeother.png" /> 关闭其他页</span></div>
+			<div class="first_li" id="tab_reload"><span><img src="#springUrl('')/js/jquery/themes/img/TabPanel/tabreload.png" /> 重新加载页</span></div>
+		  </div>         
+</body>
+</html>
+

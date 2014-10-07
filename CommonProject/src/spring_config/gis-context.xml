@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <!-- 属性设置 -->
+    <bean id="colorService" class="com.eshine.gis.service.ColorSetSerImp">
+       <property name="colorDao" ref="colorDao"></property>
+    </bean>
+    <bean id="colorDao" class="com.eshine.gis.dao.ColorSetDAOImp" parent="jdbcTemp">
+        <property name="sessionFactory">
+            <ref bean="coreSessionFactory" />
+        </property>
+        <property name="ds" ref="coreDs"/>
+    </bean>
+    
+    <!-- 干扰颜色设置 -->
+    <bean id="disColorService" class="com.eshine.gis.service.DisColorSetSerImp">
+       <property name="disColorDao" ref="disColorDao"></property>
+    </bean>
+    <bean id="disColorDao" class="com.eshine.gis.dao.DisColorSetDAOImp" parent="jdbcTemp">
+        <property name="sessionFactory">
+            <ref bean="coreSessionFactory" />
+        </property>
+        <property name="ds" ref="coreDs"/>
+    </bean>
+	<!-- 颜色获取   -->
+    <bean id="colorDataDao"  class="com.eshine.gis.dao.ColorDaoImpl">
+	   <constructor-arg ref="coreDs"/>
+	</bean>
+	<!-- 生成图层缓存  -->
+ <bean id="cellDao"  parent="jdbcTemp" class="com.eshine.gis.dao.CellDaoImpl">
+ 		<property name="tableName"  value="CDD_CELL">
+		</property>
+	</bean>
+	<bean id="tileCache"  class="com.eshine.gis.service.CellTileCacheImpl">
+	   <property name="dao" ref="jdbcTemp"></property>
+	   <property name="clrDao" ref="colorDataDao"></property>
+	   <property name="cellDao" ref="cellDao"></property>
+	   <property name="tableName"  value="CDD_CELL"></property>
+	</bean>
+	<bean id="selectCell" class="com.eshine.gis.service.SelectCellServiceImpl">
+		<property name="clrDao" ref="colorDataDao"></property>
+		<property name="cellDao" ref="cellDao"></property>
+	</bean>
+	<!--	启动容器时运行-->
+	<bean id="gisContext"  class="com.eshine.gis.cxt.GisContextListener">
+	   <constructor-arg ref="coreDs"/>
+	</bean>
+	
+	<!--更改图层信息	-->
+	<bean id="updateLayerOptSvc"  class="com.eshine.gis.service.LayerServiceImpl">
+	   <property name="dao" ref="jdbcTemp"></property>
+	    <property name="layerDao" ref="layerDao"></property>
+	</bean>
+	<bean id="layerService"  class="com.eshine.gis.service.LayerServiceImpl">
+	   <property name="dao" ref="jdbcTemp"></property>
+	   <property name="layerDao" ref="layerDao"></property>
+	</bean>
+	<!-- 图层操作DAO  -->
+ 	<bean id="layerDao"  parent="jdbcTemp" class="com.eshine.gis.dao.LayerDaoImpl">
+	</bean>
+	
+    <!-- 创建图层缓存适配器	--> 
+	<bean id="seeder" class="com.eshine.gis.seed.LayerSeederAdaptor">
+		<property name="tileSeeder">
+			<bean class="com.eshine.gis.seed.LayerWriter">
+				<property name="dao" ref="jdbcTemp"></property>
+				<property name="clrDao" ref="colorDataDao"></property>
+			</bean>
+		</property>
+		<!--	提供图层缓存数据	-->
+		<property name="readers">
+			<list>
+					<!--	示例		-->
+<!--				<bean parent="jdbcTemp"  class="com.eshine.gis.seed.data.impl.CellsReaderImpl">-->
+<!--					 <property name="clrDao" ref="colorDataDao"></property>-->
+<!--				</bean>-->
+			</list>
+		</property>
+		<!--	重写	-->
+		<property name="tileCaches">
+			<list>
+				 <ref local="tileCache" />
+			</list>
+		</property>
+	</bean>
+	 <!-- 小区数据读取器的容器	--> 
+	<bean id="cellReaderContainer" class="com.eshine.gis.seed.data.CellReaderContainer">
+		<!--	提供图层缓存数据	-->
+		<property name="readers">
+			<list>
+					<!--	示例		-->
+<!--				<bean  class="com.eshine.gis.seed.data.impl.DefaultCellReader"/>-->
+					<bean id="ulCellsReader" class="com.eshine.gis.seed.data.UlCellsReader">
+						<property name="dao" ref="jdbcTemp"></property>
+					</bean>
+					<bean id="complainCellsReader" class="com.eshine.gis.seed.data.ComplainCellsReader">
+						<property name="dao" ref="jdbcTemp"></property>
+					</bean>
+					<bean  class="com.eshine.dnpi.scan.gis.dao.TDCellReaderImpl">
+						<property name="clrDao" ref="colorDataDao"></property>
+				   </bean>
+			</list>
+		</property>
+	</bean>
+</beans>

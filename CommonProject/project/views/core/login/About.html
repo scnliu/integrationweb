@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" " http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		#globObj()
+		<title>¹ØÓÚ</title>
+		<style>
+			html,body {
+				font-size: 12px;
+				margin: 0px;
+				padding: 0px;
+				border-top-width: 0px;
+				border-right-width: 0px;
+				border-bottom-width: 0px;
+				border-left-width: 0px;
+			}
+			
+			#imglogo {
+				background-repeat: no-repeat;
+				padding-top: -200px;
+				padding-left: 30px;
+			}
+			
+			#main {
+				width: 250px;
+				background-repeat: no-repeat;
+			}
+			
+			#main ul {
+				display: block;
+				padding-top: 5px;
+				padding-left: 30px;
+				font-size: 15px;
+				font-style: "ËÎÌå", Arial, sans-serif;
+				font-weight: bold;
+				color: #000000;
+				list-style-type: none;
+			}
+			
+			#main li {
+				line-height: 25px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<table>
+			<tr>
+				<td>
+					<div id="imglogo">
+						<img src="#springUrl ( '')/images/logo.gif" />
+					</div>
+				</td>
+				<td>
+					<div id="main">
+						<ul>
+							<li>
+								${sysCfg.cityName} $sysCfg.sysName
+							</li>
+							<li>
+								Verdsion $sysCfg.sysVersion
+							</li>
+						</ul>
+					</div>
+				</td>
+
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+		</table>
+
+	</body>
+</html>

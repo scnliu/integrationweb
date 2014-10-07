@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- ↓↓↓↓↓↓<通用DAO设置>↓↓↓↓↓↓ -->
+	<bean id="hbmDao"  abstract="true"  class="net.linybin7.common.hbmdao.HbmDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+	</bean>
+	<bean id="jdbcDao" class="net.linybin7.common.jdbc.JdbcDAOImpl">
+		<property name="dataSource">
+			<ref bean="coreDs" />
+		</property>
+	</bean>
+	<bean id="abDao" abstract="true" class="net.linybin7.pub.data.dao.AbstractDataDAO">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory"/>
+		</property>
+		<property name="ds">
+			<ref bean="coreDs"/>
+		</property>
+		<property name="dataSource">
+			<ref bean="coreDs"/>
+		</property>
+	</bean>
+	
+	<!-- 内存数据库DAO	通过JDBC -->
+	<bean id="menDao" class="net.linybin7.common.jdbc.JdbcDAOImpl">
+		<property name="dataSource">
+			<ref bean="menDs" />
+		</property>
+	</bean>
+	
+	<!-- 通用DAO，如无特殊要求，可以注入此bean -->
+	<bean id="commonDao" class="net.linybin7.common.database.CommonDao"  parent="abDao"/>
+	<!-- ↑↑↑↑↑↑</通用DAO设置>↑↑↑↑↑↑ -->
+
+	<!-- ↓↓↓↓↓↓<数据库初始化>↓↓↓↓↓↓ -->
+	<bean id="initDAO" class="net.linybin7.pub.init.dao.InitDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="coreSessionFactory" />
+		</property>
+		<property name="dataSource">
+			<ref bean="coreDs" />
+		</property>
+	</bean>
+	<bean id="initService" class="net.linybin7.pub.init.service.InitServiceImpl">
+		<property name="dao">
+			<ref local="initDAO" />
+		</property>
+	</bean>
+	<!-- ↑↑↑↑↑↑</数据库初始化>↑↑↑↑↑↑ -->
+	
+	<!-- 定时器 -->
+	<!-- 
+	<bean id="taskLoaderTimerTask" class="org.springframework.scheduling.timer.ScheduledTimerTask"
+		scope="singleton">
+		<property name="timerTask">
+			<ref local="taskLoader" />
+		</property>
+		<property name="delay" value="60000" />
+		<property name="period" value="10000" />
+	</bean>
+	 -->
+	
+	<!-- ↓↓↓↓↓↓<智能分析>↓↓↓↓↓↓ -->
+	<bean id="analysisConsole" class="net.linybin7.pub.analysis.support.AnalysisConsole">
+	 
+	</bean>
+	<bean id="analysisService" class="net.linybin7.pub.analysis.service.AnalysisServiceImpl">
+		<property name="analysisConsole">
+			<ref local="analysisConsole" />
+		</property>
+	</bean>
+	<!-- ↑↑↑↑↑↑</智能分析>↑↑↑↑↑↑ -->
+		
+	
+	<!-- ↓↓↓↓↓↓<通用数据导入>↓↓↓↓↓↓ -->
+	
+	<bean id="commonUploadDao" class="net.linybin7.pub.data.dao.CommonUploadDaoImp" parent="abDao">
+	</bean>
+	<bean id="commonUploadService" class="net.linybin7.pub.data.service.CommonUploadServiceImp">
+		<property name="dao">
+			<ref bean="commonUploadDao" />
+		</property>
+	</bean>		
+	<!-- ↑↑↑↑↑↑</通用数据导入>↑↑↑↑↑↑ -->
+</beans>

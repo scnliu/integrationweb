@@ -1,0 +1,186 @@
+#*************************
+*   分页表格定义                                         *
+*	 属性:{"height":"250px","identity":"atuid","indirectSelection":false}
+         唯一标识:identity, 默认值:""
+*   显示选择框:indirectSelection,默认值:false
+	拖拉:dnd,默认值:false
+	多列排序:nestedSorting,默认值:false
+	每页行数:pageSize,默认值:15
+	查询:query,默认值null,{"name":"$name"}
+
+*    #Grid("grid1","#springUrl('')/test.do?action=page",{"height":"250px"})
+*   	#Column("field","编号","20%",{"hidden":"true"})//javabean 属性名,表头名称,宽度
+* 		#Column("name","名称","50%",{})
+*   	#Column("width","test","30%",{})
+*   	#ColumnLink("width","test","30%","test.do",{})//连接路径:test.do
+*    #GridEnd()
+*
+***********************#
+
+#macro(Grid,$id,$pageAction,$attr)
+  #set($g=$grid.create())
+  $g.setTagId($id)
+  $g.setPageAction($pageAction)
+	#if($attr.get("height"))
+	#set($h=$attr.get("height"))
+	 	$g.setHeight("$h")
+	#end
+	#if($attr.get("identity"))
+	#set($identity=$attr.get("identity"))
+	 	$g.setIdentityName("$identity")
+	#end
+	#if($attr.get("pageSize"))
+	 	$g.setPageSize($attr.get("pageSize"))
+	#end
+	#if($attr.get("indirectSelection"))
+	 	$g.setIndirectSelection($attr.get("indirectSelection"))
+	#end
+	#if($attr.get("dnd"))
+	 	$g.setDnd($attr.get("dnd"))
+	#end
+	#if($attr.get("nestedSorting"))
+	 	$g.setNestedSorting($attr.get("nestedSorting"))
+	#end
+	#if($attr.get("searchFormId"))
+	 	$g.setSearchFormId($attr.get("searchFormId"))
+	#end
+	#if($attr.get("query"))
+	    #set($qattr=$attr.get("query"))
+	 	#foreach($key in $qattr.keySet())
+	   $g.setQueryAttr("$key","$qattr.get(${key})")
+	#end
+	#end
+<div id="${id}_Container"></div>
+<script>
+	function formatCB(val,rowIdx,row){
+	var d=dojo.create('div',{style:"text-align:center"});
+     var c=new dijit.form.CheckBox({style:"text-align:center"},d);
+  //  dojo.connnect(c,'onClick',this.grid,selectRows);
+     return c;
+    }
+	function formatX(val,rowIdx,row){
+	var p=this.grid.currentPage;
+	console.log(this.grid.store);
+    return rowIdx+1;
+    }
+   </script>
+  ## $g.addColumn("$!{g.getIdentityName()}","序号","3",false,false,"formatX")
+  ## $g.addColumn("$!{g.getIdentityName()}","选择","3",false,false,"formatCB")
+
+	
+#end
+
+#macro(GridEnd)
+<script>
+	var ${g.getTagId()};
+	#if($g.isContainLink())
+	  function formatLink(val,rowIdx,row){
+	  var url="$g.getLinkUrl()";
+	  var id=this.grid.getIdentity(rowIdx);
+	  var idName=this.grid.identityName;
+	  if(url.indexOf("?")>0)url+="&"+idName+"="+id;
+	  else url+="?"+idName+"="+id;
+	  return "<a href='"+url+"' target='_blank'>"+val+"</a>";
+    }
+	#end
+ 
+	var ${g.getTagId()}_layout = [{
+		defaultCell: { width: 8, editable: false, type: dojox.grid.cells._Widget },
+		rows:$g.getRows()
+		}
+	];
+    var ${g.getTagId()}_Store = new dojox.data.QueryReadStore({url:"$g.getPageAction()"});
+	</script>
+	
+	<script type="text/javascript">
+  //var ${g.getTagId()}_toolbar=new dijit.Toolbar({},"${g.getTagId()}_toolbar");
+  ${g.getTagId()} = new dojox.grid.PageGrid({
+		id: "${g.getTagId()}",
+		plugins:{nestedSorting: false, dnd: $g.isDnd() #if($g.isIndirectSelection()),indirectSelection:{width:'28px'} #end},
+		query:{identityName:"$!{g.getIdentityName()}",currentPage:1,columnFields:$g.getFields()},
+		rowsPerPage:$g.getPageSize(),
+		width:'100%',
+		height:'90%',
+		keepSortSelection:false,
+		identityName:"$!{g.getIdentityName()}",
+		#if($g.isQueryHandle())search:$g.getQuery(),#end
+		unSortFields:$g.getUnSortFields(),
+		searchFormId:"$!{g.getSearchFormId()}",
+		columnFields:$g.getFields(),
+		style:"border-left:1px solid #dcbadc;",
+		region:"center",
+		store: ${g.getTagId()}_Store,
+		structure: ${g.getTagId()}_layout
+	}, dojo.byId("${g.getTagId()}_Container"));
+	${g.getTagId()}.startup();
+	dojo.connect(dojo.body(),"resize",${g.getTagId()},${g.getTagId()}.resize);
+	//dojo.byId("${g.getTagId()}_Container").appendChild(dojo.byId("${g.getTagId()}_pagerbar"));
+	var ${g.getTagId()}_pagerbar=new dijit.layout.ContentPane({region:"bottom",splitter:false,style:"padding:0px;margin:0px"},"${g.getTagId()}_pagerbar");
+</script>
+#end
+
+#macro(Column $field,$name,$width,$attr)
+    #set($hidd=false)
+  	#if($attr.get("hidden"))
+	 #set($hidd=$attr.get("hidden"))
+	#end
+	#set($sortable=true)
+  	#if($attr.get("sortable"))
+	 #set($sortable=$attr.get("sortable"))
+	#end
+  	#if($attr.get("formatter"))
+	 #set($formatter=$attr.get("formatter"))
+	 #else
+	  #set($formatter="")
+	#end
+  $g.addColumn("$field","$name","$width",${hidd},${sortable},"$!{formatter}")
+#end
+#macro(ColumnLink $field,$name,$width,$link,$attr)
+    #set($hidd=false)
+  	#if($attr.get("hidden"))
+	 #set($hidd=$attr.get("hidden"))
+	#end
+  $g.addColumn("$field","$name","$width",${hidd},"$!{link}")
+#end
+
+#macro(PagerBar $gridId)
+	<table style="text-align:center;width:100%;margin:-5px;" align=right>
+	 <tr>
+	 <td align='right' style="padding-right:50px;">
+	  <table class="pagerToolbar">
+	   <tr>
+	   <td>#Button("first","","dijitEditorIcon page-first",{"onClick":"function(){${gridId}.first();}","iconClass":"dijitEditorIcon page-first","id":"${gridId}_first"})</td>
+	   <td>#Button("previous","","dijitEditorIcon page-prev",{"onClick":"function(){${gridId}.previous();}","iconClass":"dijitEditorIcon page-prev","id":"${gridId}_previous"})</td>
+	   <td>#Button("next","","dijitEditorIcon page-next",{"onClick":"function(){${gridId}.next();}","iconClass":"dijitEditorIcon page-next","id":"${gridId}_next"})</td>
+	   <td>#Button("last","","dijitEditorIcon page-last",{"onClick":"function(){${gridId}.last();}","iconClass":"dijitEditorIcon page-last","id":"${gridId}_last"})</td>
+	   <td class="x-toolbar-split">
+	   |
+	   </td>
+	   <td>
+	   第
+	<input type="text" id="${gridId}_currentPage" value="0"/>
+	<script>
+	var ${gridId}_currentPage=new dijit.form.ValidationTextBox({regExp:"(\\d+)",style:"width:24px;",required:true},"${gridId}_currentPage");
+	</script>
+	页
+	|
+	</td>
+	<td>
+	<span id="${gridId}_startIndex">0</span>
+	-
+	<span id="${gridId}_endIndex">0</span>
+	|
+	</td>
+	<td>
+	总记录
+	
+	<span id="${gridId}_totalRow"></span>
+	条	
+	|
+	   </td>
+	   </tr>
+	  </table>
+	  </td>
+	  </tr>
+	</table>
+#end

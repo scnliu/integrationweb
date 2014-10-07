@@ -1,0 +1,473 @@
+
+html,body {
+    overflow: hidden;
+}
+#desktop{
+		z-index:2;
+	}
+
+
+.deskmain {
+	width: 100%;
+	height: 100%;
+	position:fixed;
+	_position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.deskbg {
+	width: 100%;
+	height: 100%;
+}
+
+.logo{
+   left: 50px;
+   top:20px; 
+   width: 290px;
+   height: 75px;
+   position: absolute;
+   z-index: 20px;
+}
+
+#logoImg{
+   background: url("../images/desktop/logo.png");
+   width: 241px;
+   height: 71px;
+ 
+}
+#logoText{
+  margin-left:2px;
+  margin-top:4px;
+  letter-spacing:0.3px; 
+  font-size: 12px;
+  font-family: "宋体";
+  color: white;
+}
+/*********************top样式********************/
+
+.topBar{
+  left: 400px;
+  top:20px; 
+  width:1000px;
+  height:35px;
+  position: absolute;
+  z-index: 1;
+  background: url("../images/desktop/top/topbg1.png");
+
+}
+.indicator {	
+	cursor: pointer;
+	display: inline-block;	
+	float: left;
+	margin-left: 4px;
+	height: 20px;
+	margin-top: 4px;
+	width: 21px;
+	position: relative
+}
+
+/**新添加**/
+.topBarbgL {
+	float: left;
+	background: url('../images/desktop/top/leftbg.jpg');
+	width: 28px;
+	height: 28px;
+	margin-left: 10px;
+	margin-top: -8px;
+	cursor: pointer;
+}
+
+/*新添加*/
+.topBarBgR{
+	float: left;
+	height: 40px;
+}
+
+/*新添加*/
+.tab_icon_1 {
+	background: url('../images/desktop/top/tab1.png');
+}
+
+.tab_icon_1:hover {
+	background: url('../images/desktop/top/tab1_hover.png');
+}
+
+.tab_icon_2 {
+	background: url('../images/desktop/top/tab2.png');
+}
+
+.tab_icon_2:hover {
+	background: url('../images/desktop/top/tab2_hover.png');
+}
+
+.tab_icon_3 {
+	background: url('../images/desktop/top/tab3.png');
+}
+
+.tab_icon_3:hover {
+	background: url('../images/desktop/top/tab3_hover.png');
+}
+
+.tab_icon_4 {
+	background: url('../images/desktop/top/tab4.png');
+}
+
+.tab_icon_4:hover {
+	background: url('../images/desktop/top/tab4_hover.png');
+}
+
+.tab_icon_5 {
+	background: url('../images/desktop/top/tab5.png');
+}
+
+.tab_icon_5:hover {
+	background: url('../images/desktop/top/tab5_hover.png');
+}
+
+.tab_icon_6 {
+	background: url('../images/desktop/top/tab6.png');
+}
+
+.tab_icon_6:hover {
+	background: url('../images/desktop/top/tab6_hover.png');
+}
+
+
+/********************middle样式******************/
+
+.middleBar{
+	top:0px;
+	height:100%;
+	width:100%;
+	right:0px;
+	position: absolute;
+	overflow: visible
+}
+
+.desk_icon{
+   width: 93px;
+   height: 91px;
+   position: absolute;
+   float: top;
+}
+
+
+
+/**************导航栏图标显示******/
+.deskBarbg{
+  background: url("../images/desktop/middle/deskbarbg.png");
+}
+
+.deskBarbg:hover{
+  background: url("../images/desktop/middle/deskbarbg_hover.png");
+}
+
+.bottomIconImage1{
+  background: url("../images/desktop/bottom/bottomIcon_1_1.png");
+}
+
+.bottomIconImage2{
+  background: url("../images/desktop/bottom/bottomIcon_1_2.png");
+}
+/*---------------bottom样式-------------------*/
+#bottomBar {
+	position: absolute;
+	z-index: 2000;
+	bottom: 0px;
+	left: 0px;
+	height: 35px;
+	width: 100%;
+	background: url('../images/desktop/bottom/bottombg.png')
+	
+}
+
+.bottomBarL{
+  width: 55px;
+  cursor: pointer;
+}
+
+.start{
+  height: 33px;
+  width: 55px;
+  background: url("../images/desktop/bottom/start.png");
+}
+
+.start:hover{
+  background: url("../images/desktop/bottom/start_hover.png");
+}
+
+#bottomBarM {
+	height: 35px;
+	
+	/*font-weight: bold;*/
+
+	margin-top: 3px;
+	
+}
+
+.bottomBarMDiv{
+   float:left;
+   width:120px;
+   height:33px;
+   cursor:pointer;
+   margin-left:1px;
+}
+
+.span1{
+	width: 22px;
+	height: 22px;
+	position: absolute;
+	margin-top: 7px;
+	margin-left: 10px;
+}
+.span2{
+    color: white;
+	font-size: 12px;
+    margin-top: 10px;
+    position: absolute;
+    margin-left: 36px;
+    font-family: "宋体";
+}
+
+.bottomBarRL {
+	width: 32px;
+	cursor: pointer;
+}
+
+.setting{
+   width: 32px;
+   height:32px;
+   background: url("../images/desktop/bottom/setting.png");
+}
+
+.setting:hover{
+   background: url("../images/desktop/bottom/setting_hover.png");
+}
+
+.monitor{
+   width: 16px;
+   height:32px;
+   background: url("../images/desktop/bottom/b_status.png");
+}
+
+
+.theme{
+   width:16px;
+   height:32px;
+   background: url("../images/desktop/bottom/b_theme.png");
+}
+
+
+.scene{
+   width:16px;
+   height:32px;
+   background: url("../images/desktop/bottom/b_scenes_s.png");
+}
+
+
+.bottomBarRM{
+   width: 62px;
+   font-size: 12px;
+   /*font-weight: bold;*/
+   text-align: center;
+   /*cursor: pointer;*/
+   color: white;
+}
+
+.bottomBarRR{
+   width: 15px;
+   cursor: pointer;
+}
+
+.status{
+	width: 15px;
+	height: 32px;
+	background: url("../images/desktop/bottom/status.png");
+}
+.status:hover{
+	background: url("../images/desktop/bottom/status_hover.png");
+}
+
+
+/***********开始菜单*************/
+   .startMenu{
+     cursor:pointer;
+	 position:absolute;
+	 z-index:10;
+	 width:158px;
+	 padding:0px 0px 0px 0px;
+	 left:0px;
+	 bottom:35px;
+   }
+   
+  .menu{
+    line-height:33px;
+	font-size:12px;
+	text-align:left;
+	padding-left:0px;
+	height:33px;
+	width:158px;
+	display:block;
+	font-family:"宋体"
+     
+  }
+  
+  .loginMenu{
+     height:41px;
+     background: url("../images/desktop/bottom/login_menu.png");
+  }
+  
+  .logintext{
+    margin-top: 15px;
+    position: absolute;
+    margin-left: 15px;
+    color:#33FFFF;
+    font-size:14px;
+  }
+  .gom{
+     position:absolute;
+     height:25px;
+     width:25px;
+     margin-top:10px;
+     margin-left:120px;
+     background: url("../images/desktop/bottom/go_m.png");
+  }
+  
+  .bookmark{
+    background: url("../images/desktop/bottom/bookmark.png");
+  }
+  
+  .bookmark:hover{
+    background: url("../images/desktop/bottom/bookmark_hover.png");
+  }
+ 
+ .deskfast{
+     background: url("../images/desktop/bottom/deskfast.png");
+ }
+ .deskfast:hover{
+     background: url("../images/desktop/bottom/deskfast_hover.png");
+ }
+ .about{
+    background: url("../images/desktop/bottom/about.png");
+ }
+ .about:hover{
+     background: url("../images/desktop/bottom/about_hover.png");
+ }
+ .contact{
+    background: url("../images/desktop/bottom/contact.png");
+ }
+ .contact:hover{
+    background: url("../images/desktop/bottom/contact_hover.png");
+ }
+ 
+ .help{
+    background: url("../images/desktop/bottom/help.png");
+ }
+ .help:hover{
+    background: url("../images/desktop/bottom/help_hover.png");
+ }
+ 
+ .logoutMenu{
+     height:39px;
+     background: url("../images/desktop/bottom/logout_menu.png");
+ }
+ .logout1{
+    width: 82px;
+    height: 24px;
+    position:absolute;
+    margin-top: 8px;
+    margin-left: 40px;
+    background: url("../images/desktop/bottom/logout1.png");
+ }
+ .logout1:hover{
+    background: url("../images/desktop/bottom/logout1_hover.png");
+ }
+ .exit{
+    width: 22px;
+    height: 24px;
+    position: absolute;
+    margin-top: 8px;
+    margin-left: 122px;
+    background: url("../images/desktop/bottom/exit.png");
+ }
+ .exit:hover{
+    background: url("../images/desktop/bottom/exit_hover.png");
+ }
+/**************创建登录窗口*******/
+#loginW{
+	 display: none;
+	 position: absolute;
+	 z-index: 101;
+	 background: #FFF;
+	 
+}
+
+#login_title{
+	 text-align: center;
+	 height: 35px;
+}
+#login_text{
+    margin-top: 10px;
+    font-size:20px;
+    font-weight: bold;
+    margin-left: 50px;
+}
+#login_close{
+   font-size: 12px;
+   margin-right: 10px;
+   cursor: pointer;
+}
+
+/**********创建弹出窗口*********/
+#windownbg {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #000;/*body-bg*/
+	top: 0;
+	left: 0;
+	filter:alpha(opacity=0);
+	opacity:0;
+	z-index: 100
+}
+#windown-box {
+	z-index: 101;
+	position: absolute;/*For IE 6.0*/
+	border: 0px solid #E9F3FD;
+	background: #FFF;
+	text-align: left;
+}
+
+#windown-title {
+	position: relative;
+	height: 50px;
+	overflow: hidden;
+	text-align: center;
+}
+#win_text{
+    margin-top: 20px;
+    font-size: 24px;
+    height: 35px;
+    font-weight: bold;
+}
+
+#windown-close {
+	position: absolute;
+	right: -5px;
+	top: -5px;
+	width: 28px;
+	height: 28px;
+	background: url('../images/desktop/close.png') no-repeat;
+	cursor: pointer;
+}
+
+#windown-content {
+	position: relative;
+	overflow: auto;
+	text-align: center;
+}
+
+
+

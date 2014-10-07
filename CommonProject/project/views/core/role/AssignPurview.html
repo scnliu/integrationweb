@@ -1,0 +1,159 @@
+<html>
+	<head>
+		<title>角色管理</title> #Head()
+		<script type="text/javascript"
+			src="#springUrl('/js/core/role/role.js')"></script>
+	</head>
+	<body>
+		<form action="/role/roleManager.do?action=queryRole" method="POST">
+			<table align="center" width="98%" border="0" cellspacing="0"
+				cellpadding="0">
+				<tr>
+					<td width="23" align="right" valign="bottom">
+						<img src="${img}/point_red.gif" width="7" height="7" hspace="8"
+							vspace="9">
+					</td>
+					<td width=175 valign="bottom" class="title_black">
+						<font color="F">分配权限 
+					</td>
+					<td width="23" align="right" valign="middle">
+						<img src="${img}/arrow_green.gif" width="7" height="7" hspace="8">
+					</td>
+					<td width=558 valign="middle">
+						当前位置：角色管理 &gt;
+						<font color="#FF6600">分配权限</font>
+					</td>
+				</tr>
+			</table>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<!--<td width="12" height="14" background="${img}/t_l.gif"></td-->
+					<!--<td background="${img}/t_p.gif"></td-->
+					<!--<td width="13" background="${img}/t_r.gif"></td-->
+				</tr>
+				<tr>
+					<td background="${img}/l_p.gif"></td>
+					<td align="center" bgcolor="#F6F6F6">
+
+						<table width="98%" class="headtable">
+							<tr>
+								<td width="100%" height="28px" class="headbg" align="center">
+									查看角色
+								</td>
+							</tr>
+						</table>
+
+						<table class="formtable" cellpadding="0" cellspacing="0"
+							border="0">
+							<tbody>
+								<tr class="noselected">
+									<td width="20%" align="right">
+										角色编号
+									</td>
+									<td>
+										$!role.roleCode
+									</td>
+									<input type="hidden" name="role.roleCode"
+										value="$!role.roleCode">
+								</tr>
+								<tr class="alternateRow">
+									<td align="right">
+										角色名称
+									</td>
+									<td>
+										$!role.roleName
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="right">
+										角色类型
+									</td>
+									<td>
+										$!role.type
+									</td>
+								</tr>
+								<tr class="alternateRow">
+									<td align="right">
+										是否停用
+									</td>
+									<td>
+										$!role.stop
+									</td>
+								</tr>
+								<tr class="noselected">
+									<td align="right">
+										描述
+									</td>
+									<td>
+										$!role.descript
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</td>
+					<td background="${img}/r_p.gif"></td>
+				</tr>
+				<tr>
+					<!--<td width="12" height="14" background="${img}/d_l.gif"></td-->
+					<!--<td background="${img}/d_p.gif"></td-->
+					<!--<td background="${img}/d_r.gif"></td-->
+				</tr>
+			</table>
+
+			<br />
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<!--<td width="12" height="14" background="${img}/t_l.gif"></td-->
+					<!--<td background="${img}/t_p.gif"></td-->
+					<!--<td width="13" background="${img}/t_r.gif"></td-->
+				</tr>
+				<tr>
+					<td background="${img}/l_p.gif"></td>
+					<td align="center" bgcolor="#F6F6F6">
+
+						<table width="98%" class="headtable">
+							<tr>
+								<td width="100%" height="28px" class="headbg" align="center">
+									分配角色
+								</td>
+							</tr>
+						</table>
+
+						<table width="98%" class="formtable" cellpadding="0"
+							cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td width="100%" align="left" class="tree-td">
+										#tree(${treeModel})
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="buttontable">
+							<tr>
+								<td>
+									<button dojoType="Button" onclick="savePurview();">
+										保存
+									</button>
+								</td>
+								<td>
+									<button dojoType="Button" onclick="returnMain();">
+										返回
+									</button>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td background="${img}/r_p.gif"></td>
+				</tr>
+				<tr>
+					<!--<td width="12" height="14" background="${img}/d_l.gif"></td-->
+					<!--<td background="${img}/d_p.gif"></td-->
+					<!--<td background="${img}/d_r.gif"></td-->
+				</tr>
+			</table>
+		</form>
+	</body>
+</html>
+

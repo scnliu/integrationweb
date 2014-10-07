@@ -1,0 +1,167 @@
+<html>
+	<head>
+		<title>数据源配置</title> #Head() #set($sysCfg =
+		${rc.webApplicationContext.servletContext.getAttribute('syscfg_key')})
+		#set($cityCode = ${sysCfg.cityCode}) #set($css =
+		${sysCfg.css('blue')}) #set($img = ${sysCfg.img('blue')})
+
+		<script type="text/javascript"
+			src="#springUrl('/js/dojo/dojo/dojo.js')"></script>
+		<script type="text/javascript"
+			src="#springUrl('/js/core/widget/widgets.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/core/common.js')"></script>
+
+		<script type="text/javascript">
+			dojo.require("my.widget.*");
+			setButtonTopic('$cityCode','blue');
+			var _appContext = '#springUrl('')';
+		</script>
+		<link rel="stylesheet" href="${css}/core.css" type="text/css" />
+		#if(${message_key}) #set($message_key =
+		$message_key.replaceAll("'","\""))
+		<script>
+			alert('$message_key');
+		</script>
+		#end
+
+		<script type="text/javaScript"
+			src="#springUrl('/js/core/login/dataSource.js')"></script>
+
+		<script type="text/javascript">
+			function checking(){
+				var returnvalue="$!MSG";
+				if(returnvalue=="")
+				{}
+				else
+				{
+					notify('$MSG');
+				}
+			}
+		</script>
+	</head>
+	
+	<body class="claro" onload="checking()">
+		<form action="" method="POST">
+			<div style="text-align: left; PADDING-LEFT: 15px">
+				<img src="${img}/arrow_green.gif" width="7" height="7" hspace="8" />
+				当前位置：系统管理 &gt; 数据源配置 &gt;
+				<font color="#FF6600">系统管理数据源配置</font>
+			</div>
+			<div>
+				<hr class="yk_Hr" />
+			</div>
+			<div class="yk_NodeTxt">
+				修改部门
+			</div>
+			<div>
+				<input type="hidden" name="coreDs.id" value="coreDs" />
+				<table align="center" class="yk_table">
+					<tbody>
+
+						#if(${cmd.coreDs.type} == 1) #set($dis1 = '') #set($dis2 = 'none')
+						#else #set($dis1 = 'none') #set($dis2 = '') #end
+						<tr>
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								类型
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Select("coreDs.type","$!{cmd.coreDs.type}",${cmd.dsTypeOption},"value","label",{"onChange":"coreTypeVC",
+								"emptyOption":true})
+							</td>
+						</tr>
+						<tr style="display: block" id="core_tr2">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								JNDI
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.jndiName","$!cmd.coreDs.jndiName",{"id":"coreDs.jndiName"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr3">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								数据库类型
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Select("coreDs.dbType","$!{cmd.coreDs.dbType}",${cmd.dbTypeOption},"value","label",{"emptyOption":true})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr4">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								数据库IP
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.ip","$!cmd.coreDs.ip",{"id":"coreDs.ip"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr5">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								端口
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.port","$!cmd.coreDs.port",{"id":"coreDs.port"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr6">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								数据库
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.dbName","$!cmd.coreDs.dbName",{"id":"coreDs.dbName"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr7">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								数据库用户名
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.userName","$!cmd.coreDs.userName",{"id":"coreDs.userName"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr8">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								数据库密码
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.password","$!cmd.coreDs.password",{"id":"coreDs.password"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr9">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								最快启动时间
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.maxActive","$!cmd.coreDs.maxActive",{"id":"coreDs.maxActive"})
+							</td>
+						</tr>
+						<tr style="display: none" id="core_tr10">
+							<td align="center" class="yk_td_title" style="width: 18%;">
+								最长等待时间
+							</td>
+							<td class="yk_td_content" style="PADDING-LEFT: 2px; width: 68%;">
+								#Text("coreDs.maxWait","$!cmd.coreDs.maxWait",{"id":"coreDs.maxWait"})
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<BR />
+			<div>
+				<hr class="yk_Hr" />
+			</div>
+			<div>
+				<table align="center">
+					<tr>
+						<td>
+							#Button("savebtn","保存","dijitEditorIcon
+							dijitEditorIconSave",{"onClick":"saveDs"})
+						</td>
+						<td>
+							#Button("resetbtn","重置","dijitEditorIcon
+							dijitEditorIconUndo",{"onClick":"dsReset"})
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</body>
+</html>

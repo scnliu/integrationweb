@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>操作日志</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+	#Head()
+	<script src="#springUrl('')/js/jquery/plugins/jquery.fixer.js"></script>
+	<script type="text/javascript">
+		function page(method){
+			 document.getElementById('pageMethod').value=method;
+			 document.forms[0].submit();
+			}
+		function gotoPage(){
+			 var p=document.getElementById('to_page_prop_').value;
+			 if(/\d+/.test(p)){
+				 document.getElementById('currentPage').value=p;
+				 document.forms[0].submit();
+			 }else{
+				 document.getElementById('to_page_prop_').value="";
+			  }
+			}
+		function outRow(r){
+			$(r).removeClass("rowOver");
+		}
+		function overRow(r){
+			$(r).addClass("rowOver");
+		}
+		function mainQuery(){
+			//document.forms[0]['tableModel.page.currentPage'].value = 1;
+			pageSetFirst();
+			document.forms[0].action= _appContext + '/log/eshineLogCtrl.do?action=main';
+			document.forms[0].submit();
+		}
+		function mainDelete(){
+			askFunc('是否清空数据？',function(){
+				document.forms[0].action= _appContext + '/log/errorLogCtrl.do?action=clearSysLog';
+				document.forms[0].submit();
+			});
+		}
+
+		function download(){
+			 doTab("日志文件导出",'日志文件列表','#springUrl('')/log/errorLogCtrl.do?action=exportSysLog&tableKind=&isOpenWin_=yes','1'); 
+			}
+		function outRow(r){
+			$(r).removeClass("rowOver");
+		}
+		var currRow=null;
+		function selectRow(r){
+			if(currRow!=null)$(currRow).removeClass("selected");
+			currRow=r;
+			$(r).addClass("selected");
+			}
+		function overRow(r){
+				$(r).addClass("rowOver");
+			}
+		function setShowTable(){
+			 //设置显示高度
+			var  _height=parent.document.documentElement.clientHeight*0.8;
+		    //设置显示宽度
+		    var _width=$(".searchField").width();
+		    
+			var divwidth=_width+"px";
+			//设置表格的左边距
+			var mLeft=1;
+	        $('#id1').fixer({fixedrows:1,fixedcols:0,height:_height,width:_width,divwidth:divwidth,divMarginLeft:mLeft});
+		}
+	  $(function(){
+	    	setShowTable();
+			  
+	    });
+		
+	</script>
+	<style type="text/css">
+		.fTable tr td{
+		    font-size: 12px;
+	     }
+	     .maintable{
+			width:1200px;
+		 	border-collapse: collapse; 
+		    border-spacing: 0; 
+		}
+	   .maintable tr th{
+			font-weight: normal;
+			font-size: 12px;
+			font-family: "宋体";
+		    color: #004d7e;
+		    border-top: 0px;
+		    text-align:center;
+			height: 20px;
+			padding: 2px;
+			border-right: 1px solid #b3ddf9;
+	    }		
+	   .maintable td {
+			text-align:center;
+			height: 20px;
+			border: 1px solid #b3ddf9;
+			padding: 2px;
+			font: 12px,Arial;
+			font-size: 12px;
+	    }
+		.maintable tr.rowOver{
+			background:#fff8e2;
+		}
+		.maintable tr.rowOver td{
+			background:#fff8e2;
+		}
+		.rowColor{
+			background-color: #f5fcff;
+		}
+		.head{
+			background:url('#springUrl('')/images/pager/new_bg.gif');
+		}
+		.searchField{
+	  		background-color:#F5F5F5;
+	  		border:0px;
+	  	}
+	</style>
+</head>
+<body class="claro" style="margin:5px">
+		#Form("mainForm","#springUrl('')/log/eshineLogCtrl.do?action=main",{"method":"post"})
+		 <fieldset class="searchField">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fTable">
+				<tr>
+					<td>
+						用户名称：
+					</td>
+					<td>
+					    #Text("errorLog.userName","$!cmd.errorLog.userName",{})
+					</td>
+					<td>
+						操作模块：
+					</td>
+					<td>
+					    #Text("errorLog.moudle","$!cmd.errorLog.moudle",{})
+					</td>	
+					<td>
+						 <input type="hidden" name="pageMethod" id="pageMethod" value="$!cmd.pageMethod"> 
+						 <input type="hidden" name="currentPage" id="currentPage" value="$!cmd.currentpage">
+					</td>							
+				</tr>
+				<tr>
+					
+					<td>
+						开始时间：
+					</td>
+					<td> 
+					 	#DateText("from","$!cmd.from",{})		 				    
+					</td>
+					<td>
+						结束时间：
+					</td>
+					<td> 
+						#DateText("to","$!cmd.to",{})	 							    
+					</td>
+					<td>
+						#ButtonSearch({"onClick":"mainQuery"})
+					</td>
+					<td>
+					    #ButtonClear({})
+					</td>
+					<td align="right">
+							<img src="${img}/pager/page-first.gif" onClick="page(1);"
+								onMouseOver="this.src='${img}/pager/page-first-over.gif'"
+								onMouseOut="this.src='${img}/pager/page-first.gif'"
+								style="cursor: pointer;">
+							<img src="${img}/pager/page-prev.gif" onClick="page(2);"
+								onmouseover="this.src='${img}/pager/page-prev-over.gif'"
+								onMouseOut="this.src='${img}/pager/page-prev.gif'"
+								style="cursor: pointer;">
+							<img src="${img}/pager/page-next.gif" onClick="page(3);"
+								onmouseover="this.src='${img}/pager/page-next-over.gif'"
+								onMouseOut="this.src='${img}/pager/page-next.gif'"
+								style="cursor: pointer;">
+							<img src="${img}/pager/page-last.gif" onClick="page(4);"
+								onmouseover="this.src='${img}/pager/page-last-over.gif'"
+								onMouseOut="this.src='${img}/pager/page-last.gif'"
+								style="cursor: pointer;">
+							&nbsp;&nbsp; 转到第
+							<input type="text" name="_to_page_prop_" id="to_page_prop_" size="2"/>
+							页
+							<img alt="" src="${img}/pager/go.gif" onclick="gotoPage()"
+								style="cursor: pointer;">
+							Go &nbsp; 第
+							<span class='note'> <font color="#FF6600">$!pager.currentpage</font>
+							</span> 页 /共
+							<span class='note'> <font color="#FF6600">$!pager.totalPage</font>
+							</span> 页 &nbsp; 共
+							<span class='note'> <font color="#FF6600">$!pager.totalRow</font>
+							</span> 条查询结果
+						</td>
+				</tr>
+			</table>
+			</fieldset>
+			<fieldset class="table">
+					<!-- begin table -->
+						
+						<table class="maintable"  cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;" id="id1">
+							<thead class="head">
+								<tr>
+									
+									<td width="3%" align="center">
+										序号
+									</td>
+									<td width="7%" align="center">
+										操作时间
+									</td>
+									<td width="10%" align="center">
+										模块
+									</td>
+									<td width="5%" align="center">
+										日志级别
+									</td>
+									<td width="5%" align="center">
+										用户
+									</td>
+									<td width="5%" align="center">
+										耗时
+									</td>
+									<td width="55%" align="center">
+										信息
+									</td>
+									
+								</tr>
+							</thead>
+							<tbody id="_table_list_id_">
+								#set($order = 1) 
+								#foreach($eshineLog in $eshineLogs)
+									<tr>
+										<td>
+											$order
+										</td>
+										<td>
+											$!eshineLog.getOperateTimeStr()
+										</td>
+										<td>
+											$!eshineLog.moudle
+										</td>
+										<td>
+											$!eshineLog.logLevel
+										</td>
+										<td>
+											$!eshineLog.userName
+										</td>
+										<td>
+											$!eshineLog.times
+										</td>
+										<td>
+											$!eshineLog.msg
+										</td>
+									</tr>
+									#set($order = ${order}+1)
+								#end
+								#if($order<20) 
+									#foreach($i in [$order..30])
+										<tr>
+											<td> </td>
+											<td> </td>
+											<td> </td>
+											<td> </td>
+											<td> </td>
+											<td> </td>
+											<td> </td>
+										</tr>
+									#end
+								#end
+							</tbody>
+						</table>
+					<!-- end table -->
+			</fieldset>
+		#FormEnd()
+
+	</body>
+</html>

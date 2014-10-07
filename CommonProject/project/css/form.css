@@ -1,0 +1,46 @@
+
+fieldset {
+	font-family: "ËÎÌו";
+	margin-left: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	padding-bottom: 4px;
+	background: #ffffff;
+	border:1px solid #95d2ef;	
+}
+fieldset.table {
+	border:none;
+	padding:0;
+}
+
+legend.search {
+	font-size: 16px;
+	color: #4854e1;
+	padding: 2px;
+	padding-left: 20px;
+	margin-left:10px;
+	height:15px;
+	background: url(../images/form/search.png) no-repeat;
+}
+legend.add {
+	font-weight: bold;
+	font-size: 19px;
+	color: 22dd88;
+	padding: 2px;
+	padding-left: 20px;
+	background: url(../images/form/add.png) no-repeat;
+}
+legend.edit {
+	font-weight: bold;
+	font-size: 19px;
+	color: 22dd88;
+	padding: 2px;
+	padding-left: 20px;
+	background: url(../images/form/edit.png) no-repeat;
+}
+
+fieldset td {
+	font-size: 14px;
+}

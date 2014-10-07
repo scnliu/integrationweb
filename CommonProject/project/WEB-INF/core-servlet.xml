@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- 处理器映射: -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="views/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="resource.loader">file</prop>
+				<prop key="resource.loader.class">org.apache.velocity.runtime.resource.loader.FileResourceLoader</prop>
+				<prop key="output.encoding">GBK</prop>
+				<prop key="input.encoding">GBK</prop>
+
+				<prop key="file.resource.loader.cache">true</prop>
+				<!--
+					<prop key="file.resource.loader.modificationCheckInterval">2</prop>
+				-->
+				<prop key="velocimacro.library.autoreload">false</prop>
+				<prop key="velocimacro.library">
+					VM_global_library.vm,Button.vm,Form.vm,
+					Text.vm,Select.vm,Label.vm,CheckBox.vm,Radio.vm,Textarea.vm,
+					Grid.vm,Head.vm,Dialog.vm,Layout.vm,Charting.vm,table.vm,Gis.vm,
+					tableforcell.vm
+				</prop>
+				<!--  <prop key="default.contentType">text/html;charset=UTF-8</prop>-->
+			</props>
+		</property>
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".html" />
+		<property name="requestContextAttribute" value="rc" />
+		<!--
+			if you want to use the Spring Velocity macros, set this property to
+			true
+		-->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="contentType" value="text/html;charset=GBK"></property>
+		<property name="toolboxConfigLocation" value="views/tools.xml" />
+
+	</bean>
+
+	<bean id="paramResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="action" />
+	</bean>
+
+
+	<!-- 数据源配置 -->
+	<bean name="/ds/dsCfg.do" class="net.linybin7.core.frame.ds.ctl.DataSourceCtl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="funcService" ref="funcServiceImp" />
+	</bean>
+
+	<!-- 登录 -->
+	<bean name="/login/login.do" class="net.linybin7.core.frame.login.ctl.LoginCtrl" id="loginCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="userService" ref="userServiceImp" />
+		<!--
+			<property name="funcService" ref="funcServiceImp" />-->
+		<property name="orgService" ref="orgServiceImp" />
+
+	</bean>
+
+	<!-- 部门管理 -->
+	<bean name="/org/orgManager.do" class="net.linybin7.core.frame.org.ctl.OrgCtl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="orgService" ref="orgServiceImp"></property>
+		<property name="funcService" ref="funcServiceImp"></property>
+	</bean>
+
+	<!-- 用户管理 -->
+	<bean name="/user/userManager.do" class="net.linybin7.core.frame.user.ctl.UserCtl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="userService" ref="userServiceImp"></property>
+		<property name="roleService" ref="roleServiceImp"></property>
+		<property name="funcService" ref="funcServiceImp"></property>
+	</bean>
+
+	<!-- 角色管理 -->
+	<bean name="/role/roleManager.do" class="net.linybin7.core.frame.role.ctl.RoleCtl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="roleService" ref="roleServiceImp"></property>
+		<property name="funcService" ref="funcServiceImp"></property>
+	</bean>
+
+	<!-- 功能管理 -->
+	<bean name="/func/funcManager.do" class="net.linybin7.core.frame.func.ctl.FuncCtl">
+		<property name="methodNameResolver" ref="paramResolver" />
+		<property name="funcService" ref="funcServiceImp"></property>
+	</bean>
+	
+	<!-- 系统运行状态 -->
+	<bean name="/serviceMsg/serviceMsgCtrl.do" class="net.linybin7.core.frame.serviceMsg.ctl.ServiceMsgCtrl">
+		<property name="methodNameResolver" ref="paramResolver" />
+	</bean>
+
+
+	<import resource="classpath:/spring_config/pub-controller.xml" />
+	<import resource="classpath:/spring_config/info-controller.xml" />
+	<!-- <import resource="classpath:/spring_config/gis-controller.xml" /> -->
+
+</beans>

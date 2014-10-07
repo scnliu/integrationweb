@@ -1,0 +1,519 @@
+##全局宏定义
+
+
+#***************************************
+ *                                     *
+ *             头引用宏定义                *
+ *                                     *
+ ***************************************#
+
+#macro( globObj )
+	#set($sysCfg = ${rc.webApplicationContext.servletContext.getAttribute('syscfg_key')})
+    #set($visitor = ${visitor_key})
+    #set($cityCode = ${sysCfg.cityCode})
+    #set($cityName = ${sysCfg.cityName})
+    #set($topic = ${visitor.topic})
+    #set($css = ${sysCfg.css($topic)})
+    #set($img = ${sysCfg.img($topic)})
+    
+    #set($_treeScriptLoaded = false)	
+#end 
+
+
+
+#macro( tree $treeModel )
+	#if($_treeScriptLoaded == false)
+	#set($_treeScriptLoaded = true)
+	<link href="#springUrl('/js/jquery/themes/web_righttree.css')" rel="stylesheet" type="text/css">
+	<script src="#springUrl('/js/jquery/plugins/web_righttree.js')" language="JavaScript"></script>
+	#end
+	<div>
+		<script language="JavaScript">
+			${treeModel.build()}
+		</script>
+	</div>
+#end
+#******************************************
+ *                                        *
+ *             按钮组件宏定义              *
+ *                                        *
+ ******************************************#
+#macro(dojoButtonGroup $buttons)
+	<table width="98%">
+			<tr>
+				<td>
+				<table class="buttontable" style="padding-left:-3px;margin:-3px;margin-left:-6px;">
+					<tr>
+					#foreach($button in $buttons)
+						<td>
+						#if($button.getButtonType()==1)
+						#ButtonAdd({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==2)
+						#ButtonEdit({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==3)
+						#ButtonDel({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==4)
+						#ButtonView({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==5)
+						#ButtonStart({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==6)
+						#ButtonStop({"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==9)
+						#ButtonReturn({"url":"$!{button.function}"})
+						#elseif($button.getButtonType()==10)
+						#Button("export","导出数据","mailIconGetMail",{"onClick":"$!{button.function};"})
+						#elseif($button.getButtonType()==11)
+						#Button("export","导出数据","mailIconGetMail",{"url":"$!{button.function}"})
+						#else
+						#Button("button_$!button.id","$button.label","icon-save",{"onClick":"$!{button.function};"})
+						#end
+						##ButtonSearch({"id":"$button.","onClick":"mainQuery"})
+						##$!{button.funcProp}<button onclick="$!{button.function}">$!{button.label}</button>
+						</td>
+					#end	
+					</tr>
+				</table>
+				</td>
+				<td width="28%" align="left"></td>
+			</tr>
+		</table>
+#end
+#******************************************
+ *                                        *
+ *             分页组件宏定义                  *
+ *                                        *
+ ******************************************#
+#macro( page $paging $displayCount)
+<script type="text/javascript" src="#springUrl('/js/core/page/paging.js')"></script>
+<input type="hidden" name="${paging.currentPageProp}" value='1'/>
+
+<script type="text/javascript">
+	function pageSetFirst(){
+		var _form = document.getElementById("_to_page_prop_").form;
+		_form['${paging.currentPageProp}'].value = 1;
+	}
+	function rollover(name, filename)
+	{
+	    
+		var fullpath = '${img}/' + filename;
+		document.images[name].src = fullpath;
+		//alert(fullpath);
+		
+	}
+</script>
+
+<table class="paging"  cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="right" class="pager_head">
+    <table>
+     <tr>
+      <td>
+      	<div class="toolbar">
+			    <a title="首页" class="page-first#if($paging.first)-disabled#end" href="javascript:#if($paging.first)void(0);#else toPage(1,'$paging.action', '${paging.currentPageProp}');#end" ></a> 
+				<a title="上一页" class="page-prev#if($paging.first)-disabled#end" href="javascript:#if($paging.first)void(0);#else toPage($paging.pre,'$paging.action', '${paging.currentPageProp}');#end"></a>
+			    <a title="下一页" class="page-next#if($paging.last)-disabled#end" href="javascript:#if($paging.last)void(0);#else toPage($paging.next,'$paging.action', '${paging.currentPageProp}');#end" ></a>
+			    <a title="尾页" class="page-last#if($paging.last)-disabled#end" href="javascript:#if($paging.last)void(0);#else toPage($paging.totalPage,'$paging.action', '${paging.currentPageProp}');#end" ></a>&nbsp;
+			    第<span class='note'>
+				  <font color="#FF6600">$!paging.currentPage</font>
+			    </span>
+				/
+				<span class='note'>
+				  <font color="#FF6600">$!paging.totalPage</font>
+				</span>
+				 页
+				 共
+				<span class='note'>
+				  <font color="#FF6600">$!paging.count</font>
+				</span>
+				 条
+				   转到 第<input type="text" name="_to_page_prop_" id="_to_page_prop_" style='width:20px'/>页
+				<a href="javascript:void(0);" onClick="toPage(null, '$paging.action', '${paging.currentPageProp}', $paging.totalPage, $displayCount);" style='width:18px'>Go</a>
+		</div>
+		</td>
+		</tr>
+	  </table>
+	</td>
+	</tr>
+</table>
+#end
+
+#******************************************
+ *                                        *
+ *             表格组件宏定义                  *
+ *                                        *
+ ******************************************#
+#macro(table $tableModel $buttons)
+	<script type="text/javascript" src="#springUrl('/js/core/page/table.js')"></script>
+	<table cellpadding="0" cellspacing="0" border="0" bgcolor="#F6F6F6" width="100%" class="tableHead">
+	<tr>
+	  <td align="left">#dojoButtonGroup($buttons)</td>
+	  <td align="right">
+	  	#if( $tableModel.paging)
+		   #page($tableModel.page $tableModel.displayCount)
+	    #end
+	  </td>
+	</tr>
+	</table> 
+	<table class="datatable" cellpadding="0" cellspacing="0" border="0" style="table-layout:fixed;">
+		<thead>
+			<tr>
+				#if($tableModel.hasIndex)
+				<td width="30px" align="center">
+					序号
+				</td>
+				#end
+				#foreach( $_column in $tableModel.columns )
+				<td width="$_column.width" align="center">
+					#if($_column.checkbox)
+				<input type="checkbox" id="list_selectAll" onChange="selectAll();" />
+				<script>
+				  var checkCount=0;
+				  $("#list_selectAll").checkbox();
+				</script>
+					#else
+				$_column.label
+					#end
+				</td>
+				#end
+			</tr>
+		</thead>
+		<tbody id="_table_list_id_">
+			#set($_rowIndex = ($tableModel.page.currentPage - 1) * $tableModel.page.pageSize)
+			#foreach( $_row in $tableModel.data)
+				$tableModel.setRow($_row)
+				#if( ${velocityCount} % 2 == 0)
+				<tr id='tr_$tableModel.getProp($tableModel.columns.get(0).name)' class = "alternateRow" onMouseOver="this.className='selected'" onMouseOut="this.className='alternateRow'">
+				#else
+				<tr id='tr_$tableModel.getProp($tableModel.columns.get(0).name)'  class = "noselected" onMouseOver="this.className='selected'" onMouseOut="this.className='noselected'">
+				#end
+				#if($tableModel.hasIndex)
+				<td width="30px" align="center">
+					#set($_rowIndex = $_rowIndex + 1)
+					$_rowIndex
+				</td>
+				#end
+				#set($outCount=$velocityCount)
+				#foreach(  $_column in $tableModel.columns )
+					<td align="$_column.align" width="$_column.width" style="word-wrap:  break-word" #if($_column.titleTrim != '')title="$_column.titleTrim"#end>
+						#if( $_column.checkbox)
+					<input type="checkbox" id="list_cb_${outCount}" name="selectedIds"  value="$!tableModel.getProp($_column.name)"/>
+						<script>
+						function checkchoose_${outCount}(){
+						
+						}
+						$("#list_cb_${outCount}").checkbox();
+				  		checkCount=${outCount};
+				</script>
+						#elseif ( $_column.link != '')
+					<a href="#if($_column.pop)javascript:doTab('$_column.tabid','$_column.tabname','$tableModel.parse($_column.link)','$_column.show');#else$tableModel.parse($_column.link)#end">$!tableModel.getProp($_column.name)</a>
+						#else
+				$!tableModel.getProp($_column.name)
+						#end
+					</td>
+				#end
+				</tr>
+			#end
+		</tbody>
+	</table>
+#end
+
+#******************************************
+ *                                        *
+ *             下拉选择组件宏定义              *
+ *                                        *
+ ******************************************#
+#macro(dojoSelect $name $value $options $index $extends)
+	<select dojoType="my:Select" name="$name" class="select" id="$name" $!extends>
+		#foreach( $item in $options )
+			#if( $velocityCount >= $index )
+				<option value="$item.value" #if($item.value == $value) selected="selected"#end>$item.label</option>
+			#end
+		#end
+	</select>
+#end
+
+#macro(SelectCommit $name $value $options $index $extends $action)
+  #if($sel_index)
+     #set($sel_index=${sel_index}+1)
+     #else
+     #set($sel_index=1)
+  #end
+	<select dojoType="my:Select" name="$name" class="select" onChange="changeSelect_${sel_index}" id="$name" $!extends>
+		#foreach( $item in $options )
+			#if( $velocityCount >= $index )
+				<option value="$item.value" #if($item.value == $value) selected="selected"#end>$item.label</option>
+			#end
+		#end
+	</select>
+	<javascript>
+	   var select_url_${sel_index}=$action;
+	   function changeSelect_${sel_index}(value){
+	      var _url=select_url_${sel_index}+"?selectedVal="+value;
+	      dojo.io.bind({url:_url});
+	   }
+	</javascript>
+#end
+
+#macro(select $name $value $options $index $extends)
+	<select name="$name" id="$name" $!extends>
+		#foreach( $item in $options )
+			#if( $velocityCount >= $index )
+				<option value="$item.value" #if($item.value == $value) selected="selected"#end>$item.label</option>
+			#end
+		#end
+	</select>
+#end
+
+/#*******************************************
+  *                                         * 
+  *             左右选择组件                     *
+  *                                         *
+  *******************************************#
+#macro(lrSelect_n $name $unselectedOptions $selectedOptions $unselectedTitle $selectedTitle)
+
+	#if($_rlSelectScriptLoad == false)
+		#set($_rlSelectScriptLoad = true)
+	#end
+	<table class="select-palette">
+  		<tr>
+  			<th class="available-header">
+ 				$!{unselectedTitle}
+  			</th>
+  			<td class="controls" rowspan="2">
+  	    		<a href="javascript:selectItems('${name}');"><img src="${img}/select_1.gif" border="0" id="_2leftImg" title="选择"></a>
+    			<a href="javascript:unselectItems('${name}');"><img src="${img}/select_2.gif" border="0" id="_2rightImg" title="不选择"></a>
+    		</td>
+  	        <th class="selected-header">
+                  ${selectedTitle}
+            </th>
+        </tr>
+        <tr>
+        	<td class="available-cell">
+        	   <table>
+        	   <tr>
+  			      <td><input id="sinput" type="text" value=""></input><input id="binput" type="button" value="搜索" onclick="searchItems('ss');"></input></td>
+        	   </tr>
+        	   <tr>
+        	   <td>
+	            	<select multiple="multiple" name="${name}_avail" id ="${name}_avail">
+					#foreach( $item in $unselectedOptions )
+						<option value="$item.value">$item.label</option>
+					#end
+					</select>
+				</td>
+				<tr>
+				</table>
+			</td>
+   			<td class="selected-cell">
+   				<select multiple="multiple" name="${name}" id="${name}" ondblclick="dblClick();">
+				#foreach( $item in $selectedOptions )
+					<option value="$item.value">$item.label</option>
+				#end
+				</select>
+			</td>
+  		</tr>
+	</table>
+	
+	<script>
+			var _lrSelected = document.getElementById('$name');
+			var _lrUnselected = document.getElementById('${name}_avail');
+			var _lrSelectedParentForm = _lrSelected.form;
+			_lrSelected.selectAllOnSub = function(){
+				var selected = this;
+				var options = selected.options;
+				for (var i = 0; i < options.length; i++){
+			    	options[i].selected = true;
+			    }
+			}
+			
+			_lrSelectedParentForm._formSubmit = _lrSelectedParentForm.submit;
+			
+			_lrSelectedParentForm.submit = function(){
+				_lrSelected.selectAllOnSub();
+				_lrSelectedParentForm._formSubmit();
+			}
+			changImg(_lrUnselected, _lrSelected);
+	</script>
+#end  
+
+/#*******************************************
+  *                                         * 
+  *             左右选择组件          bak           *
+  *                                         *
+  *******************************************#
+#macro(lrSelect $name $unselectedOptions $selectedOptions $unselectedTitle $selectedTitle)
+
+	#if($_rlSelectScriptLoad == false)
+		#set($_rlSelectScriptLoad = true)
+	#end
+	<table class="select-palette">
+  		<tr>
+  			<th class="available-header">
+ 				$!{unselectedTitle}
+  			</th>
+  			<td class="controls" rowspan="2">
+  	    		<a href="javascript:selectItems('${name}');"><img src="${img}/select_1.gif" border="0" id="_2leftImg" title="选择"></a>
+    			<a href="javascript:unselectItems('${name}');"><img src="${img}/select_2.gif" border="0" id="_2rightImg" title="不选择"></a>
+    		</td>
+  	        <th class="selected-header">
+                  ${selectedTitle}
+            </th>
+        </tr>
+        <tr>
+        	<td class="available-cell">
+            	<select multiple="multiple" name="${name}_avail" id ="${name}_avail">
+				#foreach( $item in $unselectedOptions )
+					<option value="$item.value">$item.label</option>
+				#end
+				</select>
+			</td>
+   			<td class="selected-cell">
+   				<select multiple="multiple" name="${name}" id="${name}">
+				#foreach( $item in $selectedOptions )
+					<option value="$item.value">$item.label</option>
+				#end
+				</select>
+			</td>
+  		</tr>
+	</table>
+	
+	<script>
+			var _lrSelected = document.getElementById('$name');
+			var _lrUnselected = document.getElementById('${name}_avail');
+			var _lrSelectedParentForm = _lrSelected.form;
+			_lrSelected.selectAllOnSub = function(){
+				var selected = this;
+				var options = selected.options;
+				for (var i = 0; i < options.length; i++){
+			    	options[i].selected = true;
+			    }
+			}
+			
+			_lrSelectedParentForm._formSubmit = _lrSelectedParentForm.submit;
+			
+			_lrSelectedParentForm.submit = function(){
+				_lrSelected.selectAllOnSub();
+				_lrSelectedParentForm._formSubmit();
+			}
+			changImg(_lrUnselected, _lrSelected);
+	</script>
+#end  
+
+/#*******************************************
+  *                                         * 
+  *             可调整左右选择组件                     *
+  *                                         *
+  *******************************************#
+
+#macro(configlrSelect $name $unselectedOptions $selectedOptions $unselectedTitle $selectedTitle $leftStyle $rightStyle)
+
+	#if($_rlSelectScriptLoad == false)
+		#set($_rlSelectScriptLoad = true)
+	#end
+	<table class="select-palette">
+  		<tr>
+  			<th class="available-header">
+ 				$!{unselectedTitle}
+  			</th>
+  			<td class="controls" rowspan="2">
+  	    		<a href="javascript:selectItems('${name}');"><img src="${img}/select_1.gif" border="0" id="_2leftImg" title="选择"></a>
+    			<a href="javascript:unselectItems('${name}');"><img src="${img}/select_2.gif" border="0" id="_2rightImg" title="不选择"></a>
+    		</td>
+  	        <th class="selected-header">
+                  ${selectedTitle}
+            </th>
+        </tr>
+        <tr>
+        	<td class="available-cell">
+            	<select multiple="multiple" name="${name}_avail" id ="${name}_avail" style="${leftStyle}">
+				#foreach( $item in $unselectedOptions )
+					<option value="$item.value">$item.label</option>
+				#end
+				</select>
+			</td>
+   			<td class="selected-cell">
+   				<select multiple="multiple" name="${name}" id="${name}" style="${rightStyle}">
+				#foreach( $item in $selectedOptions )
+					<option value="$item.value">$item.label</option>
+				#end
+				</select>
+			</td>
+  		</tr>
+	</table>
+	
+	<script>
+			var _lrSelected = document.getElementById('$name');
+			var _lrUnselected = document.getElementById('${name}_avail');
+			var _lrSelectedParentForm = _lrSelected.form;
+			_lrSelected.selectAllOnSub = function(){
+				var selected = this;
+				var options = selected.options;
+				for (var i = 0; i < options.length; i++){
+			    	options[i].selected = true;
+			    }
+			}
+			
+			_lrSelectedParentForm._formSubmit = _lrSelectedParentForm.submit;
+			
+			_lrSelectedParentForm.submit = function(){
+				_lrSelected.selectAllOnSub();
+				_lrSelectedParentForm._formSubmit();
+			}
+			changImg(_lrUnselected, _lrSelected);
+	</script>
+#end
+
+
+
+/#*******************************************
+  *                                         * 
+  *             可框选的选择器                     *
+  *                                         *
+  *******************************************#
+
+#macro(comSelect $name $selectedOptions $topPosition $leftPosition $SWidth $SHeight $SLable $divArray $startNum $endNum $Sborder)
+<div id="$name" onmouseup="stopDrag(event,this)" onmousedown="startDrag(event,this,$divArray)" style="float:left;">
+				<div id="${name}_dragging" style="position:absolute; left:0px; top:0px; width:0px; height:0px; border:1px solid #000000;
+display:none; z-index:99; overflow:hidden;"></div> 
+
+		        		#set($index=-1)
+		        		#set($row=0)
+						#foreach( $item in $selectedOptions)
+							#set($index=${index}+1)
+							#if($index==$colNum)
+								#set($index=0)
+								#set($row=${row}+1)
+							#end
+							#set($tmpLeft=${index}*${SWidth}+$leftPosition)
+							#set($tmpTop=${row}*${SHeight}+$topPosition)
+							#if($item.value=="false")
+								<div id="$SLable$item.label" class="dojoDndItem" align="center"  style="position:absolute;line-height:${SHeight}px;width:${SWidth}px;height:${SHeight}px;left:${tmpLeft}px;top:${tmpTop}px">$item.label</div>
+							#else
+								<div id="$SLable$item.label" class="dojoDndItemSelected"  align="center"  style="position:absolute;line-height:${SHeight}px;width:${SWidth}px;height:${SHeight}px;left:${tmpLeft}px;top:${tmpTop}px">$item.label</div>
+							#end						  	
+						#end
+					<input id="${name}ReturnValue" name="${name}ReturnValue" type="hidden" value=""/>			
+<!--设置边框-->
+#set($row=${row}+1)
+#set($tmpTop=${row}*${SHeight}+${topPosition})
+#set($tmpLeft=${colNum}*${SWidth}+${leftPosition})
+#set($tmpWidth=${colNum}*${SWidth})
+#set($tmpHeight=${row}*${SHeight})
+<div style="position:absolute; left:${leftPosition}px; top:${topPosition}px; width:${tmpWidth}px; height:${Sborder}px;" class="selectBorder"></div>
+<div style="position:absolute; left:${leftPosition}px; top:${tmpTop}px; width:${tmpWidth}px; height:${Sborder}px; " class="selectBorder"></div>
+<div style="position:absolute; left:${leftPosition}px; top:${topPosition}px; width:${Sborder}px; height:${tmpHeight}px;" class="selectBorder"></div>
+<div style="position:absolute; left:${tmpLeft}px; top:${topPosition}px; width:${Sborder}px; height:${tmpHeight}px; " class="selectBorder"></div>
+
+</div>		
+				<script type="text/javascript">
+				   initDivs($startNum,$endNum,'$SLable',$divArray); 
+				   var hiddenvalue=document.getElementById("${name}ReturnValue");
+					#foreach( $item in $selectedOptions)
+						#if($item.value=="true")
+							hiddenvalue.value+=$item.label+" ";
+						#end
+					#end
+					var txt=document.getElementById("${name}ReturnValue");
+					txt.value=hiddenvalue.value;
+				</script>
+#end

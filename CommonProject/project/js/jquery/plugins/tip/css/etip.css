@@ -1,0 +1,26 @@
+.etip {
+	z-index: 1800;
+	position: absolute;
+	display:none;
+	width: 215px;
+	background: url(../images/tip-head.png) no-repeat 0px 8px;
+	padding-top:18px;
+}
+.etip .tip-head {
+	width: 215px;
+	height: 12px;
+	margin-top:-18px;
+	background:url(../images/tip-arrow.png) no-repeat 84px 0px;
+}
+
+.etip .tip-body {
+	background: url(../images/tip-body.png) repeat-y;
+	width: 207px;
+	padding:4px 4px;
+}
+
+.etip .tip-foot {
+	background: url(../images/tip-foot.png) no-repeat center bottom;
+	width: 215px;
+	height: 11px;
+}

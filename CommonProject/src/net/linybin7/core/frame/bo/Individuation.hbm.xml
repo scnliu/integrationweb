@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.linybin7.core.frame.bo.Individuation" table="SYS_INDIVIDUATION">
+		<composite-id>
+			<key-property name="sysId" column="SYSID" length="20"></key-property>
+			<key-property name="userCode" column="USERCODE" length="20"></key-property>
+			<key-property name="setCode" column="SETCODE" length="50"></key-property>
+		</composite-id>
+		<property name="userName" column="USERNAME" length="20" not-null="false"></property>
+		<property name="setName" column="SETNAME" length="200" not-null="false"></property>
+		<property name="kind" column="KIND" length="200" not-null="false"></property>
+		
+		<property name="setting" column="SETTING" length="4000" not-null="false"></property>
+		<property name="defaultValue" column="DEFAULT_VALUE" length="4000" not-null="false"></property>
+		<property name="expression" column="EXPRESSION" length="200" not-null="false"></property>
+		<property name="des" column="DES" length="200" not-null="false"></property>
+	</class>
+
+</hibernate-mapping>
